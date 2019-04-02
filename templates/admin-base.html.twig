@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+
+<head>
+    <title>{% block title %}Education Master{% endblock %}</title>
+    <!-- META TAGS -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="EEducation master is one of the best eEducational html template, it's suitable for all eEducation websites like university,college,school,online eEducation,tution center,distance eEducation,computer eEducation">
+    <meta name="keyword" content="eEducation html template, university template, college template, school template, online eEducation template, tution center template">
+    <!-- FAV ICON(BROWSER TAB ICON) -->
+    <link rel="shortcut icon" href="{{ asset('images/fav.ico')}}" type="image/x-icon">
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700%7CJosefin+Sans:600,700" rel="stylesheet">
+    <!-- FONTAWESOME ICONS -->
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css')}}">
+    <!-- ALL CSS FILES -->
+    <link href="{{ asset('css/materialize.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.css')}}" rel="stylesheet" />
+    <link href="{{ asset('css/style.css')}}" rel="stylesheet" />
+    <!-- RESPONSIVE.CSS ONLY FOR MOBILE AND TABLET VIEWS -->
+    <link href="{{ asset('css/style-mob.css')}}" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+    {% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+    <!--== MAIN CONTRAINER ==-->
+    <div class="container-fluid sb1">
+        <div class="row">
+            <!--== LOGO ==-->
+            <div class="col-md-2 col-sm-3 col-xs-6 sb1-1">
+                <a href="#" class="btn-close-menu"><i class="fa fa-times" aria-hidden="true"></i></a>
+                <a href="#" class="atab-menu"><i class="fa fa-bars tab-menu" aria-hidden="true"></i></a>
+                <a href="index-2.html" class="logo"><img src="{{ asset('images/logo1.png')}}" alt="" />
+                </a>
+            </div>
+            <!--== SEARCH ==-->
+            <div class="col-md-6 col-sm-6 mob-hide">
+                
+            </div>
+            {#<!--== NOTIFICATION ==-->
+            <div class="col-md-2 tab-hide">
+                <div class="top-not-cen">
+                    <a class='waves-effect btn-noti' href="#" title="all enquiry messages"><i class="fa fa-commenting-o" aria-hidden="true"></i><span>5</span></a>
+                    <a class='waves-effect btn-noti' href="#" title="course booking messages"><i class="fa fa-envelope-o" aria-hidden="true"></i><span>5</span></a>
+                    <a class='waves-effect btn-noti' href="#" title="admission enquiry"><i class="fa fa-tag" aria-hidden="true"></i><span>5</span></a>
+                </div>
+            </div>#}
+            <!--== MY ACCCOUNT ==-->
+            <div class="col-md-2 col-sm-3 col-xs-6">
+                <!-- Dropdown Trigger -->
+                <a class='waves-effect dropdown-button top-user-pro' href='#' data-activates='top-menu'>Espace Administrateur <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </a>
+
+                <!-- Dropdown Structure -->
+                <ul id='top-menu' class='dropdown-content top-menu-sty'>
+                    <li><a href="admin-panel-setting.html" class="waves-effect"><i class="fa fa-cogs" aria-hidden="true"></i>Paramétre Admin</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="{{ path('logout') }}" class="ho-dr-con-last waves-effect"><i class="fa fa-sign-in" aria-hidden="true"></i> Déconnexion</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--== BODY CONTNAINER ==-->
+    <div class="container-fluid sb2">
+        <div class="row">
+            <div class="sb2-1">
+                
+                <!--== LEFT MENU ==-->
+                <div class="sb2-13">
+                    <ul class="collapsible" data-collapsible="accordion">
+                        <li><a href="{{ path('admin_dashbord')}}" class="menu-active"><i class="fa fa-bar-chart" aria-hidden="true"></i> Tableau de bord</a>
+                        </li>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-cogs" aria-hidden="true"></i>Paramètres du site</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ path('admin_parameter_show' , {'id' : 1 })}}">Paramétres générales</a>
+                                    </li>
+                                    <li><a href="#">Paramétres images</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-graduation-cap" aria-hidden="true"></i>Enseignants</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ path('admin_teacher_index')}}">Liste des enseignants</a>
+                                    </li>
+                                    <li><a href="{{ path('admin_teacher_new')}}">Ajouter un enseignant</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-user" aria-hidden="true"></i> Parents</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ path('admin_guardian_index')}}">Liste des parents</a>
+                                    </li>
+                                    <li><a href="{{ path('admin_guardian_new')}}">Ajouter un parent</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="{{ path('admin_student_index')}}" class="collapsible-header"><i class="fa fa-user"></i> Elèves</a>   
+                        </li>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-users" aria-hidden="true"></i> Classes</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ path('admin_section_index')}}">Liste des classes</a>
+                                    </li>
+                                    <li><a href="{{ path('admin_section_new')}}">Ajouter une Classe</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        {#<li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-book" aria-hidden="true"></i>Cours</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="#">Liste des cours</a>
+                                    </li>
+                                    <li><a href="#">Ajouter un cours</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>#}
+                        <li><a href="#" ><i class="fa fa-calendar" aria-hidden="true"></i>Emplois des examens</a>
+                        </li>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-bookmark-o" aria-hidden="true"></i>Clubs</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ path('admin_club_index')}}">Liste des clubs</a>
+                                    </li>
+                                    <li><a href="{{ path('admin_club_new')}}">Ajouter un club</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-bars" aria-hidden="true"></i>Evenements </a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ path('admin_event_index')}}">Liste des évenements</a></li>
+									<li><a href="{{ path('admin_event_new')}}">Ajouter un évenement</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-image" aria-hidden="true"></i>Photos </a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ path('admin_picture_index')}}">Liste des photos</a></li>
+									<li><a href="{{ path('admin_picture_new')}}">Ajouter une photo</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        {#<li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-bullhorn" aria-hidden="true"></i>Alertes</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="#">All Seminar</a>
+                                    </li>
+                                    <li><a href="#">Create New Seminar</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>#}
+                        
+                        
+                        {#
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-commenting-o" aria-hidden="true"></i> Messages</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="#">All Enquiry</a></li>
+									<li><a href="#">Course Enquiry</a></li>
+									<li><a href="#">Admission Enquiry</a></li>
+									<li><a href="#">Seminar Enquiry</a></li>
+									<li><a href="#">Event Enquiry</a></li>
+									<li><a href="#">Common Enquiry</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-cloud-download" aria-hidden="true"></i> Import & Export</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="#">Export all datas</a>
+                                    </li>
+                                    <li><a href="#">Import all datas</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>#}
+                    </ul>
+                </div>
+            </div>
+
+            {% block body %}{% endblock %}
+
+        </div>
+    </div>
+
+    <!--Import jQuery before materialize.js-->
+    <script src="{{ asset('js/main.min.js')}}"></script>
+    <script src="{{ asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('js/materialize.min.js')}}"></script>
+    <script src="{{ asset('js/custom.js')}}"></script>
+    {% block javascripts %}{% endblock %}
+</body>
+
+
+</html>

@@ -1,0 +1,49 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        pictures:
+            uri_prefix: /uploads/pictures
+            upload_destination: '%kernel.project_dir%/public/uploads/pictures'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+            
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        events:
+            uri_prefix: /uploads/events
+            upload_destination: '%kernel.project_dir%/public/uploads/events'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+            
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        clubs:
+            uri_prefix: /uploads/clubs
+            upload_destination: '%kernel.project_dir%/public/uploads/clubs'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+            
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        users:
+            uri_prefix: /uploads/users
+            upload_destination: '%kernel.project_dir%/public/uploads/users'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+            
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        images:
+            uri_prefix: /uploads/images
+            upload_destination: '%kernel.project_dir%/public/uploads/images'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+            
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+

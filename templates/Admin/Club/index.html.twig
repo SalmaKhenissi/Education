@@ -1,0 +1,60 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+                <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Clubs</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Liste des clubs</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!--== User Details ==-->
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <h4>Clubs</h4>
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="table-responsive table-desi">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Titre</th>
+                                                    <th>Image</th>
+													<th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for c in clubs %}
+                                                <tr>
+                                                    <td>{{c.name}}</td>
+                                                    <td><img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( c ,'imageFile') }} " alt="picture" style="width:30%; height:auto;"></span></td>
+                                                    <td>
+                                                        <a href="{{ path('admin_club_show', {'id': c.id}) }}" class="ad-st-view">Voir</a>
+													    <a href="{{path('admin_club_edit' , {'id':c.id})}}" ><span class="label label-success"> Modifier</span></a> </td>
+                                                </tr>
+                                                {% endfor %}
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

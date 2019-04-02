@@ -1,0 +1,19 @@
+{{ form_start(form)}}
+     <div class="row">
+       <div class="col-md-4">{{ form_row(form.firstName)}}</div>
+       <div class="col-md-4">{{ form_row(form.lastName)}}</div>
+     </div>
+     <div class="row">
+       <div class="col-md-4">{{ form_row(form.birthDate)}}</div>
+       <div class="col-md-4">{{ form_row(form.birthplace)}}</div>
+       <div class="col-md-4">{{ form_row(form.sexe)}}</div>
+     </div>
+     
+     <div class="row">
+      <div class="col-md-4">{{ form_row(form.section)}}</div>
+     </div>
+     {#<div class="row">
+       <div class="col-md-4">{{ form_row(form.photo)}}</div>
+    </div>#}
+     <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+   {{ form_end(form)}}

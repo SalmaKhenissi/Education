@@ -1,0 +1,269 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        <div class="pro-menu">
+            <div class="container">
+                <div class="col-md-9 col-md-offset-3">
+                    <ul>
+                        <li><a href="{{path('student_profile' , {'id': student.id})}}" >Tableau de bord</a></li>
+                        <li><a href="{{path('student_informations', {'id': student.id})}}">Profile</a></li>
+                        <li><a href="{{path('student_timetable', {'id': student.id})}}" class="pro-act">Emploi du temps</a></li>
+                        <li><a href="db-time-line.html">Examens</a></li>
+                        <li><a href="db-courses.html">Club</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="stu-db">
+            <div class="container pg-inn">
+                <div class="col-md-3">
+                    <div class="pro-user">
+                        <img src="{{asset('images/student.jpg')}}" alt="user">
+                    </div>
+                    <div class="pro-user-bio">
+                        <ul>
+                            <li>
+                                <h4>{{student.lastName}}  {{student.firstName}} </h4>
+                            </li>
+                            <li><a href="#!"><strong> Adresse</strong> : N°12 rue bangladech sousse</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="udb">
+
+                        <div class="udb-sec udb-time">
+                            <h4><img src="{{asset('images/icon/db4.png')}}" alt="" /> Mon emploi du temps</h4>
+                            <p>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
+                            <div class="tour_head1 udb-time-line days">
+                                <ul>
+                                    <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        <div class="sdb-cl-tim">
+                                            <div class="sdb-cl-day">
+                                                <h5>Lundi</h5>
+                                            </div>
+                                            <div class="sdb-cl-class">
+                                                <ul>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>08:00 </span>
+                                                            <span>10:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Français <span>TEACHER1 teacher1</span></h5>
+                                                            <span class="sdn-hall-na">S15</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>10:00 </span>
+                                                            <span>12:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Arabe <span>TEACHER2 teacher2</span></h5>
+                                                            <span class="sdn-hall-na">S12</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim">
+                                                            <span>14:00 </span>
+                                                            <span>16:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name sdb-cl-class-name-lev">
+                                                            <h5>Mathématiques<span>TEACHER3 teacher3</span></h5>
+                                                            <span class="sdn-hall-na">S1</span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        <div class="sdb-cl-tim">
+                                            <div class="sdb-cl-day">
+                                                <h5>Mardi</h5>
+                                            </div>
+                                            <div class="sdb-cl-class">
+                                                <ul>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>08:00 </span>
+                                                            <span>10:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Français <span>TEACHER1 teacher1</span></h5>
+                                                            <span class="sdn-hall-na">S15</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>10:00 </span>
+                                                            <span>12:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Arabe <span>TEACHER2 teacher2</span></h5>
+                                                            <span class="sdn-hall-na">S12</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim">
+                                                            <span>14:00 </span>
+                                                            <span>16:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name sdb-cl-class-name-lev">
+                                                            <h5>Mathématiques<span>TEACHER3 teacher3</span></h5>
+                                                            <span class="sdn-hall-na">S1</span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        <div class="sdb-cl-tim">
+                                            <div class="sdb-cl-day">
+                                                <h5>Mercredi</h5>
+                                            </div>
+                                            <div class="sdb-cl-class">
+                                                <ul>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>08:00 </span>
+                                                            <span>10:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Français <span>TEACHER1 teacher1</span></h5>
+                                                            <span class="sdn-hall-na">S15</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>10:00 </span>
+                                                            <span>12:00 </span>
+                                                        </div>
+                                                        
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        <div class="sdb-cl-tim">
+                                            <div class="sdb-cl-day">
+                                                <h5>Jeudi</h5>
+                                            </div>
+                                            <div class="sdb-cl-class">
+                                                <ul>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>08:00 </span>
+                                                            <span>10:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Français <span>TEACHER1 teacher1</span></h5>
+                                                            <span class="sdn-hall-na">S15</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>10:00 </span>
+                                                            <span>12:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Arabe <span>TEACHER2 teacher2</span></h5>
+                                                            <span class="sdn-hall-na">S12</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim">
+                                                            <span>14:00 </span>
+                                                            <span>16:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name sdb-cl-class-name-lev">
+                                                            <h5>Mathématiques<span>TEACHER3 teacher3</span></h5>
+                                                            <span class="sdn-hall-na">S1</span>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        <div class="sdb-cl-tim">
+                                            <div class="sdb-cl-day">
+                                                <h5>Vendredi</h5>
+                                            </div>
+                                            <div class="sdb-cl-class">
+                                                <ul>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>08:00 </span>
+                                                            <span>10:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Français <span>TEACHER1 teacher1</span></h5>
+                                                            <span class="sdn-hall-na">S15</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>10:00 </span>
+                                                            <span>12:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Arabe <span>TEACHER2 teacher2</span></h5>
+                                                            <span class="sdn-hall-na">S12</span>
+                                                        </div>
+                                                    </li>
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        <div class="sdb-cl-tim">
+                                            <div class="sdb-cl-day">
+                                                <h5>Samedi</h5>
+                                            </div>
+                                            <div class="sdb-cl-class">
+                                                <ul>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>08:00 </span>
+                                                            <span>10:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Français <span>TEACHER1 teacher1</span></h5>
+                                                            <span class="sdn-hall-na">S15</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>10:00 </span>
+                                                            <span>12:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Arabe <span>TEACHER2 teacher2</span></h5>
+                                                            <span class="sdn-hall-na">S12</span>
+                                                        </div>
+                                                    </li>
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+
+
+{% endblock %} 

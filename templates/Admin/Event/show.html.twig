@@ -1,0 +1,68 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="index-2.html"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Liste des événements</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Détails événement</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <h4>Détails événement  </h4>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="udb-sec udb-prof">
+                                        <h4><img class="materialboxed" src="{{ vich_uploader_asset( event ,'imageFile') }}" >{{ event.title}}</h4>
+                                        
+                                        <div class="sdb-tabl-com sdb-pro-table">
+                                            <table class="responsive-table bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Location</td>
+                                                        <td>:</td>
+                                                        <td>{{ event.location}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Temps</td>
+                                                        <td>:</td>
+                                                        <td>{{ event.time ? event.time|date('Y-m-d H:i') : '' }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Description</td>
+                                                        <td>:</td>
+                                                        <td>{{ event.description}}</td>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="sb2-2-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                {{ include('Admin/Event/_delete_form.html.twig') }}
+                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+{% endblock %}

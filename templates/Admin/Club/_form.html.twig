@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-4">{{ form_row(form.name)}}</div>
+     </div>
+     <div class="row">
+        <div class="col-md-4">{{ form_row(form.imageFile)}}</div>
+     </div>
+     <div class="row">
+        <div class="col-md-12">{{ form_row(form.description)}}</div>
+     </div>
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

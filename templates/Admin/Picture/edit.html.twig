@@ -1,0 +1,46 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Photos</a>
+                        </li>
+                        <li class="active-bre"><a href="{{path('admin_picture_index')}}"> Liste des photos</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Modifier une photo</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+						    <div class="box-inn-sp admin-form">
+                                <div class="inn-title">
+                                    <h4>Modifier une photo</h4>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                   {{ include('Admin/Picture/_form.html.twig' , {'button_label': 'Modifier'}) }}
+                                    
+                                </div>
+                                <div class="align-right">
+                                    {{ include('Admin/Picture/_delete_form.html.twig') }}
+                            
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+
+        
+{% endblock %}

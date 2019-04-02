@@ -1,0 +1,56 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+
+    <section>   
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success" >{{ message }}</div>
+        {% endfor %}
+        {% if not form.vars.valid %}
+        <div class="alert alert-danger"> Essayer de remplir votre formulaire correctement!</div>
+        {% endif %}
+    </section>    
+    <section class="c-all h-quote">
+    
+        <div class="container">
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="all-title quote-title qu-new">
+                    <h2>Contacter Nous</h>
+                    <p>Fusce purus mauris, blandit vitae purus eget, viverra volutpat nibh. Nam in elementum nisi, a placerat nisi. Quisque ullamcorper magna in odio rhoncus semper.Sed nec ultricies velit. Aliquam non massa id enim ultrices aliquet a ac
+                        tortor.</p>
+                    <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                    <p class="help-line">Pour plus d'information <span>+213 73 333 333</span> </p> <span class="help-arrow pulse"><i class="fa fa-angle-right" aria-hidden="true"></i></span> </div>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="n-form-com admiss-form">
+                    <div class="col s12">
+                         {{ form_start(form)}}
+                        <div class="row">
+                            <div class="col-md-6">{{ form_row(form.firstName)}}</div>
+                            <div class="col-md-6">{{ form_row(form.lastName)}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">{{ form_row(form.email)}}</div>
+                            <div class="col-md-6">{{ form_row(form.phone )}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">{{ form_row(form.subject)}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">{{ form_row(form.message)}} </div> 
+                        </div>  
+                        {{ form_rest(form)}}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary">{{button|default('Envoyer')}} </button>
+                            </div>
+                        </div>
+                        {{ form_end(form)}}  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+    
+
+    {% endblock %}

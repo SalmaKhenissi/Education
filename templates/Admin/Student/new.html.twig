@@ -1,0 +1,38 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="index-2.html"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Liste des parents</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Détails parent</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Ajouter un enfant</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+						<div class="box-inn-sp admin-form">
+                                <div class="inn-title">
+                                    <h4>Ajouter un enfant</h4>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                   {{ include('Admin/Student/_form.html.twig' , {'button_label': 'Ajouter'}) }}
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        
+{% endblock %}

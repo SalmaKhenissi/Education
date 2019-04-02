@@ -1,0 +1,92 @@
+{% extends 'front-base.html.twig  ' %}
+{% set i = 1 %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        <div class="pro-menu">
+            <div class="container">
+                <div class="col-md-9 col-md-offset-3">
+                    <ul>
+                        <li><a href="{{path('guardian_informations')}}" class="pro-act">Profile</a></li>
+                       {#} {% for c in guardian.children %}
+                        <li><a href="{{path('guardian_child', {'id': c.id} )}}">Enfant{{i}}</a></li>
+                         {% set i = i+1 %} 
+
+                        {% endfor %}#}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="stu-db">
+            <div class="container pg-inn">
+                <div class="col-md-3">
+                    <div class="pro-user">
+                        <img src="{{asset('images/inconnu.png')}}" alt="user">
+                    </div>
+                    <div class="pro-user-bio">
+                        <ul>
+                            <li>
+                                <h4>PARENT1 parent1</h4>
+                            </li>
+                            <li><a href="#!"><strong> Adresse</strong> : N°12 rue bangladech sousse</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="udb">
+
+                        <div class="udb-sec udb-prof">
+                            <h4><img src="{{asset('images/icon/db1.png')}}" alt="" /> Mon Profile </h4>
+                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed
+                                to using 'Content here, content here', making it look like readable English.</p>
+                            <div class="sdb-tabl-com sdb-pro-table">
+                                <table class="responsive-table bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td>Nom</td>
+                                            <td>:</td>
+                                            <td>PARENT1</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Prénom</td>
+                                            <td>:</td>
+                                            <td>parent1</td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>Date de naissance</td>
+                                            <td>:</td>
+                                            <td>12-02-1981</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Lieu de naissance</td>
+                                            <td>:</td>
+                                            <td>Sousse</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Adresse</td>
+                                            <td>:</td>
+                                            <td>N°12 rue bangladech sousse</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sexe</td>
+                                            <td>:</td>
+                                            <td><span class="db-done">Homme</span> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="sdb-bot-edit">
+                                    
+                                    <a href="#" ><i class="fa fa-pencil"></i> Modifier mon profile</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+    {% endblock %} 

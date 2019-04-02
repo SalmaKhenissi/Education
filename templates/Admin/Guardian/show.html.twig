@@ -1,0 +1,141 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="#"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Liste des parents</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Détails parent</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <h4>Détails parent </h4>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="udb-sec udb-prof">
+                                        <h4>{#<img class="materialboxed" src="{{ asset('uploads/photos/' ~ guardian.photo) }}" >#}{{ guardian.firstName}} {{ guardian.lastName}}</h4>
+                                        
+                                        <div class="sdb-tabl-com sdb-pro-table">
+                                            <table class="responsive-table bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>CIN</td>
+                                                        <td>:</td>
+                                                        <td>{{ guardian.cin}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Date de naissance</td>
+                                                        <td>:</td>
+                                                        <td>{{ guardian.birthDate|date('d-m-Y')}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Lieu de naissance</td>
+                                                        <td>:</td>
+                                                        <td>{{ guardian.birthplace}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sexe</td>
+                                                        <td>:</td>
+                                                        <td>{{ guardian.sexe}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>E-mail</td>
+                                                        <td>:</td>
+                                                        <td>{{ guardian.email}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Téléphone</td>
+                                                        <td>:</td>
+                                                        <td>{{guardian.tel}}</td>
+                                                    </tr>
+                                                    
+                                                    <tr>
+                                                        <td>Adresse</td>
+                                                        <td>:</td>
+                                                        <td>{{ guardian.address}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        
+                    </div><hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <h4>Liste des enfants: </h4>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="table-responsive table-desi">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nom</th>
+                                                    <th>Prénom</th>
+													<th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            
+                                            {% for s in guardian.children %}
+                                                <tr>
+                                                    <td>{{ s.firstName}}</td>
+                                                    <td>{{ s.LastName}}</td>
+                                                    <td>
+                                                        <a href="{{ path('admin_student_show', {'id': s.id}) }}" class="ad-st-view">Voir</a>
+                                                        <a href="{{ path('admin_student_edit', {'id': s.id}) }}" ><span class="label label-success"> Modifier</span></a>
+                                                     </td>
+											     </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    <hr>
+                    <div class="sb2-2-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ include('Admin/Guardian/_delete_form.html.twig') }}
+                                
+                            </div>
+                            <div class="text-right">
+                                <a href="{{ path('admin_student_new' , {'id': guardian.id})}}" class="btn">Ajouter un enfant</a>
+                                
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+                
+                
+            </div>
+{% endblock %}

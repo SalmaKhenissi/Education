@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <title>Education Master</title>
+    <!-- META TAGS -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Education master is one of the best educational html template, it's suitable for all education websites like university,college,school,online education,tution center,distance education,computer education">
+    <meta name="keyword" content="education html template, university template, college template, school template, online education template, tution center template">
+    <!-- FAV ICON(BROWSER TAB ICON) -->
+    <link rel="shortcut icon" href="{{ asset('images/fav.ico')}}" type="image/x-icon">
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700%7CJosefin+Sans:600,700" rel="stylesheet">
+    <!-- FONTAWESOME ICONS -->
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css')}}">
+    <!-- ALL CSS FILES -->
+    <link href="{{ asset('css/materialize.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.css')}}" rel="stylesheet" />
+    <link href="{{ asset('css/style.css')}}" rel="stylesheet" />
+    <!-- RESPONSIVE.CSS ONLY FOR MOBILE AND TABLET VIEWS -->
+    <link href="{{ asset('css/style-mob.css')}}" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+
+    <!-- MOBILE MENU -->
+    <section>
+        <div class="ed-mob-menu">
+            <div class="ed-mob-menu-con">
+                <div class="ed-mm-left">
+                    <div class="wed-logo">
+                        <a href="#"><img src="{{ asset('images/logo2.png')}}" alt="" />
+						</a>
+                    </div>
+                </div>
+                <div class="ed-mm-right">
+                    <div class="ed-mm-menu">
+                        <a href="#!" class="ed-micon"><i class="fa fa-bars"></i></a>
+                        <div class="ed-mm-inn">
+                            <a href="#!" class="ed-mi-close"><i class="fa fa-times"></i></a>
+                            <h4>All Courses</h4>
+                            <ul>
+                                <li><a href="course-details.html">Accounting/Finance</a></li>
+                                <li><a href="course-details.html">civil engineering</a></li>
+                                <li><a href="course-details.html">Art/Design</a></li>
+                                <li><a href="course-details.html">Marine Engineering</a></li>
+                                <li><a href="course-details.html">Business Management</a></li>
+                                <li><a href="course-details.html">Journalism/Writing</a></li>
+                                <li><a href="course-details.html">Physical Education</a></li>
+                                <li><a href="course-details.html">Political Science</a></li>
+                                <li><a href="course-details.html">Sciences</a></li>
+                                <li><a href="course-details.html">Statistics</a></li>
+                                <li><a href="course-details.html">Web Design/Development</a></li>
+                                <li><a href="course-details.html">SEO</a></li>
+                                <li><a href="course-details.html">Google Business</a></li>
+                                <li><a href="course-details.html">Graphics Design</a></li>
+                                <li><a href="course-details.html">Networking Courses</a></li>
+                                <li><a href="course-details.html">Information technology</a></li>
+                            </ul>
+                            <h4>User Account</h4>
+                            <ul>
+                                <li><a href="#!" data-toggle="modal" data-target="#modal1">Sign In</a></li>
+                                <li><a href="#!" data-toggle="modal" data-target="#modal2">Register</a></li>
+                            </ul>
+                            <h4>All Pages</h4>
+                            <ul>
+                                <li><a href="index-2.html">Home</a></li>
+                                <li><a href="about.html">About us</a></li>
+                                <li><a href="admission.html">Admission</a></li>
+                                <li><a href="all-courses.html">All courses</a></li>
+                                <li><a href="course-details.html">Course details</a></li>
+                                <li><a href="awards.html">Awards</a></li>
+                                <li><a href="seminar.html">Seminar</a></li>
+                                <li><a href="events.html">Events</a></li>
+                                <li><a href="event-details.html">Event details</a></li>
+                                <li><a href="event-register.html">Event register</a></li>
+                                <li><a href="contact-us.html">Contact us</a></li>
+                            </ul>
+                            <h4>User Profile</h4>
+                            <ul>
+                                <li><a href="dashboard.html">User profile</a></li>
+                                <li><a href="db-courses.html">Courses</a></li>
+                                <li><a href="db-exams.html">Exams</a></li>
+                                <li><a href="db-profile.html">Prfile</a></li>
+                                <li><a href="db-time-line.html">Time line</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--HEADER SECTION-->
+    <section>
+        <!-- TOP BAR -->
+        <div class="ed-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="ed-com-t1-left">
+                            <ul>
+                                <li><a href="#">Adresse: N°169 rue de Japan Bouhsina, Sousse, Tunisie.</a>
+                                </li>
+                                <li><a href="#">Phone: 73 333 333 </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="ed-com-t1-right">
+                            <ul>
+                                {% if app.user  %}
+                                <li><a href="{{ path('logout') }}">Déconnexion</a></li>
+                                <li>
+                                    {% if app.user.LastName == 'ELEVE1' %}
+                                        <a href="{{path('student_profile' , {'id': app.user.id})}}">Mon compte</a>
+                                    {% elseif app.user.LastName == 'PARENT1' %}
+                                        <a href="{{path('guardian_profile' , {'id': app.user.id})}}">Mon compte</a>
+                                    {% endif %}
+                                </li>
+                                {% else %}
+                                <li><a href="{{ path('login') }}" >Connexion</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <div class="ed-com-t1-social">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                                </li>
+                                <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+                                </li>
+                                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LOGO AND MENU SECTION -->
+        <div class="top-logo" data-spy="affix" data-offset-top="250">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="wed-logo">
+                            <a href="#"><img src="{{ asset('images/logo2.png')}}" alt="" />
+                            </a>
+                        </div>
+                        <div class="main-menu">
+                            <ul>
+                                <li><a href="{{ path('home_page')}}">Acceuil</a></li>
+                                <li><a href="{{ path('about')}}" class="mm-arr">A Propos</a></li>
+                                <li><a href="{{ path('teaching')}}" class="mm-arr">Enseignement</a></li>
+                                <li ><a href="{{ path('events')}}" class="mm-arr">Evénements</a></li>
+                                <li><a href="{{ path('gallery')}}">Galerie</a></li>
+                                <li><a href="{{ path('contact_new') }}">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="search-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--END HEADER SECTION-->
+
+    
+
+    {% block body %} {% endblock %}
+    
+    <!--SECTION START-->
+    <section>
+        <div class="full-bot-book">
+            <div class="container">
+                <div class="row">
+                    <div class="bot-book">
+                        <div class="col-md-2 bb-img">
+                            <img src="{{ asset('images/3.png')}}" alt="">
+                        </div>
+                        <div class="col-md-9 bb-text">
+                            <h4>L'innovation c'est ce qui nous distingue des autres!</h4>
+                            <p>Sans innovation, la stratégie est inutile ; sans stratégie, l'innovation n'a pas de but. (John KAO)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+    <!-- FOOTER -->
+    <section class="wed-hom-footer">
+        <div class="container">
+            <!--<div class="row">
+				<div class="col-md-12">
+				<h4>About Wedding Planner</h4>
+				<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum</p>
+				<p>more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text</p>
+				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
+				<p></p>
+			  </div>
+			  </div>-->
+            
+            <div class="row wed-foot-link-1">
+                <div class="col-md-4 foot-tc-mar-t-o">
+                    <h4>Nous Contacter</h4>
+                    <p>Adresse: N°169 rue de Japan Bouhsina, Sousse, Tunisie.</p>
+                    <p>Téléphone: <a href="#!">73 333 333</a></p>
+                    <p>Email: <a href="#!">mail@gmailcom</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h4>Télècharger notre application mobile </h4>
+                    <ul>
+                        <li><a href="#"><span class="sprite sprite-android"></span></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Réseaux sociaux</h4>
+                    <ul>
+                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COPY RIGHTS -->
+    <section >
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+					<div class="footer_nav_container">
+						<div>©2019 All Rights Reserverd. Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Khenissi Salma </a> . </div>
+					</div>
+				</div>
+            </div> 
+        </div>
+    </section>
+
+    
+
+   
+
+    <!--Import jQuery before materialize.js-->
+    <script src="{{ asset('js/main.min.js')}}"></script>
+    <script src="{{ asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('js/materialize.min.js')}}"></script>
+    <script src="{{ asset('js/custom.js')}}"></script>
+</body>
+
+
+</html>

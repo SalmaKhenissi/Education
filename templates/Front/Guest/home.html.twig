@@ -1,0 +1,189 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+    <!-- SLIDER -->
+    <section>
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                <div class="item slider1 active">
+                    <img src="{{ asset('images/slider/s1.png')}}" alt="">
+                    <div class="carousel-caption slider-con">
+                        <h2>L'EXCELLENCE POUR TOUS !</h2>
+                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="{{ asset('images/slider/s2.png')}}" alt="">
+                    <div class="carousel-caption slider-con">
+                        <h2>L'EXCELLENCE POUR TOUS !</h2>
+                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img src="{{ asset('images/slider/s3.png')}}" alt="">
+                    <div class="carousel-caption slider-con">
+                        <h2>L'EXCELLENCE POUR TOUS !</h2>
+                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                <i class="fa fa-chevron-left slider-arr"></i>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                <i class="fa fa-chevron-right slider-arr"></i>
+            </a>
+        </div>
+    </section>
+
+    
+
+    <!-- DISCOVER MORE -->
+    <section>
+        <div class="container com-sp pad-bot-70">
+            <div class="row">
+                <div class="con-title">
+                    <h2><span> Découvrir Encore</span></h2>
+                    <p>Fusce id sem at ligula laoreet hendrerit venenatis sed purus. Ut pellentesque maximus lacus, nec pharetra augue.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="ed-course">
+                    <div class="col-md-3 col-sm-4 col-xs-12">
+                        <div class="ed-course-in">
+                            <a class="course-overlay" href="{{ path('clubs')}}">
+                                <img src="{{ asset('images/club.png')}}" alt="">
+                                <span>Clubs</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xs-12">
+                        <div class="ed-course-in">
+                            <a class="course-overlay" href="#">
+                                <img src="{{ asset('images/biling.jpg')}}" alt="biling">
+                                <span>Bilinguisme</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xs-12">
+                        <div class="ed-course-in">
+                            <a class="course-overlay" href="#">
+                                <img src="{{ asset('images/péri.jpg')}}" alt="">
+                                <span>Périscolaire</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 col-xs-12">
+                        <div class="ed-course-in">
+                            <a class="course-overlay" href="#">
+                                <img src="{{ asset('images/ai.png')}}" alt="">
+                                <span>Aide à l’élève</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWS AND EVENTS -->
+    <section>
+        <div class="container com-sp">
+            <div class="row">
+                <div class="con-title">
+                    <h2><span>Evènements et Nouvelles</span></h2>
+                    <p>Fusce id sem at ligula laoreet hendrerit venenatis sed purus. Ut pellentesque maximus lacus, nec pharetra augue.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="bot-gal h-gal ho-event-mob-bot-sp">
+                        <h4>Gallerie de photos</h4>
+                        <ul>
+                        {% for p in pictures %}
+                            <li><img class="materialboxed" data-caption="Education master image captions" src="{{ '/Pro-Education/public' ~ vich_uploader_asset( p ,'imageFile') }}" alt="picture"></li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {#<div class="col-md-4">
+                    <div class="bot-gal h-vid ho-event-mob-bot-sp">
+                        <h4>Vidéos intéressantes</h4>
+                        <iframe src="https://www.youtube.com/embed/RQxZoIxov8g?autoplay=0&amp;showinfo=0&amp;controls=0" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/DddLorJAFv8?autoplay=0&amp;showinfo=0&amp;controls=0" allowfullscreen></iframe>
+                    </div>
+                </div>#}
+                <div class="col-md-6">
+                    <div class="bot-gal h-blog ho-event">
+                        <h4>Evènements</h4>
+                        <div class="ho-event">
+                            <ul>
+                                <li>
+                                    <div class="ho-ev-date"><span>07</span><span>jan,2018</span>
+                                    </div>
+                                    <div class="ho-ev-link">
+                                        <a href="events.html">
+                                            <h4>Latinoo College Expo 2018</h4>
+                                        </a>
+                                        <p>Nulla at velit convallis, venenatis lacus quis, efficitur lectus.</p>
+                                        <span>9:15 am </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="ho-ev-date"><span>12</span><span>jan,2018</span>
+                                    </div>
+                                    <div class="ho-ev-link">
+                                        <a href="events.html">
+                                            <h4>Training at Team Fabio Clemente</h4>
+                                        </a>
+                                        <p>Nulla at velit convallis venenatis.</p>
+                                        <span>9:15 am </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="ho-ev-date"><span>26</span><span>jan,2018</span>
+                                    </div>
+                                    <div class="ho-ev-link">
+                                        <a href="events.html">
+                                            <h4>Nulla at velit convallis</h4>
+                                        </a>
+                                        <p>Nulla at velit convallis, venenatis lacus quis, efficitur lectus.</p>
+                                        <span>9:15 am </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="ho-ev-date"><span>18</span><span>jan,2018</span>
+                                    </div>
+                                    <div class="ho-ev-link">
+                                        <a href="events.html">
+                                            <h4>Admissions Information Session and Tour</h4>
+                                        </a>
+                                        <p>Nulla at velit convallis, venenatis lacus quis, efficitur lectus.</p>
+                                        <span> 5:00 pm</span>
+                                    </div>
+                                </li>
+                                <li>
+                                        <div class="ho-ev-date"><span>20</span><span>sep,2018</span>
+                                        </div>
+                                        <div class="ho-ev-link pg-eve-desc">
+                                            <a href="event-register.html">
+                                                <h4>Fire & ice launch party</h4>
+                                            </a>
+                                            <p>Nulla at velit convallis, venenatis lacus quis, efficitur lectus.</p>
+                                            <span>9:15 am </span>
+                                        </div>
+                                    </li>
+
+
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ {% endblock %}   

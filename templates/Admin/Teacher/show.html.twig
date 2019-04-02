@@ -1,0 +1,93 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="index-2.html"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Liste des enseignants</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Détails enseignant</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <h4>Détails enseignant  </h4>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="udb-sec udb-prof">
+                                        <h4>{#<img class="materialboxed" src="{{ asset('uploads/photos/' ~ teacher.photo) }}" >#}{{ teacher.firstName}} {{ teacher.lastName}}</h4>
+                                        
+                                        <div class="sdb-tabl-com sdb-pro-table">
+                                            <table class="responsive-table bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>CIN</td>
+                                                        <td>:</td>
+                                                        <td>{{ teacher.cin}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Date de naissance</td>
+                                                        <td>:</td>
+                                                        <td>{{ teacher.birthDate|date('d-m-Y')}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Lieu de naissance</td>
+                                                        <td>:</td>
+                                                        <td>{{ teacher.birthplace}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sexe</td>
+                                                        <td>:</td>
+                                                        <td>{{ teacher.sexe}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>E-mail</td>
+                                                        <td>:</td>
+                                                        <td>{{ teacher.email}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Téléphone</td>
+                                                        <td>:</td>
+                                                        <td>{{teacher.tel}}</td>
+                                                    </tr>
+                                                    
+                                                    <tr>
+                                                        <td>Adresse</td>
+                                                        <td>:</td>
+                                                        <td>{{ teacher.address}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Spécialité</td>
+                                                        <td>:</td>
+                                                        <td>{{ teacher.subject}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="sb2-2-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                {{ include('Admin/Teacher/_delete_form.html.twig') }}
+                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+{% endblock %}

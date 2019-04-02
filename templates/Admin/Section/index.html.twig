@@ -1,0 +1,82 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="index-2.html"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Classes</a>
+                        </li>
+                        <li class="active-bre"><a href="{{ path('admin_section_index')}}"> Liste des Classes</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <div class="container">
+                                        <h4>Classes </h4>
+                                        <form class=" form-row">
+                                                <div class="col" >
+                                                    <input type="text" class="form-control" placeholder="Niveau" name="level" >
+                                                </div>
+                                                <div class="col" >
+                                                    <input type="text" class="form-control" placeholder="Filiére" name="track" >
+                                                </div>
+                                                <div class="col" >
+                                                    <input type="text" class="form-control" placeholder="Groupe" name="nbrGroup" >
+                                                </div>
+                                                <div class="col">
+                                                     <input type="submit"  value="Rechercher">
+                                                </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="table-responsive table-desi">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Niveau</th>
+                                                    <th>Filiére</th>
+                                                    <th>Groupe</th>
+                                                    <th>Année Scolaire</th>
+													<th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            
+                                            {% for section in sections %}
+                                                <tr>
+                                                    <td>{{ section.level}}</td>
+                                                    <td>{{ section.track}}</td>
+                                                    <td>{{ section.nbrGroup}}</td>
+                                                    <td>{{ section.schoolYear}}</td>
+                                                    <td>
+                                                       <a href="{{ path('admin_section_show', {'id': section.id}) }}" class="ad-st-view">Voir</a>
+                                                       <a href="{{ path('admin_section_edit', {'id': section.id}) }}" ><span class="label label-success"> Modifier</span></a>
+                                                        
+                                                    </td>
+											     </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pagination">
+                    {{ knp_pagination_render(sections) }}
+                </div>
+            </div>
+{% endblock %}

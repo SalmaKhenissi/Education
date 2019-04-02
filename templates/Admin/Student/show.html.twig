@@ -1,0 +1,77 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="index-2.html"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Eléves</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Détails Eléve</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <h4>Détails Eléve  </h4>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="udb-sec udb-prof">
+                                        <h4>{#<img class="materialboxed" src="{{ asset('uploads/photos/' ~ student.photo) }}" >#}{{ student.firstName}} {{ student.lastName}}</h4>
+                                        
+                                        <div class="sdb-tabl-com sdb-pro-table">
+                                            <table class="responsive-table bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Date de naissance</td>
+                                                        <td>:</td>
+                                                        <td>{{ student.birthDate|date('d-m-Y')}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Lieu de naissance</td>
+                                                        <td>:</td>
+                                                        <td>{{ student.birthplace}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Sexe</td>
+                                                        <td>:</td>
+                                                        <td>{{ student.sexe}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Classe</td>
+                                                        <td>:</td>
+                                                        <td>{{ student.section.level}} {{ student.section.track}} {{ student.section.nbrGroup}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Photo</td>
+                                                        <td>:</td>
+                                                        <td>{{ student.photo}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="sb2-2-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                {{ include('Admin/Student/_delete_form.html.twig') }}
+                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+{% endblock %}

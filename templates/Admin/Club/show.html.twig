@@ -1,0 +1,58 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="index-2.html"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Liste des clubs</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Détails club</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <h4>Détails club  </h4>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="udb-sec udb-prof">
+                                        <h4><img class="materialboxed" src="{{ vich_uploader_asset( club ,'imageFile') }}" >{{ club.name}}</h4>
+                                        
+                                        <div class="sdb-tabl-com sdb-pro-table">
+                                            <table class="responsive-table bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Description</td>
+                                                        <td>:</td>
+                                                        <td>{{ club.description}}</td>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="sb2-2-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                {{ include('Admin/Club/_delete_form.html.twig') }}
+                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+{% endblock %}
