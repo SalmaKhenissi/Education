@@ -31,6 +31,23 @@ class SeanceRepository extends ServiceEntityRepository
         
     ;
     }
+
+    public function findTimeTable($seances)
+    {
+        $week=['Lundi','Mardi' ,'Mercredi' , 'Jeudi' ,'Vendredi','Samedi'];
+        $timetable=[];
+        $i=0;
+        foreach ($seances as $s)
+        {
+            if($s->getDay()==$week[$i])
+            {
+              
+            }
+        }
+        return $timetable ;
+        
+    ;
+    }
     
     
    

@@ -5,13 +5,16 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Section;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SeanceRepository")
  */
 class Seance
 {
-    const DAY= [0 => 'Lundi' ,1 => 'Mardi' ,2 => 'Merceredi' ,3 => 'Jeudi',4 => 'Vendredi' ,5 => 'Samedi'  ];
+    const DAY = [0 => 'Lundi', 1 => 'Mardi', 2 => 'Merceredi', 3 => 'Jeudi', 4 => 'Vendredi', 5 => 'Samedi'];
+
+    const Course = [];
 
     /**
      * @ORM\Id()
@@ -20,9 +23,9 @@ class Seance
      */
     private $id;
 
-    
 
-   /**
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $day;
@@ -55,19 +58,24 @@ class Seance
      */
     private $room;
 
-    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Course", inversedBy="seances")
+     */
+    private $course;
+
+
 
     public function __construct()
     {
         
-    }
+     }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    
+
     public function getDay(): ?string
     {
         return $this->day;
@@ -146,6 +154,15 @@ class Seance
         return $this;
     }
 
+    public function getCourse(): ?Course
+    {
+        return $this->course;
+    }
 
+    public function setCourse(?Course $course): self
+    {
+        $this->course = $course;
 
+        return $this;
+    }
 }

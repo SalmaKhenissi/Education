@@ -16,6 +16,7 @@ class Student extends User
      */
     private $id;
 
+
     
 
     /**
@@ -38,6 +39,8 @@ class Student extends User
         return ['ROLE_STUDENT'];
 
     }
+
+   
 
     public function getGuardian(): ?Guardian
     {

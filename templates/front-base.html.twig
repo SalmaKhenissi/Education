@@ -109,9 +109,9 @@
                     <div class="col-md-12">
                         <div class="ed-com-t1-left">
                             <ul>
-                                <li><a href="#">Adresse: N°169 rue de Japan Bouhsina, Sousse, Tunisie.</a>
+                                <li><a href="#">Adresse: {{parameters.address}}</a>
                                 </li>
-                                <li><a href="#">Phone: 73 333 333 </a>
+                                <li><a href="#">Téléphone: {{parameters.phone|slice(0,2)}} {{parameters.phone|slice(2,3)}} {{parameters.phone|slice(5,3)}} </a>
                                 </li>
                             </ul>
                         </div>
@@ -120,10 +120,15 @@
                                 {% if app.user  %}
                                 <li><a href="{{ path('logout') }}">Déconnexion</a></li>
                                 <li>
-                                    {% if app.user.LastName == 'ELEVE1' %}
+                                    {% if is_granted('ROLE_STUDENT') %}
                                         <a href="{{path('student_profile' , {'id': app.user.id})}}">Mon compte</a>
-                                    {% elseif app.user.LastName == 'PARENT1' %}
+
+                                    {% elseif is_granted('ROLE_GUARDIAN') %}
                                         <a href="{{path('guardian_profile' , {'id': app.user.id})}}">Mon compte</a>
+
+                                    {% elseif is_granted('ROLE_ADMIN') %}
+                                        <a href="{{path('admin_dashbord')}}">Mon compte</a>
+
                                     {% endif %}
                                 </li>
                                 {% else %}
@@ -196,7 +201,7 @@
                         </div>
                         <div class="col-md-9 bb-text">
                             <h4>L'innovation c'est ce qui nous distingue des autres!</h4>
-                            <p>Sans innovation, la stratégie est inutile ; sans stratégie, l'innovation n'a pas de but. (John KAO)</p>
+                            <p>Sans innovation, la stratégie est inutile et sans stratégie, l'innovation n'a pas de but. (John KAO)</p>
                         </div>
                     </div>
                 </div>
@@ -220,9 +225,9 @@
             <div class="row wed-foot-link-1">
                 <div class="col-md-4 foot-tc-mar-t-o">
                     <h4>Nous Contacter</h4>
-                    <p>Adresse: N°169 rue de Japan Bouhsina, Sousse, Tunisie.</p>
-                    <p>Téléphone: <a href="#!">73 333 333</a></p>
-                    <p>Email: <a href="#!">mail@gmailcom</a></p>
+                    <p>Adresse: {{parameters.address}}</p>
+                    <p>Téléphone: {{parameters.phone|slice(0,2)}} {{parameters.phone|slice(2,3)}} {{parameters.phone|slice(5,3)}} </p>
+                    <p>Email: {{parameters.email}}</p>
                 </div>
                 <div class="col-md-4">
                     <h4>Télècharger notre application mobile </h4>

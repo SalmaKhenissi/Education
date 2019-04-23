@@ -7,167 +7,267 @@
 {% set k = 0 %}
 {% block stylesheets %}
     <style>
-        table, td, th {  
-        border: 1px solid #ddd;
+        table,
+        td,
+        th {
+            border: 1px solid #ddd;
         }
 
 
-        td{
-        padding: 10px;
-        text-align: center ;
+        td {
+            padding: 10px;
+            text-align: center;
         }
     </style>
 {% endblock %}
 {% block body %}
-<!--== BODY INNER CONTAINER ==-->
-            <div class="sb2-2">
-            <!--== breadcrumbs ==-->
-                <div class="sb2-2-2">
-                    <ul>
-                        <li><a href="index-2.html"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
-                        </li>
-                        <li class="active-bre"><a href="#"> Liste des classes</a>
-                        </li>
-                        <li class="active-bre"><a href="#">{{section.level}}{{section.track}}{{section.nbrGroup}}</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="sb2-2-3">
-                    <div class="row">
-                        <div class="col-md-12">
-						<div class="box-inn-sp admin-form">
-                                <div class="inn-title">
-                                    <h4>Emploi du temps</h4>
-                                    
-                                </div>
-                                 <div class="tab-inn">
-                                    <div class="table-responsive table-desi">
-                                        <table class="table table-hover" >
-                                            <tr>
-                                                <th ><strong>Jour/Séance</strong></th>
-                                                {% for i in 0..7   %}
-                                                <td><strong> {{debut[i]}}:00-{{debut[i] + 1}}:00</strong></td>
-                                                {% endfor %}
-                                            </tr>
-                                            {% for j in jours   %}
-                                            <tr>
-                                                <th><strong>{{ j }}</strong></th>
-                                                {% for k in 1..8   %}
-                                                    <td> 
-                                                    {% for s in seances   %}
-                                                        {% if s.day == j %} 
-                                                            {% if  s.startAt|date("h") == debut[i]   %} 
-                                                            <a href="{{ path('admin_seance_edit', {'id': s.id}) }}" :>
-                                                                 S{{s.room.number}} : {{s.teacher.subject}}
-                                                                <br>{{s.teacher}} 
-                                                            </a>
-                                                            {% elseif s.finishAt|date("h") == fin[i]  %} 
-                                                            <a href="{{ path('admin_seance_edit', {'id': s.id}) }}" :>
-                                                                 S{{s.room.number}} : {{s.teacher.subject}}
-                                                                <br>{{s.teacher}} 
-                                                            </a>
+    <!--== BODY INNER CONTAINER ==-->
+    <div
+        class="sb2-2">
+        <!--== breadcrumbs ==-->
+        <div class="sb2-2-2">
+            <ul>
+                <li>
+                    <a href="index-2.html">
+                        <i aria-hidden="true" class="fa fa-home"></i>
+                        Acceuil</a>
+                </li>
+                <li class="active-bre">
+                    <a href="#">
+                        Liste des classes</a>
+                </li>
+                <li class="active-bre">
+                    <a href="#">{{section.name}}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="sb2-2-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box-inn-sp admin-form">
+                        <div class="inn-title">
+                            <h4><img src="{{asset('images/icon/db4.png')}}" alt="" />Emploi du temps</h4>
 
-                                                            {% endif %} 
-                                                            
+                        </div>
+                        <div class="tab-inn">
+                            {#<div class="table-responsive table-desi">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <th>
+                                            <strong>Jour/Séance</strong>
+                                        </th>
+                                        {% for i in 0..7   %}
+                                            <td>
+                                                <strong>
+                                                    {{debut[i]}}:00-{{debut[i] + 1}}:00</strong>
+                                            </td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% for j in jours   %}
+                                        <tr>
+                                            <th>
+                                                <strong>{{ j }}</strong>
+                                            </th>
+                                            {% for k in 1..8   %}
+                                                <td>
+                                                    {% for s in seances   %}
+                                                        {% if s.day == j %}
+                                                            {% if  s.startAt|date("h") == debut[i]   %}
+                                                                <a href="{{ path('admin_seance_edit', {'id': s.id}) }}" :>
+                                                                    <h6>S{{s.room.number}}
+                                                                    :
+                                                                    {{s.course.name}}
+                                                                    <br>{{s.teacher}}</h6>
+                                                                </a>
+                                                            {% elseif s.finishAt|date("h") == fin[i]  %}
+                                                                <a href="{{ path('admin_seance_edit', {'id': s.id}) }}" :>
+                                                                    <h6>S{{s.room.number}}
+                                                                    :
+                                                                    {{s.course.name}}
+                                                                    <br>{{s.teacher}}</h6>
+                                                                </a>
+
+                                                            {% endif %}
+
                                                         {% endif %}
                                                     {% endfor %}
-                                                    </td>
-                                                {% set i = i+1 %} 
-                                                {% endfor %}
-                                                {% set i = 0 %} 
-                                                
+                                                </td>
+                                                {% set i = i+1 %}
+                                            {% endfor %}
+                                            {% set i = 0 %}
+
+                                        </tr>
+
+                                    {% endfor %}
+                                </table>
+                            </div>#}
+                            
+                            <div class="udb-sec udb-time ">
+                            <div class="tour_head1 udb-time-line days">
+                                <ul>
+                                   {#} {% for %}#}
+                                    <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        <div class="sdb-cl-tim">
+                                            <div class="sdb-cl-day">
+                                                <h5>Lundi</h5>
+                                            </div>
+                                            <div class="sdb-cl-class">
+                                                <ul>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>08:00 </span>
+                                                            <span>10:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Français <span style="color:DarkGreen;">TEACHER1 teacher1</span></h5>
+                                                            <span class="sdn-hall-na">S15</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>08:00 </span>
+                                                            <span>10:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Français <span style="color:DarkGreen;">TEACHER1 teacher1</span></h5>
+                                                            <span class="sdn-hall-na">S15</span>
+                                                        </div>
+                                                    </li>
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        <div class="sdb-cl-tim">
+                                            <div class="sdb-cl-day">
+                                                <h5>Mardi</h5>
+                                            </div>
+                                            <div class="sdb-cl-class">
+                                                <ul>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>08:00 </span>
+                                                            <span>10:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Français <span style="color:DarkGreen;">TEACHER1 teacher1</span></h5>
+                                                            <span class="sdn-hall-na">S15</span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                            <span>08:00 </span>
+                                                            <span>10:00 </span>
+                                                        </div>
+                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                            <h5>Français <span style="color:DarkGreen;">TEACHER1 teacher1</span></h5>
+                                                            <span class="sdn-hall-na">S15</span>
+                                                        </div>
+                                                    </li>
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
+                                   {# {% endfor %} #}
+                                </ul>
+                            </div>
+                            </div>
+                        
+                            <div class="text-right">
+                                <a href="{{ path('admin_seance_new' , {'id':section.id} ) }}" class="btn btn-dark">
+                                    Ajouter une séance
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {#<div class="sb2-2-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box-inn-sp">
+                        <div class="inn-title">
+                            <h4>Liste des enseignants ({{teachers}}) </h4>
+                                                                                            
+                        </div>
+                        <div class="tab-inn">
+                            <div class="table-responsive table-desi">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>Matiére</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for t in section.teachers %}
+                                            <tr>
+                                                <td>{{ t.firstName}}</td>
+                                                <td>{{ t.lastName }}</td>
+                                                <td>{{t.subject}}</td>
+                                                <td><a href="{{ path('admin_teacher_show' , {'id': t.id})}}" class="ad-st-view">Voir</a></td>
                                             </tr>
-                                            
-                                            {% endfor %}
-                                        </table>
-                                    </div>
-                                    <div class="text-right">
-                                   <a href="{{ path('admin_seance_new' , {'id':section.id} ) }}" class="btn btn-dark"> Ajouter une séance </a>
-                                </div>
-                                </div>
-                                
+                                        {% endfor %}
+                                                                                                    
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="sb2-2-3">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="box-inn-sp">
-                                <div class="inn-title">
-                                    <h4>Liste des enseignants ({{teachers}}) </h4>
-                                    
-                                </div>
-                                <div class="tab-inn">
-                                    <div class="table-responsive table-desi">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nom</th>
-                                                    <th>Prénom</th>
-                                                    <th>Matiére</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% for t in section.teachers %}
-                                                <tr>
-                                                    <td>{{ t.firstName}}</td>
-                                                    <td>{{ t.lastName }}</td>
-                                                    <td>{{t.subject}}</td>
-                                                    <td><a href="{{ path('admin_teacher_show' , {'id': t.id})}}" class="ad-st-view">Voir</a></td>
-                                                </tr>
-                                            {% endfor %}
-                                            
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="sb2-2-3">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="box-inn-sp">
-                                <div class="inn-title">
-                                    <h4>Liste des élèves ({{students}}) </h4>
-                                    
-                                </div>
-                                <div class="tab-inn">
-                                    <div class="table-responsive table-desi">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nom</th>
-                                                    <th>Prénom</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% for s in section.students %}
-                                                <tr>
-                                                    <td>{{ s.firstName }}</td>
-                                                    <td>{{ s.lastName }}</td>
-                                                    <td><a href="{{ path('admin_student_show' , {'id': s.id})}}" class="ad-st-view">Voir</a></td>
-                                                </tr>
-                                            {% endfor %}
-                                            
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><hr>
-                <div class="sb2-2-4">
-                    <div class="row">
-                        <div class="col-md-12">
-                               {{ include('Admin/Section/_delete_form.html.twig') }} 
                         </div>
                     </div>
                 </div>
             </div>
+        </div>#}
+        <div class="sb2-2-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box-inn-sp">
+                        <div class="inn-title">
+                            <h4>Liste des élèves ({{section.students|length}})
+                            </h4>
+
+                        </div>
+                        <div class="tab-inn">
+                            <div class="table-responsive table-desi">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for s in section.students %}
+                                            <tr>
+                                                <td>{{ s.firstName }}</td>
+                                                <td>{{ s.lastName }}</td>
+                                                <td>
+                                                    <a href="{{ path('admin_student_show' , {'id': s.id})}}" class="ad-st-view">Voir</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><hr>
+        <div class="sb2-2-4">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ include('Admin/Section/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

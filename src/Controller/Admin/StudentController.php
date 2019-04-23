@@ -32,7 +32,8 @@ class StudentController extends AbstractController
     {   
         $firstName = $request->get('first');
         $lastName = $request->get('last');
-        $students=$paginator->paginate($studentRepository->findByName($firstName , $lastName ), 
+        $section = $request->get('section');
+        $students=$paginator->paginate($studentRepository->findByPram($firstName , $lastName , $section), 
                                        $request->query->getInt('page', 1),
                                        12
         );
@@ -78,10 +79,11 @@ class StudentController extends AbstractController
     /**
      * @Route("/{id}", name="admin_student_show", methods={"GET"})
      */
-    public function show(Student $student): Response
-    {
+    public function show(Student $student, StudentRepository $studentRepository): Response
+    {  
         return $this->render('Admin/Student/show.html.twig', [
-            'student' => $student,
+            'student' => $student  
+            
         ]);
     }
 
@@ -94,7 +96,7 @@ class StudentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $student->setUpdatedAt(new \DateTime('now'));
+            $student->setUpdatedAt(new \DateTime('now')); 
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('admin_student_index', [
                 'id' => $student->getId(),

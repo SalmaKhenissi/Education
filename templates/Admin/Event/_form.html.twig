@@ -8,7 +8,10 @@
        <div class="col-md-4">{{ form_row(form.time)}}</div>
      </div>
      <div class="row">
-       <div class="col-md-12">{{ form_row(form.description)}}</div>
+       <div class="col-md-12">{{ form_row(form.shortDescription)}}</div>
+     </div>
+     <div class="row">
+       <div class="col-md-12">{{ form_row(form.longDescription)}}</div>
      </div>
     <button class="btn">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

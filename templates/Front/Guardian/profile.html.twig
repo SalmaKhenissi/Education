@@ -1,5 +1,4 @@
 {% extends 'front-base.html.twig  ' %}
-{% set i = 1 %}
 {% block body %}
 <!--SECTION START-->
     <section>
@@ -9,12 +8,9 @@
             <div class="container">
                 <div class="col-md-9 col-md-offset-3">
                     <ul>
-                        <li><a href="{{path('guardian_informations')}}" class="pro-act">Profile</a></li>
-                       {#} {% for c in guardian.children %}
-                        <li><a href="{{path('guardian_child', {'id': c.id} )}}">Enfant{{i}}</a></li>
-                         {% set i = i+1 %} 
-
-                        {% endfor %}#}
+                        <li><a href="{{path('guardian_profile', {'id': guardian.id})}}" class="pro-act">Profile</a></li>
+                        <li><a href="{{path('guardian_children', {'id': guardian.id})}}" >Enfants</a></li>
+                        <li><a href="{{path('guardian_teachers', {'id': guardian.id})}}" >Enseignants</a></li>
                     </ul>
                 </div>
             </div>
@@ -23,14 +19,13 @@
             <div class="container pg-inn">
                 <div class="col-md-3">
                     <div class="pro-user">
-                        <img src="{{asset('images/inconnu.png')}}" alt="user">
+                        <img src="{{asset('images/student.jpg')}}" alt="user">
                     </div>
                     <div class="pro-user-bio">
                         <ul>
                             <li>
-                                <h4>PARENT1 parent1</h4>
+                                <h4>{{guardian.lastName}}  {{guardian.firstName}}  </h4>
                             </li>
-                            <li><a href="#!"><strong> Adresse</strong> : N°12 rue bangladech sousse</a></li>
                         </ul>
                     </div>
                 </div>
@@ -39,41 +34,49 @@
 
                         <div class="udb-sec udb-prof">
                             <h4><img src="{{asset('images/icon/db1.png')}}" alt="" /> Mon Profile </h4>
-                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed
-                                to using 'Content here, content here', making it look like readable English.</p>
                             <div class="sdb-tabl-com sdb-pro-table">
                                 <table class="responsive-table bordered">
                                     <tbody>
                                         <tr>
                                             <td>Nom</td>
                                             <td>:</td>
-                                            <td>PARENT1</td>
+                                            <td>{{guardian.lastName}} </td>
                                         </tr>
                                         <tr>
                                             <td>Prénom</td>
                                             <td>:</td>
-                                            <td>parent1</td>
+                                            <td>{{guardian.firstName}} </td>
                                         </tr>
                                         
                                         <tr>
                                             <td>Date de naissance</td>
                                             <td>:</td>
-                                            <td>12-02-1981</td>
+                                            <td>{{guardian.birthDate|date('d-m-Y')}} </td>
                                         </tr>
                                         <tr>
                                             <td>Lieu de naissance</td>
                                             <td>:</td>
-                                            <td>Sousse</td>
+                                            <td>{{guardian.birthplace}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Téléphone</td>
+                                            <td>:</td>
+                                            <td>{{guardian.tel}}</td>
                                         </tr>
                                         <tr>
                                             <td>Adresse</td>
                                             <td>:</td>
-                                            <td>N°12 rue bangladech sousse</td>
+                                            <td>{{guardian.address}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>E-mail</td>
+                                            <td>:</td>
+                                            <td>{{guardian.email}}</td>
                                         </tr>
                                         <tr>
                                             <td>Sexe</td>
                                             <td>:</td>
-                                            <td><span class="db-done">Homme</span> </td>
+                                            <td>{{guardian.sexe}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

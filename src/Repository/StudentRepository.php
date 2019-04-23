@@ -33,41 +33,95 @@ class StudentRepository extends ServiceEntityRepository
     
 
     
-    public function findByName($firstName , $lastName)
+    public function findByPram($firstName , $lastName , $section)
     {
-        $em = $this->getEntityManager();
         
-        if ($firstName &&  $lastName )
+       if ($firstName &&  $lastName && $section )
+        {  
+             $query=$this->createQueryBuilder('s')
+                         ->Join('s.section', 'sec')
+                         ->where('sec.name like :section')
+                         ->andWhere('s.firstName like :firstName')
+                         ->andWhere('s.lastName like :lastName')
+                         ->setParameter('section', $section)
+                         ->setParameter('firstName', $firstName)
+                         ->setParameter('lastName', $lastName)
+                         ->getQuery();
+            
+        }
+       
+        else if ($firstName &&  $section )
         {
-              $dql = "SELECT s FROM App\Entity\Student s where s.firstName like :firstName and s.lastName like :lastName ";
-              $query = $em->createQuery($dql);
-              $query->setParameter('firstName', $firstName)
-                    ->setParameter('lastName', $lastName);
+            $query=$this->createQueryBuilder('s')
+                        ->Join('s.section', 'sec')
+                        ->where('sec.name like :section')
+                        ->andWhere('s.firstName like :firstName')
+                        ->setParameter('section', $section)
+                        ->setParameter('firstName', $firstName)
+                        ->getQuery();
+            
+        }
+       
+        else if ($section &&  $lastName )
+        {
+            $query=$this->createQueryBuilder('s')
+                        ->Join('s.section', 'sec')
+                        ->where('sec.name like :section')
+                        ->andWhere('s.lastName like :lastName')
+                        ->setParameter('section', $section)
+                        ->setParameter('lastName', $lastName)
+                        ->getQuery();
+             
+        }
+        else if ($firstName &&  $lastName )
+        {
+            $query=$this->createQueryBuilder('s')
+                        ->where('s.firstName like :firstName')
+                        ->andWhere('s.lastName like :lastName')
+                        ->setParameter('firstName', $firstName)
+                        ->setParameter('lastName', $lastName)
+                        ->getQuery();
+            
         }
         
         else if ($firstName  )
         {
-              $dql = "SELECT s FROM App\Entity\Student s where s.firstName like :firstName  ";
-              $query = $em->createQuery($dql);
-              $query->setParameter('firstName', $firstName);
+            $query=$this->createQueryBuilder('s')
+                        ->where('s.firstName like :firstName')
+                        ->setParameter('firstName', $firstName)
+                        ->getQuery();
         }
         else if ( $lastName )
         {
-              $dql = "SELECT s FROM App\Entity\Student s where  s.lastName like :lastName ";
-              $query = $em->createQuery($dql);
-              $query->setParameter('lastName', $lastName);
+            $query=$this->createQueryBuilder('s')
+                        ->Where('s.lastName like :lastName')
+                        ->setParameter('lastName', $lastName)
+                        ->getQuery();
         }
-       
-         else 
+        else if ($section  )
         {
-            $dql = "SELECT s FROM App\Entity\Student s  ";
-            $query = $em->createQuery($dql);
+            $query=$this->createQueryBuilder('s')
+                        ->Join('s.section', 'sec')
+                        ->where('sec.name like :section')
+                        ->setParameter('section', $section)
+                        ->getQuery();
+            
+        }
+        
+        else 
+        {
+            $query=$this->createQueryBuilder('s')
+                        ->getQuery();
+            /*$dql = "SELECT s FROM App\Entity\Student s  ";
+            $query = $em->createQuery($dql);*/
         }
          return $query->getResult() ;
     }
 
     
 
+    
+    
     
 
    

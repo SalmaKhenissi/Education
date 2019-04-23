@@ -1,0 +1,83 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        <div class="pro-menu">
+            <div class="container">
+                <div class="col-md-9 col-md-offset-3">
+                    <ul>
+                        <li><a href="{{path('student_profile', {'id': student.id})}}">Profile</a></li>
+                        <li><a href="{{path('student_timetable', {'id': student.id})}}" >Emploi du temps</a></li>
+                        {#<li><a href="{{path('student_absences', {'id': student.id})}}" class="pro-act">Discipline</a></li>#}
+                        <li><a href="{{path('student_exams', {'id': student.id})}}">Examens</a></li>
+                        <li><a href="{{path('student_notes', {'id': student.id})}}">Notes</a></li>
+                        <li><a href="#">Documents</a></li>
+                        <li><a href="#">Club</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="stu-db">
+            <div class="container pg-inn">
+                <div class="col-md-3">
+                    <div class="pro-user">
+                        <img src="{{asset('images/student.jpg')}}" alt="user">
+                    </div>
+                    <div class="pro-user-bio">
+                        <ul>
+                            <li>
+                                <h4>{{student.lastName}} {{student.firstName}}  </h4>
+                            </li>
+                            <li><strong>Classe : </strong>{{student.section.name}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="udb">
+                        <div class="udb-sec udb-cour-stat">
+                            <h4><img src="{{asset('images/icon/db5.png')}}" alt="" />Notes</h4>
+                            
+                            <div class="pro-con-table">
+                                <table class="bordered responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Course Name</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Status</th>
+                                            <th>Edit</th>
+                                            <th>View</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>01</td>
+                                            <td>Software Testing</td>
+                                            <td>12May 2018</td>
+                                            <td>18Aug 2018</td>
+                                            <td><span class="pro-user-act">active</span></td>
+                                            <td><a href="sdb-course-edit.html" class="pro-edit">edit</a></td>
+                                            <td><a href="sdb-course-view.html" class="pro-edit">view</a></td>
+                                        </tr>
+                                        
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+
+
+{% endblock %} 

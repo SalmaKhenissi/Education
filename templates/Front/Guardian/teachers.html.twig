@@ -1,0 +1,68 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+    <section>
+        <div class="pro-cover">
+        </div>
+        <div class="pro-menu">
+            <div class="container">
+                <div class="col-md-9 col-md-offset-3">
+                    <ul>
+                       <li><a href="{{path('guardian_profile', {'id': guardian.id})}}" >Profile</a></li>
+                        <li><a href="{{path('guardian_children', {'id': guardian.id})}}" >Enfants</a></li>
+                        <li><a href="{{path('guardian_teachers', {'id': guardian.id})}}" class="pro-act" >Enseignants</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="stu-db">
+            <div class="container pg-inn">
+                <div class="col-md-3">
+                    <div class="pro-user">
+                        <img src="{{asset('images/student.jpg')}}" alt="user">
+                    </div>
+                    <div class="pro-user-bio">
+                        <ul>
+                            <li>
+                                <h4>{{guardian.lastName}}  {{guardian.firstName}}  </h4>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="udb">
+                        <div class="udb-sec udb-cour-stat">
+                            <h4><img src="{{asset('images/icon/db1.png')}}" alt="" />Enseignants</h4>
+                            
+                            <div class="pro-con-table">
+                                <table class="bordered responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Matiére</th>
+                                            <th>Nom & Prénom</th>
+                                            <th>Téléphone</th>
+                                            <th>E-mail</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>Français</td>
+                                            <td>Fouleni foulen</td>
+                                            <td>1345678</td>
+                                            <td>mail@mail</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  
+
+
+{% endblock %} 

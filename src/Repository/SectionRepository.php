@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Section;
-use App\Entity\Teacher;
+use App\Entity\Level;
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -22,7 +22,8 @@ class SectionRepository extends ServiceEntityRepository
     }
 
     
-    public function findbyTeacher(Teacher $teacher)
+    
+   /* public function findbyTeacher(Teacher $teacher)
     {
         return $this->createQueryBuilder('s')
         ->Join('s.teachers', 't')
@@ -32,64 +33,92 @@ class SectionRepository extends ServiceEntityRepository
         ->getResult()
         
     ;
+    }*/
+
+    public function generateName($section )    
+    {
+            $level =$section->getLevel()->getLibelle();
+            $number =$section->getNumber();
+            return($level." année ".$number);
     }
 
 
-    public function findByOption($level,$track,$nbrGroup)
+    public function findByOption($level,$number)
     {
         $em = $this->getEntityManager();
         
-        if ($level && $track && $nbrGroup )
+        
+       /* if ($level && $specialty && $number )
         {
-              $dql = "SELECT s FROM App\Entity\Section s where s.level like :l and s.track like :t  and s.nbrGroup like :n ";
-              $query = $em->createQuery($dql);
-              $query->setParameter('l', $level)
-                    ->setParameter('t', $track)
-                    ->setParameter('n', $nbrGroup);
+            $query=$this->createQueryBuilder('s')
+                        ->Join('s.level', 'L')
+                        ->Join('s.specialty', 'Sep')
+                        ->where('L.number like :l')
+                        ->andWhere('s.number like :n')
+                        ->andWhere('Sep.libelle like :sep')
+                        ->setParameter('l', $level)
+                        ->setParameter('n', $number)
+                        ->setParameter('sep', $specialty)
+                        ->getQuery();
         }
-        else if ($level &&  $nbrGroup )
+        else*/ if ($level &&  $number )
         {
-              $dql = "SELECT s FROM App\Entity\Section s where s.level like :l   and s.nbrGroup like :n ";
-              $query = $em->createQuery($dql);
-              $query->setParameter('l', $level)
-                    ->setParameter('n', $nbrGroup);
+            $query=$this->createQueryBuilder('s')
+                        ->Join('s.level', 'L')
+                        ->where('L.number like :l')
+                        ->andWhere('s.number like :n')
+                        ->setParameter('l', $level)
+                        ->setParameter('n', $number)
+                        ->getQuery();
         }
-        else if ($track &&  $nbrGroup )
+       /* else if ($level &&  $specialty )
         {
-              $dql = "SELECT s FROM App\Entity\Section s where s.track like :t   and s.nbrGroup like :n ";
-              $query = $em->createQuery($dql);
-              $query->setParameter('t', $track)
-                    ->setParameter('n', $nbrGroup);
+            $query=$this->createQueryBuilder('s')
+                        ->Join('s.level', 'L')
+                        ->Join('s.specialty', 'Sep')
+                        ->where('L.number like :l')
+                        ->andWhere('Sep.libelle like :sep')
+                        ->setParameter('l', $level)
+                        ->setParameter('sep', $specialty)
+                        ->getQuery();
         }
-        else if ($level && $track )
+        else if ($specialty &&  $number )
         {
-              $dql = "SELECT s FROM App\Entity\Section s where s.level like :l and s.track like :t ";
-              $query = $em->createQuery($dql);
-              $query->setParameter('l', $level)
-                    ->setParameter('t', $track);
-        }
+            $query=$this->createQueryBuilder('s')
+                        ->Join('s.specialty', 'Sep')
+                        ->where('Sep.libelle like :l')
+                        ->andWhere('s.number like :n')
+                        ->setParameter('l', $specialty)
+                        ->setParameter('n', $number)
+                        ->getQuery();
+        }*/
         else if ($level)
         {
-              $dql = "SELECT s FROM App\Entity\Section s where s.level like :l  ";
-              $query = $em->createQuery($dql);
-              $query->setParameter('l', $level);
+              $query=$this->createQueryBuilder('s')
+                        ->Join('s.level', 'L')
+                        ->where('L.number like :l')
+                        ->setParameter('l', $level)
+                        ->getQuery();
         }
-        else if ($track)
+       /* else if ($specialty)
         {
-              $dql = "SELECT s FROM App\Entity\Section s where s.track like :t  ";
-              $query = $em->createQuery($dql);
-              $query->setParameter('t', $track);
-        }
-        else if ($nbrGroup)
+              $query=$this->createQueryBuilder('s')
+                        ->Join('s.specialty', 'Sep')
+                        ->where('Sep.libelle like :l')
+                        ->setParameter('l', $specialty)
+                        ->getQuery();
+        }*/
+        else if ($number)
         {
-              $dql = "SELECT s FROM App\Entity\Section s where s.nbrGroup like :n  ";
-              $query = $em->createQuery($dql);
-              $query->setParameter('n', $nbrGroup);
+              $query=$this->createQueryBuilder('s')
+                        ->where('s.number like :n')
+                        ->setParameter('n', $number)
+                        ->getQuery();
         }
         else 
         {
-            $dql = "SELECT s FROM App\Entity\Section s  ";
-            $query = $em->createQuery($dql);
+            $query=$this->createQueryBuilder('s')
+                        ->getQuery();
         }
         return $query->getResult() ;
      

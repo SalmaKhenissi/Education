@@ -27,9 +27,8 @@ class SectionController extends AbstractController
     public function index( SectionRepository $sectionRepository , Request $request ,PaginatorInterface $paginator )
     { 
         $level = $request->get('level');
-        $track = $request->get('track');
-        $nbrGroup = $request->get('nbrGroup');
-        $sections=$paginator->paginate($sectionRepository->findByOption($level,$track,$nbrGroup), 
+        $number = $request->get('number');
+        $sections=$paginator->paginate($sectionRepository->findByOption($level,$number), 
                                         $request->query->getInt('page', 1),
                                         12
         );
@@ -41,22 +40,18 @@ class SectionController extends AbstractController
     /**
      * @Route("/new", name="admin_section_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request , SectionRepository $sectionRepository): Response
     {
         $section = new Section();
-        $choicesLevel = Section::LEVEL ;
-        $choicesTrack = Section::TRACK ;
 
         $form = $this->createForm(SectionType::class, $section);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $level=$section->getLevel();
-            $section->setLevel($choicesLevel[$level]);
+           
 
-            $track=$section->getTrack();
-            $section->setTrack($choicesTrack[$track]);
+            $section->setName($sectionRepository->generateName($section) );
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($section);
@@ -75,13 +70,10 @@ class SectionController extends AbstractController
      */
     public function show(Section $section, StudentRepository $studentRepository  , TeacherRepository $teacherRepository , SeanceRepository $seanceRepository): Response
     {   
-        
-        $nbrS=$studentRepository->countBySection($section->getId());
+       
         return $this->render('Admin/Section/show.html.twig', [
             'section' => $section,
-            'seances' => $seanceRepository->findBySection($section),
-            'students' => $nbrS ,
-            'teachers' => count($teacherRepository->countBySection($section->getId()))
+            'seances' => $seanceRepository->findBySection($section) 
         ]);
     }
 

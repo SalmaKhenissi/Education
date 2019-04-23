@@ -8,11 +8,13 @@
             <div class="container">
                 <div class="col-md-9 col-md-offset-3">
                     <ul>
-                        <li><a href="{{path('student_profile' , {'id': student.id})}}" >Tableau de bord</a></li>
-                        <li><a href="{{path('student_informations', {'id': student.id})}}" class="pro-act">Profile</a></li>
-                        <li><a href="{{path('student_timetable', {'id': student.id})}}">Emploi du temps</a></li>
-                        <li><a href="db-time-line.html">Examens</a></li>
-                        <li><a href="db-courses.html">Club</a></li>
+                        <li><a href="{{path('student_profile', {'id': student.id})}}">Profile</a></li>
+                        <li><a href="{{path('student_timetable', {'id': student.id})}}" >Emploi du temps</a></li>
+                        {#<li><a href="{{path('student_discipline', {'id': student.id})}}" class="pro-act">Discipline</a></li>#}
+                        <li><a href="{{path('student_exams', {'id': student.id})}}">Examens</a></li>
+                        <li><a href="{{path('student_notes', {'id': student.id})}}">Notes</a></li>
+                        <li><a href="#">Documents</a></li>
+                        <li><a href="#">Club</a></li>
                     </ul>
                 </div>
             </div>
@@ -28,7 +30,7 @@
                             <li>
                                 <h4>{{student.lastName}}  {{student.firstName}}  </h4>
                             </li>
-                            <li><a href="#!"><strong> Adresse</strong> : N°12 rue bangladech sousse</a></li>
+                            <li><strong>Classe : </strong>{{student.section.name}}</li>
                         </ul>
                     </div>
                 </div>
@@ -36,9 +38,7 @@
                     <div class="udb">
 
                         <div class="udb-sec udb-prof">
-                            <h4><img src="{{asset('images/icon/db1.png')}}" alt="" /> Mon Profile </h4>
-                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed
-                                to using 'Content here, content here', making it look like readable English.</p>
+                            <h4><img src="{{asset('images/icon/db1.png')}}" alt="" />Profile </h4>
                             <div class="sdb-tabl-com sdb-pro-table">
                                 <table class="responsive-table bordered">
                                     <tbody>
@@ -76,7 +76,7 @@
                                         <tr>
                                             <td>Classe</td>
                                             <td>:</td>
-                                            <td>{{student.section}} </td>
+                                            <td>{{student.section.name}} </td>
                                         </tr>
                                     </tbody>
                                 </table>

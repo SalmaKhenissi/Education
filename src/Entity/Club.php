@@ -27,7 +27,12 @@ class Club
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $description;
+    private $longDescription;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $shortDescription;
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
@@ -73,14 +78,26 @@ class Club
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getLongDescription(): ?string
     {
-        return $this->description;
+        return $this->longDescription;
     }
 
-    public function setDescription(string $description): self
+    public function setLongDescription(string $longDescription): self
     {
-        $this->description = $description;
+        $this->longDescription = $longDescription;
+
+        return $this;
+    }
+
+    public function getShortDescription(): ?string
+    {
+        return $this->shortDescription;
+    }
+
+    public function setShortDescription(string $shortDescription): self
+    {
+        $this->shortDescription = $shortDescription;
 
         return $this;
     }

@@ -19,8 +19,11 @@ class ClubType extends AbstractType
             ->add('name',TextType::class ,[
                 'label' => ' Nom '
             ])
-            ->add('description',CKEditorType::class ,[
-                'label' => ' Description '
+            ->add('shortDescription',CKEditorType::class ,[
+                'label' => ' Courte Description '
+            ])
+            ->add('longDescription',CKEditorType::class ,[
+                'label' => ' Longue Description '
             ])
             ->add('imageFile', VichImageType::class , [
                     'required' => false ,

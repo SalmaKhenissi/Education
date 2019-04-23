@@ -2,10 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\Course;
+use App\Entity\Level;
+use App\Entity\Specialty;
 use App\Entity\Section;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -16,20 +18,16 @@ class SectionType extends AbstractType
     {
         $builder
             
-            ->add('level'  , ChoiceType::class ,[
-                'label' => ' Niveau' ,
-                'choices' => $this->getLevelChoices()
+            
+            ->add('number'  , TextType::class ,[
+                'label' => ' Numéro '
             ])
-            ->add('nbrGroup'  , TextType::class ,[
-                'label' => ' Groupe '
+            ->add('level' , EntityType::class , [
+                'class' => 'App\Entity\Level' ,
+                'multiple' => false ,
+                 'label' => 'Niveaux',
             ])
-            ->add('schoolYear'  , TextType::class ,[
-                'label' => ' Année Scolaire '
-            ])
-            ->add('track'  , ChoiceType::class ,[
-                'label' => ' Filiére' ,
-                'choices' => $this->getTrackChoices()
-            ])                                                                                                                                          
+                                                                                                                                                     
         ;
     }
 
@@ -40,24 +38,4 @@ class SectionType extends AbstractType
         ]);
     }
 
-    private function getLevelChoices()
-    {
-        $choices = Section::LEVEL ;
-        $output = [];
-        foreach ($choices as $k => $v)
-        {
-            $output[$v] = $k ;
-        }
-        return $output ;
-    }
-    private function getTrackChoices()
-    {
-        $choices = Section::TRACK ;
-        $output = [];
-        foreach ($choices as $k => $v)
-        {
-            $output[$v] = $k ;
-        }
-        return $output ;
-    }
 }

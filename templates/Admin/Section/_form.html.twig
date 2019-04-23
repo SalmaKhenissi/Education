@@ -1,11 +1,12 @@
 {{ form_start(form)}}
   <div class="row">
     <div class="col-md-4">{{ form_row(form.level)}}</div>
-    <div class="col-md-4">{{ form_row(form.track)}}</div>
-    <div class="col-md-4">{{ form_row(form.nbrGroup)}}</div>
   </div>
   <div class="row">
-    <div class="col-md-4">{{ form_row(form.schoolYear)}}</div>
+    <div class="col-md-4">{{ form_row(form.specialty)}}</div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">{{ form_row(form.number)}}</div>
   </div>
      
      <button class="btn">{{ button_label|default('Enregistrer') }}</button>

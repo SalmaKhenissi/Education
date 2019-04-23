@@ -40,7 +40,7 @@
             <div class="col-md-2 col-sm-3 col-xs-6 sb1-1">
                 <a href="#" class="btn-close-menu"><i class="fa fa-times" aria-hidden="true"></i></a>
                 <a href="#" class="atab-menu"><i class="fa fa-bars tab-menu" aria-hidden="true"></i></a>
-                <a href="index-2.html" class="logo"><img src="{{ asset('images/logo1.png')}}" alt="" />
+                <a href="{{ path('home_page')}}" class="logo"><img src="{{ asset('images/logo1.png')}}" alt="" />
                 </a>
             </div>
             <!--== SEARCH ==-->
@@ -77,7 +77,18 @@
     <div class="container-fluid sb2">
         <div class="row">
             <div class="sb2-1">
-                
+                <!--== USER INFO ==-->
+                <div class="sb2-12">
+                    <ul>
+                        <li><img src="{{asset('images/placeholder.jpg')}}" alt="">
+                        </li>
+                        <li>
+                            <h5>{{app.user}} <span> Administrateur</span></h5>
+                        </li>
+                        <li></li>
+                    </ul>
+                </div>
+
                 <!--== LEFT MENU ==-->
                 <div class="sb2-13">
                     <ul class="collapsible" data-collapsible="accordion">
@@ -86,9 +97,9 @@
                         <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-cogs" aria-hidden="true"></i>Paramètres du site</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="{{ path('admin_parameter_show' , {'id' : 1 })}}">Paramétres générales</a>
+                                    <li><a href="{{ path('admin_parameter_show' , {'id' : 1 })}}">Paramètres générales</a>
                                     </li>
-                                    <li><a href="#">Paramétres images</a>
+                                    <li><a href="#">Paramètres images</a>
                                     </li>
                                 </ul>
                             </div>
@@ -113,7 +124,18 @@
                                 </ul>
                             </div>
                         </li>
+                        
                         <li><a href="{{ path('admin_student_index')}}" class="collapsible-header"><i class="fa fa-user"></i> Elèves</a>   
+                        </li>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-server" aria-hidden="true"></i>Niveaux</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ path('admin_level_index')}}">Liste des niveaux</a>
+                                    </li>
+                                    <li><a href="{{ path('admin_level_new')}}">Ajouter un niveau</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-users" aria-hidden="true"></i> Classes</a>
                             <div class="collapsible-body left-sub-menu">
@@ -125,16 +147,16 @@
                                 </ul>
                             </div>
                         </li>
-                        {#<li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-book" aria-hidden="true"></i>Cours</a>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-book" aria-hidden="true"></i>Cours</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="#">Liste des cours</a>
+                                    <li><a href="{{ path('admin_course_index')}}">Liste des cours</a>
                                     </li>
-                                    <li><a href="#">Ajouter un cours</a>
+                                    <li><a href="{{ path('admin_course_new')}}">Ajouter un cours</a>
                                     </li>
                                 </ul>
                             </div>
-                        </li>#}
+                        </li>
                         <li><a href="#" ><i class="fa fa-calendar" aria-hidden="true"></i>Emplois des examens</a>
                         </li>
                         <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-bookmark-o" aria-hidden="true"></i>Clubs</a>

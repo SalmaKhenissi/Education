@@ -34,14 +34,14 @@
 
         
 {% endblock %}
-
+{#}
 {% block javascripts %}
 <script>
         var $course = $('#seance_course');   
         $course.change(function() {
                 var $form = $(this).closest('form');
                 var data = {};
-                data[$course.attr('name')] = $('#seance_course').val();
+                data[$course.attr('name')] = $course.val();
                alert(JSON.stringify(data));
                 $.ajax({
                      url : $form.attr('action'),
@@ -53,4 +53,4 @@
                 });
         });
 </script>
-{% endblock %}
+{% endblock %}#}

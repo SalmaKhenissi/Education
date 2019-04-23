@@ -1,0 +1,82 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Niveaux</a>
+                        </li>
+                        <li class="active-bre"><a href="{{ path('admin_level_index')}}"> Liste des niveaux</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <div class="container">
+                                        <h4>Niveaux </h4>
+                                        
+                                    </div>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="table-responsive table-desi">
+                                        {#<form class=" form-row">
+                                                <div class="col" >
+                                                    <input type="text" class="form-control" placeholder="Nom" name="first" style="border-style: ridge;"  >
+                                                </div>
+                                                <div class="col" >
+                                                    <input type="text" class="form-control" placeholder="Niveaux" name="first" style="border-style: ridge;"  >
+                                                </div>
+                                                <div class="col">
+                                                     <input type="text" class="form-control" placeholder="Spécialité" name="last" style="border-style: ridge;"  >
+                                                </div>
+                                                <div class="col">
+                                                     <input type="submit"  value="Rechercher">
+                                                </div>
+                                        </form>#}
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Numéro</th>
+                                                    <th>Libelle</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            
+                                            {% for l in levels %}
+                                                <tr>
+                                                    <td>{{ l.libelle }}</td>
+                                                    <td>
+                                                        <a href="{{ path('admin_specialty_index', {'id': l.id}) }}" class="ad-st-view">Voir</a>
+                                                        <a href="{{ path('admin_specialty_new', {'id': l.id}) }}" ><span class="label label-success"> Modifier</span></a> 
+                                                    </td>
+											     </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pagination">
+                    {{ knp_pagination_render(levels) }}
+                </div>
+            </div>
+{% endblock %}
+
+        
+
+
+   
+

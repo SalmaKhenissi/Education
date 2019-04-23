@@ -21,8 +21,11 @@ class EventType extends AbstractType
             ->add('title',TextType::class ,[
                 'label' => ' Titre '
             ])
-            ->add('description',CKEditorType::class ,[
-                'label' => ' Description '
+            ->add('shortDescription',CKEditorType::class ,[
+                'label' => ' Courte Description '
+            ])
+            ->add('longDescription',CKEditorType::class ,[
+                'label' => ' Longue Description '
             ])
             ->add('time',DateType::class,[
                 'label' => ' Temps ',

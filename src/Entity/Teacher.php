@@ -16,8 +16,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Teacher extends User
 {
 
-    const TYPE= [
-        0 => 'Recruté' ,
+    const TYPE = [
+        0 => 'Recruté',
         1 => 'Vacataire',
     ];
 
@@ -29,19 +29,8 @@ class Teacher extends User
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     * @Assert\Length( min = 3, max = 100)
-     */
-    private $subject;
 
 
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Section", inversedBy="teachers")
-     */
-    private $sections;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -60,7 +49,7 @@ class Teacher extends User
      */
     private $tel;
 
-    
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Seance", mappedBy="teacher")
@@ -86,25 +75,15 @@ class Teacher extends User
      */
     private $address;
 
+
     public function __construct()
     {
-        $this->sections = new ArrayCollection();
         $this->seances = new ArrayCollection();
     }
 
-    public function getSubject(): ?string
-    {
-        return $this->subject;
-    }
+    
 
-    public function setSubject(string $subject): self
-    {
-        $this->subject = $subject;
 
-        return $this;
-    }
-
-   
 
     /**
      * @return (Role|string)[]
@@ -112,36 +91,10 @@ class Teacher extends User
     public function getRoles()
     {
         return ['ROLE_TEACHER'];
- 
     }
 
-    
 
-    /**
-     * @return Collection|Section[]
-     */
-    public function getSections(): Collection
-    {
-        return $this->sections;
-    }
 
-    public function addSection(Section $section): self
-    {
-        if (!$this->sections->contains($section)) {
-            $this->sections[] = $section;
-        }
-
-        return $this;
-    }
-
-    public function removeSection(Section $section): self
-    {
-        if ($this->sections->contains($section)) {
-            $this->sections->removeElement($section);
-        }
-
-        return $this;
-    }
 
     public function getEmail(): ?string
     {
@@ -167,7 +120,7 @@ class Teacher extends User
         return $this;
     }
 
-    
+
 
     /**
      * @return Collection|Seance[]
@@ -228,7 +181,7 @@ class Teacher extends User
         return $this;
     }
 
-   
+
 
     public function getAddress(): ?string
     {
@@ -240,9 +193,17 @@ class Teacher extends User
         $this->address = $address;
 
         return $this;
-    }    
+    }
 
-    
+    public function getCourse(): ?Course
+    {
+        return $this->course;
+    }
 
-     
+    public function setCourse(?Course $course): self
+    {
+        $this->course = $course;
+
+        return $this;
+    }
 }

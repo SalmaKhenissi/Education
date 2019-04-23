@@ -12,9 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Section
 {
-    const LEVEL= [0 => '7' , 1 => '8' , 2 => '9' , 3 => '1' , 4 => '2' ,5 => '3' ,6 => '4'];
-    const TRACK= [ 0 => 'Base' , 1 => 'Secondaire' , 2 => 'Sciences' , 3 => 'Economies' ,4 => 'Informatique' ,5 => 'Lettre' ,
-                   6 => 'Sciences Expérimental', 7 => 'Techniques' , 8 => 'Mathématiques'];
+    
 
     /**
      * @ORM\Id()
@@ -24,22 +22,6 @@ class Section
     private $id;
 
 
-    /**
-     * @ORM\Column(type="integer")
-     * @Assert\Type("integer")
-     */
-    private $level;
-
-     /**
-     * @ORM\Column(type="integer")
-     * @Assert\Type("integer")
-     */
-    private $nbrGroup;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Teacher", mappedBy="sections")
-     */
-    private $teachers;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="section")
@@ -51,93 +33,43 @@ class Section
      */
     private $seances;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $track;
+    
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $schoolYear;
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $number;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Level", inversedBy="sections")
+     */
+    private $level;
 
     
+
+    
+
+    
+
+
 
 
     public function __construct()
     {
-        $this->teachers = new ArrayCollection();
         $this->students = new ArrayCollection();
         $this->seances = new ArrayCollection();
     }
 
-    public function __toString(){
-        $l=$this->level;
-        $g=$this->nbrGroup;
-        $t=$this->track;
-        return ($l.$t.$g);
-     }
+    
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-    
-
-    public function getNbrGroup(): ?int
-    {
-        return $this->nbrGroup;
-    }
-
-    public function setNbrGroup(int $nbrGroup): self
-    {
-        $this->nbrGroup = $nbrGroup;
-
-        return $this;
-    }
-
-    public function getLevel(): ?int
-    {
-        return $this->level;
-    }
-    public function getLevelType(): int
-    {
-        return self::LEVEL[$this->level];
-    }
-
-    public function setLevel(int $level): self
-    {
-        $this->level = $level;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Teacher[]
-     */
-    public function getTeachers(): Collection
-    {
-        return $this->teachers;
-    }
-
-    public function addTeacher(Teacher $teacher): self
-    {
-        if (!$this->teachers->contains($teacher)) {
-            $this->teachers[] = $teacher;
-            $teacher->addSection($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTeacher(Teacher $teacher): self
-    {
-        if ($this->teachers->contains($teacher)) {
-            $this->teachers->removeElement($teacher);
-            $teacher->removeSection($this);
-        }
-
-        return $this;
     }
 
     /**
@@ -202,41 +134,48 @@ class Section
         return $this;
     }
 
-    public function getTrack(): ?string
+    
+
+    public function getName(): ?string
     {
-        return $this->track;
-    }
-    public function getTrackType(): string
-    {
-        return self::TRACK[$this->track];
+
+        return $this->name;
     }
 
-    public function setTrack(string $track): self
+    public function setName(string $name): self
     {
-        $this->track = $track;
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getNumber(): ?string
+    {
+
+        return $this->number;
+    }
+
+    public function setNumber(string $number): self
+    {
+        $this->number = $number;
 
         return $this;
     }
 
-    public function getSchoolYear(): ?string
+    public function getLevel(): ?Level
     {
-        return $this->schoolYear;
+        return $this->level;
     }
 
-    public function setSchoolYear(string $schoolYear): self
+    public function setLevel(?Level $level): self
     {
-        $this->schoolYear = $schoolYear;
+        $this->level = $level;
 
         return $this;
     }
+
 
     
 
-   
-
-   
-
-   
-
-   
+    
 }

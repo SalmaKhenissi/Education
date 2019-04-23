@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Club;
 use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Repository\ClubRepository;
@@ -34,7 +35,10 @@ class FrontController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $notification->notify($contact);
             $this->addFlash('success' , 'Votre message a été envoyé  avec succé');
-            return $this->redirectToRoute('contact_new');
+            return $this->redirectToRoute('contact_new', [
+            'form' => $form->createView() ,
+            'parameters' => $repo->find(1)
+        ]);
         }
         return $this->render('Front/Guest/contact.html.twig', [
             'form' => $form->createView() ,
@@ -63,6 +67,17 @@ class FrontController extends AbstractController
             'parameters' => $repo->find(1) ,
             'clubs' => $repoC->findAll() ,
             'number' => count($repoC->findAll())
+            ]);
+    }
+
+    /**
+     * @Route("/club/{id}", name="club")
+     */
+    public function redirectClub(ParameterRepository $repo  , Club $club)
+    { 
+        return$this->render('Front/Guest/club.html.twig',[
+            'parameters' => $repo->find(1) ,
+            'club' => $club 
             ]);
     }
 

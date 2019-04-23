@@ -31,7 +31,8 @@ class TeacherController extends AbstractController
     {
         $firstName = $request->get('first');
         $lastName = $request->get('last');
-        $teachers=$paginator->paginate($teacherRepository->findByOption($firstName , $lastName) , 
+        $section = $request->get('section');
+        $teachers=$paginator->paginate($teacherRepository->findByPram($firstName , $lastName , $section) , 
                                        $request->query->getInt('page', 1),
                                        12
         );
