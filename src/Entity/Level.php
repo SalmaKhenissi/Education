@@ -28,6 +28,7 @@ class Level
      */
     private $libelle;
 
+
    
 
     
@@ -42,12 +43,18 @@ class Level
      */
     private $courses;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Specialty", mappedBy="levels")
+     */
+    private $specialties;
+
     
 
     public function __construct()
     {
         $this->sections = new ArrayCollection();
         $this->courses = new ArrayCollection();
+        $this->specialties = new ArrayCollection();
     }
 
     public function __toString(){
@@ -71,6 +78,8 @@ class Level
 
         return $this;
     }
+
+    
 
     public function getNumber(): ?int
     {
@@ -141,6 +150,34 @@ class Level
             if ($course->getLevel() === $this) {
                 $course->setLevel(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Specialty[]
+     */
+    public function getSpecialties(): Collection
+    {
+        return $this->specialties;
+    }
+
+    public function addSpecialty(Specialty $specialty): self
+    {
+        if (!$this->specialties->contains($specialty)) {
+            $this->specialties[] = $specialty;
+            $specialty->addLevel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSpecialty(Specialty $specialty): self
+    {
+        if ($this->specialties->contains($specialty)) {
+            $this->specialties->removeElement($specialty);
+            $specialty->removeLevel($this);
         }
 
         return $this;

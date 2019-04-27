@@ -43,12 +43,12 @@ class SectionRepository extends ServiceEntityRepository
     }
 
 
-    public function findByOption($level,$number)
+    public function findByOption($level,$number ,$specialty )
     {
         $em = $this->getEntityManager();
         
         
-       /* if ($level && $specialty && $number )
+        if ($level && $specialty && $number )
         {
             $query=$this->createQueryBuilder('s')
                         ->Join('s.level', 'L')
@@ -61,7 +61,7 @@ class SectionRepository extends ServiceEntityRepository
                         ->setParameter('sep', $specialty)
                         ->getQuery();
         }
-        else*/ if ($level &&  $number )
+        else if ($level &&  $number )
         {
             $query=$this->createQueryBuilder('s')
                         ->Join('s.level', 'L')
@@ -71,7 +71,7 @@ class SectionRepository extends ServiceEntityRepository
                         ->setParameter('n', $number)
                         ->getQuery();
         }
-       /* else if ($level &&  $specialty )
+        else if ($level &&  $specialty )
         {
             $query=$this->createQueryBuilder('s')
                         ->Join('s.level', 'L')
@@ -91,7 +91,7 @@ class SectionRepository extends ServiceEntityRepository
                         ->setParameter('l', $specialty)
                         ->setParameter('n', $number)
                         ->getQuery();
-        }*/
+        }
         else if ($level)
         {
               $query=$this->createQueryBuilder('s')
@@ -100,14 +100,14 @@ class SectionRepository extends ServiceEntityRepository
                         ->setParameter('l', $level)
                         ->getQuery();
         }
-       /* else if ($specialty)
+        else if ($specialty)
         {
               $query=$this->createQueryBuilder('s')
                         ->Join('s.specialty', 'Sep')
-                        ->where('Sep.libelle like :l')
-                        ->setParameter('l', $specialty)
+                        ->where('Sep.libelle like :sep')
+                        ->setParameter('sep', $specialty)
                         ->getQuery();
-        }*/
+        }
         else if ($number)
         {
               $query=$this->createQueryBuilder('s')

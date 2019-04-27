@@ -127,12 +127,23 @@
                         
                         <li><a href="{{ path('admin_student_index')}}" class="collapsible-header"><i class="fa fa-user"></i> Elèves</a>   
                         </li>
+                        
                         <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-server" aria-hidden="true"></i>Niveaux</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
                                     <li><a href="{{ path('admin_level_index')}}">Liste des niveaux</a>
                                     </li>
                                     <li><a href="{{ path('admin_level_new')}}">Ajouter un niveau</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-flask" aria-hidden="true"></i>Spécialités</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ path('admin_specialty_index')}}">Liste des spécialités</a>
+                                    </li>
+                                    <li><a href="{{ path('admin_specialty_new')}}">Ajouter une spécialité</a>
                                     </li>
                                 </ul>
                             </div>

@@ -10,8 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
+ * @IsGranted("ROLE_ADMIN" , statusCode=404)
  * @Route("/level")
  */
 class LevelController extends AbstractController
@@ -53,15 +55,7 @@ class LevelController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="admin_level_show", methods={"GET"})
-     */
-    public function show(Level $level): Response
-    {
-        return $this->render('Admin/Level/show.html.twig', [
-            'level' => $level,
-        ]);
-    }
+    
 
     /**
      * @Route("/{id}/edit", name="admin_level_edit", methods={"GET","POST"})
@@ -74,7 +68,7 @@ class LevelController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('Admin/Level_index', [
+            return $this->redirectToRoute('admin_level_index', [
                 'id' => $level->getId(),
             ]);
         }

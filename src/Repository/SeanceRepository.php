@@ -36,13 +36,42 @@ class SeanceRepository extends ServiceEntityRepository
     {
         $week=['Lundi','Mardi' ,'Mercredi' , 'Jeudi' ,'Vendredi','Samedi'];
         $timetable=[];
-        $i=0;
-        foreach ($seances as $s)
-        {
-            if($s->getDay()==$week[$i])
+        for($i=0; $i<6; $i++)
+        {   $day=[];
+            $k=0;
+            foreach ($seances as $s)
             {
-              
+                if( $s->getDay() == $week[$i] )
+                {
+                   
+                    $day[$k]=$s;
+                    $k++;
+                }
             }
+            for($j=0; $j< sizeof($day); $j++)
+            { 
+                for($k=0; $k< sizeof($day)-1; $k++)
+                {
+                    $start1=$day[$k]->getStartAt()->format('H');
+                    if($start1 < 8) {
+                        $start1=$start1+12;
+                    }
+                    $start2=$day[$k+1]->getStartAt()->format('H');
+                    if($start2 < 8) {
+                     $start2=$start2+12;
+                    }
+
+                    if( $start1 > $start2 )
+                    {
+                        $aux=$day[$k+1];
+                        $day[$k+1]=$day[$k];
+                        $day[$k]=$aux;
+                    }
+                }
+            }
+            $timetable[$i]=$day;
+           
+            
         }
         return $timetable ;
         

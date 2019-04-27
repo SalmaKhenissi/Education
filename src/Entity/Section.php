@@ -50,6 +50,16 @@ class Section
      */
     private $level;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Specialty", inversedBy="sections")
+     */
+    private $specialty;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\SchoolYear", inversedBy="sections")
+     */
+    private $schoolYear;
+
     
 
     
@@ -170,6 +180,30 @@ class Section
     public function setLevel(?Level $level): self
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    public function getSpecialty(): ?Specialty
+    {
+        return $this->specialty;
+    }
+
+    public function setSpecialty(?Specialty $specialty): self
+    {
+        $this->specialty = $specialty;
+
+        return $this;
+    }
+
+    public function getSchoolYear(): ?SchoolYear
+    {
+        return $this->schoolYear;
+    }
+
+    public function setSchoolYear(?SchoolYear $schoolYear): self
+    {
+        $this->schoolYear = $schoolYear;
 
         return $this;
     }

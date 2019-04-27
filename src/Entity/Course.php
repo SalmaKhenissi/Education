@@ -21,7 +21,7 @@ class Course
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $libelle;
 
 
     /**
@@ -40,6 +40,16 @@ class Course
      */
     private $level;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Specialty", inversedBy="courses")
+     */
+    private $specialty;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Exam", mappedBy="cours")
+     */
+    private $exams;
+
     
 
     
@@ -47,11 +57,12 @@ class Course
     public function __construct()
     {
         $this->seances = new ArrayCollection();
+        $this->exams = new ArrayCollection();
     }
 
     public function __toString()
     {
-        return $this->name;
+        return $this->libelle;
     }
 
     public function getId(): ?int
@@ -59,14 +70,14 @@ class Course
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getLibelle(): ?string
     {
-        return $this->name;
+        return $this->libelle;
     }
 
-    public function setName(string $name): self
+    public function setLibelle(string $libelle): self
     {
-        $this->name = $name;
+        $this->libelle = $libelle;
 
         return $this;
     }
@@ -124,6 +135,49 @@ class Course
     public function setLevel(?Level $level): self
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    public function getSpecialty(): ?Specialty
+    {
+        return $this->specialty;
+    }
+
+    public function setSpecialty(?Specialty $specialty): self
+    {
+        $this->specialty = $specialty;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Exam[]
+     */
+    public function getExams(): Collection
+    {
+        return $this->exams;
+    }
+
+    public function addExam(Exam $exam): self
+    {
+        if (!$this->exams->contains($exam)) {
+            $this->exams[] = $exam;
+            $exam->setCours($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExam(Exam $exam): self
+    {
+        if ($this->exams->contains($exam)) {
+            $this->exams->removeElement($exam);
+            // set the owning side to null (unless already changed)
+            if ($exam->getCours() === $this) {
+                $exam->setCours(null);
+            }
+        }
 
         return $this;
     }

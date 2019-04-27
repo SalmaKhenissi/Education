@@ -56,12 +56,12 @@
                                             
                                             {% for c in courses %}
                                                 <tr>
-                                                    <td>{{ c.name }}</td>
+                                                    <td>{{ c.libelle }}</td>
                                                     <td>{{ c.level }}</td>
                                                     <td>{{ c.specialty }}</td>
                                                     <td>{{ c.coefficient }}</td>
                                                     <td>
-                                                        <a href="{{ path('admin_course_show', {'id': c.id}) }}" class="ad-st-view">Voir</a>
+                                                        {#<a href="{{ path('admin_course_show', {'id': c.id}) }}" class="ad-st-view">Voir</a>#}
                                                         <a href="{{ path('admin_course_edit', {'id': c.id}) }}" ><span class="label label-success"> Modifier</span></a> 
                                                     </td>
 											     </tr>

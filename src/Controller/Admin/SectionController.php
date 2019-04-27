@@ -28,7 +28,8 @@ class SectionController extends AbstractController
     { 
         $level = $request->get('level');
         $number = $request->get('number');
-        $sections=$paginator->paginate($sectionRepository->findByOption($level,$number), 
+        $specialty = $request->get('specialty');
+        $sections=$paginator->paginate($sectionRepository->findByOption($level,$number ,$specialty), 
                                         $request->query->getInt('page', 1),
                                         12
         );
@@ -69,11 +70,12 @@ class SectionController extends AbstractController
      * @Route("/show/{id}", name="admin_section_show", methods={"GET"})
      */
     public function show(Section $section, StudentRepository $studentRepository  , TeacherRepository $teacherRepository , SeanceRepository $seanceRepository): Response
-    {   
-       
+    {  
+         $seances=$seanceRepository->findBySection($section);
+         $timetable=$seanceRepository->findTimeTable($seances);
         return $this->render('Admin/Section/show.html.twig', [
             'section' => $section,
-            'seances' => $seanceRepository->findBySection($section) 
+            'timetable' => $timetable
         ]);
     }
 

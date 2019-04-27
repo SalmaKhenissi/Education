@@ -9,9 +9,9 @@
                     <ul>
                         <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
                         </li>
-                        <li class="active-bre"><a href="#"> Niveaux</a>
+                        <li class="active-bre"><a href="#"> Specialités</a>
                         </li>
-                        <li class="active-bre"><a href="{{ path('admin_level_index')}}"> Liste des niveaux</a>
+                        <li class="active-bre"><a href="{{ path('admin_specialty_index')}}"> Liste des spécialités</a>
                         </li>
                     </ul>
                 </div>
@@ -21,30 +21,28 @@
                             <div class="box-inn-sp">
                                 <div class="inn-title">
                                     <div class="container">
-                                        <h4>Niveaux </h4>
+                                        <h4>Spécialités </h4>
                                         
                                     </div>
                                     
                                 </div>
                                 <div class="tab-inn">
                                     <div class="table-responsive table-desi">
-                                         
+                                        
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>Numéro</th>
                                                     <th>Libellé</th>
-                                                    <th>Actions</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             
-                                            {% for l in levels %}
+                                            {% for s in specialties %}
                                                 <tr>
-                                                    <td>{{ l.number }}</td>
-                                                    <td>{{ l.libelle }}</td>
+                                                    <td>{{ s.libelle }}</td>
                                                     <td>
-                                                        <a href="{{ path('admin_level_edit', {'id': l.id}) }}" ><span class="label label-success"> Modifier</span></a> 
+                                                        <a href="{{ path('admin_specialty_edit', {'id': s.id}) }}" ><span class="label label-success"> Modifier</span></a> 
                                                     </td>
 											     </tr>
                                             {% endfor %}
@@ -57,7 +55,7 @@
                     </div>
                 </div>
                 <div class="pagination">
-                    {{ knp_pagination_render(levels) }}
+                    {{ knp_pagination_render(specialties) }}
                 </div>
             </div>
 {% endblock %}

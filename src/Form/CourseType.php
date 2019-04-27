@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Form;
-
+use App\Entity\Level;
 use App\Entity\Course;
+use App\Entity\Specialty;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
@@ -13,11 +15,21 @@ class CourseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',TextType::class ,[
-                'label' => ' Titre '
+            ->add('libelle',TextType::class ,[
+                'label' => ' Libellé '
             ])
             ->add('coefficient',TextType::class ,[
-                'label' => ' Titre '
+                'label' => ' coefficient '
+            ])
+            ->add('level' , EntityType::class , [
+                'class' => 'App\Entity\Level' ,
+                'multiple' => false ,
+                 'label' => 'Niveau',
+            ])
+            ->add('specialty' , EntityType::class , [
+                'class' => 'App\Entity\Specialty' ,
+                'multiple' => false ,
+                 'label' => 'Spécialité',
             ])
         ;
     }

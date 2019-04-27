@@ -1,13 +1,42 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin-base.html.twig' %}
 
-{% block title %}Edit Course{% endblock %}
 
 {% block body %}
-    <h1>Edit Course</h1>
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Cours</a>
+                        </li>
+                        <li class="active-bre"><a href="{{path('admin_course_index')}}"> Liste des cours</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Modifier un cours</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+						    <div class="box-inn-sp admin-form">
+                                <div class="inn-title">
+                                    <h4>Modifier un cours</h4>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                   {{ include('Admin/Course/_form.html.twig' , {'button_label': 'Modifier'}) }}
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
 
-    {{ include('course/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('course_index') }}">back to list</a>
-
-    {{ include('course/_delete_form.html.twig') }}
+        
 {% endblock %}

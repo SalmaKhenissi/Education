@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Form;
-
-use App\Entity\Level;
 use App\Entity\Specialty;
+use App\Entity\Level;
 use App\Entity\Section;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,7 +24,12 @@ class SectionType extends AbstractType
             ->add('level' , EntityType::class , [
                 'class' => 'App\Entity\Level' ,
                 'multiple' => false ,
-                 'label' => 'Niveaux',
+                 'label' => 'Niveau',
+            ])
+            ->add('specialty' , EntityType::class , [
+                'class' => 'App\Entity\Specialty' ,
+                'multiple' => false ,
+                 'label' => 'Spécialité',
             ])
                                                                                                                                                      
         ;
