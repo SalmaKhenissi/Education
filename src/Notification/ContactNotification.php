@@ -14,13 +14,22 @@ class ContactNotification
         $this->renderer = $renderer;
     }
 
-    public function notify(Contact $contact)
+    public function notify(Contact $contact , $repo , $repoI ,$repoPi)
     {
         $message = (new \Swift_Message('Subject : ' . $contact->getSubject()))
             ->setFrom($contact->getEmail())
             ->setTo('salmakhenissi19@gmail.com')
             ->setBody($this->renderer->render('Front/Guest/home.html.twig', [
-                'contact' => $contact
+                'contact' => $contact ,
+                'parameters' =>$repo->find(1),
+                'slider1' => $repoI->find(1),
+                'slider2' => $repoI->find(2),
+                'slider3' => $repoI->find(3),
+                'service1' => $repoI->find(4),
+                'service2' => $repoI->find(5),
+                'service3' => $repoI->find(6),
+                'service4' => $repoI->find(7),
+                'pictures' => $repoPi->findAll()
             ]), 'text/html');
         $this->mailer->send($message);
         if ($this->mailer->send($message)) {

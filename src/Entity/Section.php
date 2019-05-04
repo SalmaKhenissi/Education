@@ -23,10 +23,6 @@ class Section
 
 
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Student", mappedBy="section")
-     */
-    private $students;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Seance", mappedBy="section")
@@ -38,7 +34,7 @@ class Section
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $libelle;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -60,58 +56,36 @@ class Section
      */
     private $schoolYear;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Student", mappedBy="sections")
+     */
+    private $students;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Exam", mappedBy="section")
+     */
+    private $exams;
     
-
+    public function __toString(){
+        
+        $section = $this->libelle . ' ' . $this->schoolYear;
+        return $section;
+     }
     
-
-    
-
-
-
 
     public function __construct()
     {
-        $this->students = new ArrayCollection();
         $this->seances = new ArrayCollection();
+        $this->students = new ArrayCollection();
+        $this->exams = new ArrayCollection();
     }
-
-    
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Collection|Student[]
-     */
-    public function getStudents(): Collection
-    {
-        return $this->students;
-    }
-
-    public function addStudent(Student $student): self
-    {
-        if (!$this->students->contains($student)) {
-            $this->students[] = $student;
-            $student->setSection($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStudent(Student $student): self
-    {
-        if ($this->students->contains($student)) {
-            $this->students->removeElement($student);
-            // set the owning side to null (unless already changed)
-            if ($student->getSection() === $this) {
-                $student->setSection(null);
-            }
-        }
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection|Seance[]
@@ -146,15 +120,15 @@ class Section
 
     
 
-    public function getName(): ?string
+    public function getLibelle(): ?string
     {
 
-        return $this->name;
+        return $this->libelle;
     }
 
-    public function setName(string $name): self
+    public function setLibelle(string $libelle): self
     {
-        $this->name = $name;
+        $this->libelle = $libelle;
 
         return $this;
     }
@@ -204,6 +178,65 @@ class Section
     public function setSchoolYear(?SchoolYear $schoolYear): self
     {
         $this->schoolYear = $schoolYear;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Student[]
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function addStudent(Student $student): self
+    {
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
+            $student->addSection($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Student $student): self
+    {
+        if ($this->students->contains($student)) {
+            $this->students->removeElement($student);
+            $student->removeSection($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Exam[]
+     */
+    public function getExams(): Collection
+    {
+        return $this->exams;
+    }
+
+    public function addExam(Exam $exam): self
+    {
+        if (!$this->exams->contains($exam)) {
+            $this->exams[] = $exam;
+            $exam->setSection($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExam(Exam $exam): self
+    {
+        if ($this->exams->contains($exam)) {
+            $this->exams->removeElement($exam);
+            // set the owning side to null (unless already changed)
+            if ($exam->getSection() === $this) {
+                $exam->setSection(null);
+            }
+        }
 
         return $this;
     }

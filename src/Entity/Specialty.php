@@ -38,6 +38,11 @@ class Specialty
      */
     private $sections;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $shortcut;
+
     public function __toString(){
         return $this->libelle;
      }
@@ -150,6 +155,18 @@ class Specialty
                 $section->setSpecialty(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getShortcut(): ?string
+    {
+        return $this->shortcut;
+    }
+
+    public function setShortcut(string $shortcut): self
+    {
+        $this->shortcut = $shortcut;
 
         return $this;
     }

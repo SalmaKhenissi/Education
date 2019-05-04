@@ -5,8 +5,11 @@ namespace App\Controller\Admin;
 use App\Entity\Student;
 use App\Entity\Guardian;
 use App\Form\StudentType;
+use App\Form\Section;
 use App\Repository\UserRepository;
+use App\Repository\SectionRepository;
 use App\Repository\StudentRepository;
+use App\Repository\ParameterRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,7 +62,7 @@ class StudentController extends AbstractController
             $sexe=$student->getSexe();
             $student->setSexe($choicesSexe[$sexe]);
             
-            
+            $student->setImageName('inconnu');
 
             $student->setUsername($userRepository->generateUsername($student) );
             $student->setPassword($userRepository->generatePassword($student) );
@@ -67,22 +70,41 @@ class StudentController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($student);
             $entityManager->flush();
-            return $this->redirectToRoute('admin_student_index');
+            return $this->redirectToRoute('admin_guardian_show', ['id'=>$student->getGuardian()->getId()]);
         }
 
         return $this->render('Admin/Student/new.html.twig', [
             'student' => $student,
+            'guardian' =>$guardian,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="admin_student_show", methods={"GET"})
+     * @Route("/show1/{id}", name="admin_student_show", methods={"GET"})
      */
-    public function show(Student $student, StudentRepository $studentRepository): Response
-    {  
+    public function show(Student $student, StudentRepository $studentRepository , ParameterRepository $repoP , SectionRepository $repoS): Response
+    {   
+        $schoolYear=$repoP->find(1)->getSchoolYear();
+        $sections=$student->getSections();
+        $section =$repoS->findByYear($sections,$schoolYear);
         return $this->render('Admin/Student/show.html.twig', [
-            'student' => $student  
+            'student' => $student ,
+            'section'=> $section 
+            
+        ]);
+    }
+    /**
+     * @Route("/show2/{id}", name="admin_student_show2", methods={"GET"})
+     */
+    public function show2(Student $student, StudentRepository $studentRepository, ParameterRepository $repoP , SectionRepository $repoS): Response
+    {   
+        $schoolYear=$repoP->find(1)->getSchoolYear();
+        $sections=$student->getSections();
+        $section =$repoS->findByYear($sections,$schoolYear);
+        return $this->render('Admin/Guardian/show_child.html.twig', [
+            'student' => $student  ,
+            'section'=> $section
             
         ]);
     }
@@ -92,18 +114,48 @@ class StudentController extends AbstractController
      */
     public function edit(Request $request, Student $student): Response
     {   
+        $choicesSexe = Student::SEXE ;
         $form = $this->createForm(StudentType::class, $student);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $sexe=$student->getSexe();
+            $student->setSexe($choicesSexe[$sexe]);
             $student->setUpdatedAt(new \DateTime('now')); 
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('admin_student_index', [
-                'id' => $student->getId(),
-            ]);
+            return $this->redirectToRoute('admin_student_index');
         }
 
         return $this->render('Admin/Student/edit.html.twig', [
+            'student' => $student,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    
+    /**
+     * @Route("/{id}/edit2", name="admin_student_edit2", methods={"GET","POST"})
+     */
+    public function edit2(Request $request, Student $student): Response
+    {   $choicesSexe = Student::SEXE ;
+        $form = $this->createForm(StudentType::class, $student);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $sexe=$student->getSexe();
+            $student->setSexe($choicesSexe[$sexe]);
+
+            $student->setUpdatedAt(new \DateTime('now')); 
+
+            $this->getDoctrine()->getManager()->flush();
+            
+            return $this->redirectToRoute('admin_guardian_show', [
+                'id' => $student->getGuardian()->getId(),
+            ]);
+        }
+
+        return $this->render('Admin/Guardian/edit_child.html.twig', [
             'student' => $student,
             'form' => $form->createView(),
         ]);
@@ -114,13 +166,11 @@ class StudentController extends AbstractController
      */
     public function delete(Request $request, Student $student): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$student->getId(), $request->request->get('_token'))) {
-            
-
+        
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($student);
             $entityManager->flush();
-        }
-        return $this->redirectToRoute('admin_student_index');
+        
+        return $this->redirectToRoute('admin_guardian_show', ['id'=>$student->getGuardian()->getId()]);
     }
 }

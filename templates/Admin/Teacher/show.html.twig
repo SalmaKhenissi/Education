@@ -6,9 +6,9 @@
             <!--== breadcrumbs ==-->
                 <div class="sb2-2-2">
                     <ul>
-                        <li><a href="index-2.html"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
                         </li>
-                        <li class="active-bre"><a href="#"> Liste des enseignants</a>
+                        <li class="active-bre"><a href="{{path('admin_teacher_index')}}"> Liste des enseignants</a>
                         </li>
                         <li class="active-bre"><a href="#">Détails enseignant</a>
                         </li>
@@ -24,64 +24,71 @@
                                 </div>
                                 <div class="tab-inn">
                                     <div class="udb-sec udb-prof">
-                                        <h4>{#<img class="materialboxed" src="{{ asset('uploads/photos/' ~ teacher.photo) }}" >#}{{ teacher.firstName}} {{ teacher.lastName}}</h4>
+                                        <h4>
+                                            {% if teacher.imageName == 'inconnu' and teacher.sexe == 'Homme' %}
+                                                <img  class="list-img" src="{{asset('images/inconnu.png')}}" alt="admin_photo">
+                                            {% elseif teacher.imageName == 'inconnu' and teacher.sexe == 'Femme'  %}
+                                                <img class="list-img" src="{{asset('images/inconnue.png')}}" alt="admin_photo">
+                                            {% else %}
+                                                <img class="list-img" src="" alt="admin_photo">
+                                            {% endif %}
+                                            {{ teacher.firstName}} {{ teacher.lastName}}
+                                        </h4>
                                         
                                         <div class="sdb-tabl-com sdb-pro-table">
                                             <table class="responsive-table bordered">
                                                 <tbody>
                                                     <tr>
-                                                        <td>CIN</td>
+                                                        <td><strong>CIN</strong></td>
                                                         <td>:</td>
                                                         <td>{{ teacher.cin}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Date de naissance</td>
+                                                        <td><strong>Date de naissance</strong></td>
                                                         <td>:</td>
                                                         <td>{{ teacher.birthDate|date('d-m-Y')}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Lieu de naissance</td>
+                                                        <td><strong>Lieu de naissance</strong></td>
                                                         <td>:</td>
                                                         <td>{{ teacher.birthplace}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Sexe</td>
+                                                        <td><strong>Sexe</strong></td>
                                                         <td>:</td>
                                                         <td>{{ teacher.sexe}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>E-mail</td>
+                                                        <td><strong>E-mail</strong></td>
                                                         <td>:</td>
                                                         <td>{{ teacher.email}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Téléphone</td>
+                                                        <td><strong>Téléphone</strong></td>
                                                         <td>:</td>
-                                                        <td>{{teacher.tel}}</td>
+                                                        <td>{{teacher.tel|slice(0,2)}} {{teacher.tel|slice(2,3)}} {{teacher.tel|slice(5,3)}}</td>
                                                     </tr>
                                                     
                                                     <tr>
-                                                        <td>Adresse</td>
+                                                        <td><strong>Adresse</strong></td>
                                                         <td>:</td>
                                                         <td>{{ teacher.address}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Spécialité</td>
+                                                        <td><strong>Spécialité</strong></td>
                                                         <td>:</td>
-                                                        <td>{{ teacher.subject}}</td>
+                                                        <td>{{ teacher.specialty}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Type</strong></td>
+                                                        <td>:</td>
+                                                        <td>{{ teacher.type}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="sb2-2-4">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                {{ include('Admin/Teacher/_delete_form.html.twig') }}
-                            
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>

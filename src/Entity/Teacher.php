@@ -75,6 +75,11 @@ class Teacher extends User
      */
     private $address;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $specialty;
+
 
     public function __construct()
     {
@@ -203,6 +208,18 @@ class Teacher extends User
     public function setCourse(?Course $course): self
     {
         $this->course = $course;
+
+        return $this;
+    }
+
+    public function getSpecialty(): ?string
+    {
+        return $this->specialty;
+    }
+
+    public function setSpecialty(string $specialty): self
+    {
+        $this->specialty = $specialty;
 
         return $this;
     }

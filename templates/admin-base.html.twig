@@ -66,7 +66,7 @@
                     <li><a href="admin-panel-setting.html" class="waves-effect"><i class="fa fa-cogs" aria-hidden="true"></i>Paramétre Admin</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="{{ path('logout') }}" class="ho-dr-con-last waves-effect"><i class="fa fa-sign-in" aria-hidden="true"></i> Déconnexion</a>
+                    <li><a href="{{ path('logout') }}" class="ho-dr-con-last waves-effect"><i class="fa fa-sign-out" aria-hidden="true"></i> Déconnexion</a>
                     </li>
                 </ul>
             </div>
@@ -80,10 +80,17 @@
                 <!--== USER INFO ==-->
                 <div class="sb2-12">
                     <ul>
-                        <li><img src="{{asset('images/placeholder.jpg')}}" alt="">
+                        <li>
+                            {% if app.user.imageName == 'inconnu' and app.user.sexe == 'Homme' %}
+                                <img src="{{asset('images/inconnu.png')}}" alt="admin_photo">
+                            {% elseif app.user.imageName == 'inconnu' and app.user.sexe == 'Femme'  %}
+                                <img src="{{asset('images/inconnue.png')}}" alt="admin_photo">
+                            {% else %}
+                                <img src="" alt="admin_photo">
+                            {% endif %}
                         </li>
                         <li>
-                            <h5>{{app.user}} <span> Administrateur</span></h5>
+                            <h5>{{app.user}} <span>{{app.user.job}}</span></h5>
                         </li>
                         <li></li>
                     </ul>
@@ -94,16 +101,19 @@
                     <ul class="collapsible" data-collapsible="accordion">
                         <li><a href="{{ path('admin_dashbord')}}" class="menu-active"><i class="fa fa-bar-chart" aria-hidden="true"></i> Tableau de bord</a>
                         </li>
-                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-cogs" aria-hidden="true"></i>Paramètres du site</a>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-cogs" aria-hidden="true"></i> Paramètres du site</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
-                                    <li><a href="{{ path('admin_parameter_show' , {'id' : 1 })}}">Paramètres générales</a>
+                                    <li><a href="{{ path('admin_parameters')}}">Paramétres générales</a>
                                     </li>
-                                    <li><a href="#">Paramètres images</a>
+                                    <li><a href="{{ path('admin_parameters_desc')}}">Paramétres description</a>
+                                    </li>
+                                    <li><a href="{{ path('admin_parameters_image')}}">Paramétres image </a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
+                        
                         <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-graduation-cap" aria-hidden="true"></i>Enseignants</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
@@ -148,6 +158,16 @@
                                 </ul>
                             </div>
                         </li>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-calendar-minus-o" aria-hidden="true"></i>Années scolaires</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ path('admin_school_year_index')}}">Liste des années scolaires</a>
+                                    </li>
+                                    <li><a href="{{ path('admin_school_year_new')}}">Ajouter une année scolaire</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                         <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-users" aria-hidden="true"></i> Classes</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
@@ -168,7 +188,15 @@
                                 </ul>
                             </div>
                         </li>
-                        <li><a href="#" ><i class="fa fa-calendar" aria-hidden="true"></i>Emplois des examens</a>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-university" aria-hidden="true"></i>Salles</a>
+                            <div class="collapsible-body left-sub-menu">
+                                <ul>
+                                    <li><a href="{{ path('admin_room_index')}}">Liste des salles</a>
+                                    </li>
+                                    <li><a href="{{ path('admin_room_new')}}">Ajouter une salle</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-bookmark-o" aria-hidden="true"></i>Clubs</a>
                             <div class="collapsible-body left-sub-menu">

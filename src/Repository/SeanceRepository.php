@@ -31,6 +31,7 @@ class SeanceRepository extends ServiceEntityRepository
         
     ;
     }
+    
 
     public function findTimeTable($seances)
     {

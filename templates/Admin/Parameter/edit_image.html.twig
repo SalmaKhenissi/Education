@@ -1,0 +1,52 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+                <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Paramètres du site</a>
+                        </li>
+                        <li class="active-bre"><a href="{{ path('admin_parameters_image')}}">Paramétres image</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Modifier une image</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+						    <div class="box-inn-sp admin-form">
+                                <div class="inn-title">
+                                    <h4>Modifier une image</h4>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                   {{ form_start(form) }}
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4">{{ form_row(form.title)}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">{{ form_row(form.imageFile)}}</div>
+                                    </div>
+                                    <button class="btn">{{ button_label|default('Modifier') }}</button>
+                                {{ form_end(form) }}
+
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                            
+            </div>
+
+{% endblock %}

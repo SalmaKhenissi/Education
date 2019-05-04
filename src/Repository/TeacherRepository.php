@@ -19,63 +19,50 @@ class TeacherRepository extends ServiceEntityRepository
         parent::__construct($registry, Teacher::class);
     }
 
-   /* public function countBySection($section)
-    {
-        return $this->createQueryBuilder('t')
-                    ->Join('t.sections', 's')
-                    ->where('s.id = :section')
-                    ->setParameter('section', $section)
-                    ->getQuery()
-                    ->getResult();
+   
 
-        
-    }*/
-
-    public function findByPram($firstName , $lastName , $section)
+    public function findByPram($firstName , $lastName , $specialty)
     {
         
-       if ($firstName &&  $lastName && $section )
-        {  
-             $query=$this->createQueryBuilder('s')
-                         ->Join('s.section', 'sec')
-                         ->where('sec.name like :section')
-                         ->andWhere('s.firstName like :firstName')
-                         ->andWhere('s.lastName like :lastName')
-                         ->setParameter('section', $section)
+       if ($firstName &&  $lastName && $specialty )
+        {
+            $query=$this->createQueryBuilder('t')               
+                         ->where('t.specialty like :specialty')
+                         ->andWhere('t.firstName like :firstName')
+                         ->andWhere('t.lastName like :lastName')
+                         ->setParameter('specialty', $specialty)
                          ->setParameter('firstName', $firstName)
                          ->setParameter('lastName', $lastName)
                          ->getQuery();
             
         }
        
-        else if ($firstName &&  $section )
+        else if ($firstName &&  $specialty )
         {
-            $query=$this->createQueryBuilder('s')
-                        ->Join('s.section', 'sec')
-                        ->where('sec.name like :section')
-                        ->andWhere('s.firstName like :firstName')
-                        ->setParameter('section', $section)
+            $query=$this->createQueryBuilder('t')
+                        ->where('t.firstName like :firstName')
+                        ->andWhere('t.specialty like :specialty')
                         ->setParameter('firstName', $firstName)
+                        ->setParameter('specialty', $specialty)
                         ->getQuery();
             
         }
        
-        else if ($section &&  $lastName )
+        else if ($specialty &&  $lastName )
         {
-            $query=$this->createQueryBuilder('s')
-                        ->Join('s.section', 'sec')
-                        ->where('sec.name like :section')
-                        ->andWhere('s.lastName like :lastName')
-                        ->setParameter('section', $section)
+            $query=$this->createQueryBuilder('t')
+                        ->where('t.specialty like :specialty')
+                        ->andWhere('t.lastName like :lastName')
+                        ->setParameter('specialty', $specialty)
                         ->setParameter('lastName', $lastName)
                         ->getQuery();
              
         }
         else if ($firstName &&  $lastName )
         {
-            $query=$this->createQueryBuilder('s')
-                        ->where('s.firstName like :firstName')
-                        ->andWhere('s.lastName like :lastName')
+            $query=$this->createQueryBuilder('t')
+                        ->where('t.firstName like :firstName')
+                        ->andWhere('t.lastName like :lastName')
                         ->setParameter('firstName', $firstName)
                         ->setParameter('lastName', $lastName)
                         ->getQuery();
@@ -84,31 +71,30 @@ class TeacherRepository extends ServiceEntityRepository
         
         else if ($firstName  )
         {
-            $query=$this->createQueryBuilder('s')
-                        ->where('s.firstName like :firstName')
+            $query=$this->createQueryBuilder('t')
+                        ->where('t.firstName like :firstName')
                         ->setParameter('firstName', $firstName)
                         ->getQuery();
         }
         else if ( $lastName )
         {
-            $query=$this->createQueryBuilder('s')
-                        ->Where('s.lastName like :lastName')
+            $query=$this->createQueryBuilder('t')
+                        ->Where('t.lastName like :lastName')
                         ->setParameter('lastName', $lastName)
                         ->getQuery();
         }
-        else if ($section  )
+        else if ($specialty  )
         {
-            $query=$this->createQueryBuilder('s')
-                        ->Join('s.section', 'sec')
-                        ->where('sec.name like :section')
-                        ->setParameter('section', $section)
+            $query=$this->createQueryBuilder('t')
+                        ->Where('t.specialty like :specialty')
+                        ->setParameter('specialty', $specialty)
                         ->getQuery();
             
         }
         
         else 
         {
-            $query=$this->createQueryBuilder('s')
+            $query=$this->createQueryBuilder('t')
                         ->getQuery();
             /*$dql = "SELECT s FROM App\Entity\Student s  ";
             $query = $em->createQuery($dql);*/

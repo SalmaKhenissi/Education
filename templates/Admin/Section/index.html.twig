@@ -31,33 +31,39 @@
                                     <div class="table-responsive table-desi">
                                         <form class=" form-row">
                                                 <div class="col" >
-                                                    <input type="text" class="form-control" placeholder="Niveau" name="level" style="border-style: ridge;" >
+                                                    <input type="text" class="form-control" placeholder="  Niveau" name="level" style="border-style: ridge;" >
                                                 </div>
                                                 <div class="col" >
-                                                    <input type="text" class="form-control" placeholder="Spécialité" name="specialty" style="border-style: ridge;">
+                                                    <input type="text" class="form-control" placeholder="  Spécialité" name="specialty" style="border-style: ridge;">
                                                 </div>
                                                 <div class="col" >
-                                                    <input type="text" class="form-control" placeholder="Numéro" name="number" style="border-style: ridge;">
+                                                    <input type="text" class="form-control" placeholder="  Numéro" name="number" style="border-style: ridge;">
+                                                </div>
+                                                <div class="col" >
+                                                    <input type="text" class="form-control" placeholder="  Année Scolaire" name="schoolYear" style="border-style: ridge;">
                                                 </div>
                                                 <div class="col">
-                                                     <input type="submit"  value="Rechercher">
+                                                     <input type="submit"  value="Rechercher" class="btn btn-primary btn-xs">
                                                 </div>
                                         </form>
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>Nom</th>
+                                                    <th>Libellé</th>
+                                                    <th>Année scolaire</th>
 													<th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             
-                                            {% for section in sections %}
+                                            {% for s in sections %}
                                                 <tr>
-                                                    <td>{{ section.name}}</td>
+                                                    <td>{{ s.libelle}}</td>
+                                                    <td>{{ s.schoolYear.libelle}}</td>
                                                     <td>
-                                                       <a href="{{ path('admin_section_show', {'id': section.id}) }}" class="ad-st-view">Voir</a>
-                                                       <a href="{{ path('admin_section_edit', {'id': section.id}) }}" ><span class="label label-success"> Modifier</span></a>
+                                                       <a href="{{ path('admin_section_show', {'id': s.id}) }}" ><span class="fa fa-eye">Voir</span></a><br>
+                                                       <a href="{{ path('admin_section_edit', {'id': s.id}) }}" ><span class="fa fa-pencil"> Modifier</span></a>
+                                                       {{ include('Admin/Section/_delete_form.html.twig') }}
                                                         
                                                     </td>
 											     </tr>

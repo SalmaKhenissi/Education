@@ -6,7 +6,7 @@
                 <div class="cor about-sp">
                     <div class="ed-about-tit">
                         <div class="con-title">
-                            <h2>À propos de notre <span> Lycée</span></h2>
+                            <h2>À propos de notre <span> Institut</span></h2>
                             <p>Fusce id sem at ligula laoreet hendrerit venenatis sed purus. Ut pellentesque maximus lacus, nec pharetra augue.</p>
                         </div>
                     </div>
@@ -15,61 +15,75 @@
                             <ul>
                                 <li>
                                     <div class="ed-ad-img">
-                                        <img src="{{ asset('images/adv/1.png')}}" alt="">
+                                        <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( avantage1 ,'imageFile') }}" alt="">
                                     </div>
                                     <div class="ed-ad-dec">
-                                        <h4>Compétition</h4>
-                                        <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi bibendum imperdiet bibendum.</p>
+                                        <h4>{{avantage1.title}}</h4>
+                                         {% autoescape false %}
+                                           <p>{{desc1.content}}</p> 
+                                        {% endautoescape %}
+                                        
+                                        
                                         
                                     </div>
                                 </li>
                                 <li>
                                     <div class="ed-ad-img">
-                                        <img src="{{ asset('images/adv/2.png')}}" alt="">
+                                        <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( avantage2 ,'imageFile') }}" alt="">
                                     </div>
                                     <div class="ed-ad-dec">
-                                        <h4>Innovation</h4>
-                                        <p>tiam eget enim non magna vestibulum malesuada ut et lectus. Curabitur egestas risus massa, a malesuada erat ultrices non.</p>
+                                        <h4>{{avantage2.title}}</h4>
+                                        {% autoescape false %}
+                                        <p>{{desc2.content}}</p>
+                                        {% endautoescape %}
                                         
                                     </div>
                                 </li>
                                 <li>
                                     <div class="ed-ad-img">
-                                        <img src="{{ asset('images/adv/3.png')}}" alt="">
+                                        <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( avantage3 ,'imageFile') }}" alt="">
                                     </div>
                                     <div class="ed-ad-dec">
-                                        <h4>Enseignement</h4>
-                                        <p>Maecenas venenatis, turpis ac tincidunt convallis, leo enim ultrices tortor, at faucibus neque sapien ac elit. Curabitur ut ipsum odio.</p>
+                                        <h4>{{avantage3.title}}</h4>
+                                        {% autoescape false %}
+                                        <p>{{desc3.content}}</p>
+                                        {% endautoescape %}
                                         
                                     </div>
                                 </li>
                                 <li>
                                     <div class="ed-ad-img">
-                                        <img src="{{ asset('images/adv/4.png')}}" alt="">
+                                        <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( avantage4 ,'imageFile') }}" alt="">
                                     </div>
                                     <div class="ed-ad-dec">
-                                        <h4>Diplome</h4>
-                                        <p>Aliquam malesuada commodo lectus, at fermentum ligula finibus eu. Morbi nisi neque, suscipit non pulvinar vitae.</p>
+                                        <h4>{{avantage4.title}}</h4>
+                                        {% autoescape false %}
+                                        <p>{{desc4.content}}</p>
+                                        {% endautoescape %}
                                         
                                     </div>
                                 </li>
                                 <li>
                                     <div class="ed-ad-img">
-                                        <img src="{{ asset('images/adv/5.png')}}" alt="">
+                                        <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( avantage5 ,'imageFile') }}" alt="">
                                     </div>
                                     <div class="ed-ad-dec">
-                                        <h4>Facilités</h4>
-                                        <p>Maecenas venenatis, turpis ac tincidunt convallis, leo enim ultrices tortor, at faucibus neque sapien ac elit. Curabitur ut ipsum odio.</p>
+                                        <h4>{{avantage5.title}}</h4>
+                                        {% autoescape false %}
+                                        <p>{{desc5.content}}</p>
+                                        {% endautoescape %}
                                         
                                     </div>
                                 </li>
                                 <li>
                                     <div class="ed-ad-img">
-                                        <img src="{{ asset('images/adv/6.png')}}" alt="">
+                                        <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( avantage6 ,'imageFile') }}" alt="">
                                     </div>
                                     <div class="ed-ad-dec">
-                                        <h4>Soins de santé</h4>
-                                        <p>Maecenas venenatis, turpis ac tincidunt convallis, leo enim ultrices tortor, at faucibus neque sapien ac elit. Curabitur ut ipsum odio.</p>
+                                        <h4>{{avantage6.title}}</h4>
+                                        {% autoescape false %}
+                                        <p>{{desc6.content}}</p>
+                                        {% endautoescape %}
                                         
                                     </div>
                                 </li>

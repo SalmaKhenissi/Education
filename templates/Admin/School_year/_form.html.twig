@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+    <div class="row">
+       <div class="col-md-4">{{ form_row(form.libelle)}}</div>
+     </div>
+     <div class="row">
+       <div class="col-md-4">{{ form_row(form.startAt)}}</div>
+     </div>
+     <div class="row">
+       <div class="col-md-4">{{ form_row(form.finishAt)}}</div>
+     </div>
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

@@ -1,7 +1,7 @@
 
-<form method="post" action="{{ path('admin_teacher_delete', {'id': teacher.id}) }}" onsubmit="return confirm('Est ce que t'es sùr de supprimer cet enseignant ?');">
+<form method="post" action="{{ path('admin_teacher_delete', {'id': t.id}) }}" onsubmit="return confirm('Est ce que t'es sùr de supprimer cet enseignant ?');">
     <input type="hidden" name="_method" value="DELETE">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ teacher.id) }}">
-    <button class="btn">Supprimer</button>
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ t.id) }}">
+    <button class="label label-danger btn-xs">Supprimer</button>
 </form>
 

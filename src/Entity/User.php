@@ -22,8 +22,8 @@ class User implements UserInterface
 {
 
     const SEXE= [
-        0 => 'HOMME' ,
-        1 => 'FEMME'
+        0 => 'Homme' ,
+        1 => 'Femme'
     ];
 
     /**

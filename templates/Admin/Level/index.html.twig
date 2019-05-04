@@ -21,7 +21,7 @@
                             <div class="box-inn-sp">
                                 <div class="inn-title">
                                     <div class="container">
-                                        <h4>Niveaux </h4>
+                                        <h4>Liste des niveaux </h4>
                                         
                                     </div>
                                     
@@ -34,6 +34,7 @@
                                                 <tr>
                                                     <th>Numéro</th>
                                                     <th>Libellé</th>
+                                                    <th>Spécialités</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -41,10 +42,16 @@
                                             
                                             {% for l in levels %}
                                                 <tr>
-                                                    <td>{{ l.number }}</td>
+                                                    <td>{{ l.libelle }}</td>
                                                     <td>{{ l.libelle }}</td>
                                                     <td>
-                                                        <a href="{{ path('admin_level_edit', {'id': l.id}) }}" ><span class="label label-success"> Modifier</span></a> 
+                                                        {% for s in l.specialties %}
+                                                                {{ s }}<br>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ path('admin_level_edit', {'id': l.id}) }}" ><span class="fa fa-pencil"> Modifier</span></a> 
+                                                        {{ include('Admin/Level/_delete_form.html.twig') }}
                                                     </td>
 											     </tr>
                                             {% endfor %}

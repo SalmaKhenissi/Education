@@ -18,6 +18,9 @@ class SpecialtyType extends AbstractType
             ->add('libelle', TextType::class ,[
                 'label' => ' Libellé '
             ])
+            ->add('shortcut', TextType::class ,[
+                'label' => ' Raccourci '
+            ])
             ->add('levels', EntityType::class , [
                 'class' => 'App\Entity\Level' ,
                 'multiple' => true ,

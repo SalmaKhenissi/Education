@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ParameterRepository")
+ * @Vich\Uploadable
  */
 class Parameter
 {
@@ -39,30 +42,23 @@ class Parameter
      */
     private $email;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $schoolYear;
+
     
 
-
-    /**
-     * @ORM\Column(type="string", length=255)
+     /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
      */
-    private $bilingDesc;
+    private $updatedAt;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $extraDesc;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $helpDesc;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $programDesc;
-
-    
+    public function __construct(){
+        $this->updatedAt = new \DateTime('now');
+    }
 
     public function getId(): ?int
     {
@@ -108,54 +104,40 @@ class Parameter
 
     
 
-   
-
-    public function getbilingDesc(): ?string
+    public function getSchoolYear(): ?string
     {
-        return $this->bilingDesc;
+        return $this->schoolYear;
     }
 
-    public function setbilingDesc(string $bilingDesc): self
+    public function setSchoolYear(string $schoolYear): self
     {
-        $this->bilingDesc = $bilingDesc;
+        $this->schoolYear = $schoolYear;
 
         return $this;
     }
 
-    public function getExtraDesc(): ?string
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Paremeter
+     */
+    public function setUpdatedAt($updatedAt)
     {
-        return $this->extraDesc;
-    }
-
-    public function setExtraDesc(string $extraDesc): self
-    {
-        $this->extraDesc = $extraDesc;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getHelpDesc(): ?string
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
     {
-        return $this->helpDesc;
-    }
-
-    public function setHelpDesc(string $helpDesc): self
-    {
-        $this->helpDesc = $helpDesc;
-
-        return $this;
-    }
-
-    public function getProgramDesc(): ?string
-    {
-        return $this->programDesc;
-    }
-
-    public function setProgramDesc(string $programDesc): self
-    {
-        $this->programDesc = $programDesc;
-
-        return $this;
+        return $this->updatedAt;
     }
 
    

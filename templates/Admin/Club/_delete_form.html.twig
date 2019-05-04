@@ -1,5 +1,5 @@
-<form method="post" action="{{ path('admin_club_delete', {'id': club.id}) }}" onsubmit="return confirm('Est ce que t'es sùr de supprimer ce club ?');">
+<form method="post" action="{{ path('admin_club_delete', {'id': c.id}) }}" onsubmit="return confirm('Est ce que t'es sùr de supprimer ce club ?');">
     <input type="hidden" name="_method" value="DELETE">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ club.id) }}">
-    <button class="btn">Supprimer</button>
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ c.id) }}">
+    <button class="label label-danger btn-xs">Supprimer</button>
 </form>

@@ -37,18 +37,47 @@ class SectionRepository extends ServiceEntityRepository
 
     public function generateName($section )    
     {
-            $level =$section->getLevel()->getLibelle();
+            $level =$section->getLevel()->getNumber();
+            $specialty =$section->getSpecialty()->getShortcut();
             $number =$section->getNumber();
-            return($level." année ".$number);
+            return($level.$specialty.$number);
+    }
+    public function findByYear($sections ,$schoolYear )
+    {
+        $section = null ;
+        for($i=0; $i<count($sections); $i++ )
+        {
+            if($sections[$i]->getSchoolYear()->getLibelle()== $schoolYear)
+            {
+                $section=$sections[$i];
+            }
+        }
+        return $section;
     }
 
 
-    public function findByOption($level,$number ,$specialty )
+    public function findByOption($level,$number ,$specialty ,$schoolYear )
     {
         $em = $this->getEntityManager();
         
         
-        if ($level && $specialty && $number )
+        if ($level && $specialty && $number && $schoolYear)
+        {
+            $query=$this->createQueryBuilder('s')
+                        ->Join('s.level', 'L')
+                        ->Join('s.specialty', 'Sep')
+                        ->Join('s.schoolYear', 'Sch')
+                        ->where('L.number like :l')
+                        ->andWhere('s.number like :n')
+                        ->andWhere('Sch.libelle like :sch')
+                        ->andWhere('Sep.libelle like :sep')
+                        ->setParameter('l', $level)
+                        ->setParameter('n', $number)
+                        ->setParameter('sep', $specialty)
+                        ->setParameter('sch', $schoolYear)
+                        ->getQuery();
+        }
+        else if ($level && $specialty && $number )
         {
             $query=$this->createQueryBuilder('s')
                         ->Join('s.level', 'L')
@@ -61,6 +90,46 @@ class SectionRepository extends ServiceEntityRepository
                         ->setParameter('sep', $specialty)
                         ->getQuery();
         }
+        else if ($level && $specialty && $schoolYear )
+        {
+            $query=$this->createQueryBuilder('s')
+                        ->Join('s.level', 'L')
+                        ->Join('s.specialty', 'Sep')
+                        ->Join('s.schoolYear', 'Sch')
+                        ->where('L.number like :l')
+                        ->andWhere('Sch.libelle like :sch')
+                        ->andWhere('Sep.libelle like :sep')
+                        ->setParameter('l', $level)
+                        ->setParameter('sch', $schoolYear)
+                        ->setParameter('sep', $specialty)
+                        ->getQuery();
+        }
+        else if ($level && $schoolYear && $number )
+        {
+            $query=$this->createQueryBuilder('s')
+                        ->Join('s.level', 'L')
+                        ->Join('s.schoolYear', 'Sch')
+                        ->where('L.number like :l')
+                        ->andWhere('s.number like :n')
+                        ->andWhere('Sch.libelle like :sch')
+                        ->setParameter('l', $level)
+                        ->setParameter('n', $number)
+                        ->setParameter('sch', $schoolYear)
+                        ->getQuery();
+        }
+        else if ($schoolYear && $specialty && $number )
+        {
+            $query=$this->createQueryBuilder('s')
+                        ->Join('s.schoolYear', 'Sch')
+                        ->Join('s.specialty', 'Sep')
+                        ->where('Sch.libelle like :sch')
+                        ->andWhere('s.number like :n')
+                        ->andWhere('Sep.libelle like :sep')
+                        ->setParameter('sch', $schoolYear)
+                        ->setParameter('n', $number)
+                        ->setParameter('sep', $specialty)
+                        ->getQuery();
+        }
         else if ($level &&  $number )
         {
             $query=$this->createQueryBuilder('s')
@@ -69,6 +138,38 @@ class SectionRepository extends ServiceEntityRepository
                         ->andWhere('s.number like :n')
                         ->setParameter('l', $level)
                         ->setParameter('n', $number)
+                        ->getQuery();
+        }
+        else if ($level &&  $schoolYear )
+        {
+            $query=$this->createQueryBuilder('s')
+                        ->Join('s.level', 'L')
+                        ->Join('s.schoolYear', 'Sch')
+                        ->where('Sch.libelle like :sch')
+                        ->andWhere('L.number like :l')
+                        ->setParameter('l', $level)
+                        ->setParameter('sch', $schoolYear)
+                        ->getQuery();
+        }
+        else if ($schoolYear &&  $number )
+        {
+            $query=$this->createQueryBuilder('s')
+                        ->Join('s.schoolYear', 'Sch')
+                        ->where('Sch.libelle like :sch')
+                        ->andWhere('s.number like :n')
+                        ->setParameter('sch', $schoolYear)
+                        ->setParameter('n', $number)
+                        ->getQuery();
+        }
+        else if ($schoolYear &&  $specialty )
+        {
+            $query=$this->createQueryBuilder('s')
+                        ->Join('s.schoolYear', 'Sch')
+                        ->Join('s.specialty', 'Sep')
+                        ->where('Sch.libelle like :sch')
+                        ->andWhere('Sep.libelle like :sep')
+                        ->setParameter('sch', $schoolYear)
+                        ->setParameter('sep', $specialty)
                         ->getQuery();
         }
         else if ($level &&  $specialty )
@@ -96,8 +197,8 @@ class SectionRepository extends ServiceEntityRepository
         {
               $query=$this->createQueryBuilder('s')
                         ->Join('s.level', 'L')
-                        ->where('L.number like :l')
-                        ->setParameter('l', $level)
+                        ->where('L.number like :n')
+                        ->setParameter('n', $level)
                         ->getQuery();
         }
         else if ($specialty)
@@ -114,6 +215,14 @@ class SectionRepository extends ServiceEntityRepository
                         ->where('s.number like :n')
                         ->setParameter('n', $number)
                         ->getQuery();
+        }
+        else if ($schoolYear)
+        {
+              $query=$this->createQueryBuilder('s')
+                          ->Join('s.schoolYear', 'Sch')
+                          ->where('Sch.libelle like :sch')
+                          ->setParameter('sch', $schoolYear)
+                          ->getQuery();
         }
         else 
         {

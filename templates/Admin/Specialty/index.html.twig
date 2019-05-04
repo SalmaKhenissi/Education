@@ -21,7 +21,7 @@
                             <div class="box-inn-sp">
                                 <div class="inn-title">
                                     <div class="container">
-                                        <h4>Spécialités </h4>
+                                        <h4>Liste des spécialités </h4>
                                         
                                     </div>
                                     
@@ -33,6 +33,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>Libellé</th>
+                                                    <th>Raccourci</th>
+                                                    <th>Niveaux</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -41,8 +43,15 @@
                                             {% for s in specialties %}
                                                 <tr>
                                                     <td>{{ s.libelle }}</td>
+                                                    <td>{{ s.shortcut }}</td>
                                                     <td>
-                                                        <a href="{{ path('admin_specialty_edit', {'id': s.id}) }}" ><span class="label label-success"> Modifier</span></a> 
+                                                        {% for l in s.levels %}
+                                                                {{ l }} <br>
+                                                             {% endfor %}
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ path('admin_specialty_edit', {'id': s.id}) }}" ><span class="fa fa-pencil">Modifier </span></a>
+                                                        {{ include('Admin/Specialty/_delete_form.html.twig') }} 
                                                     </td>
 											     </tr>
                                             {% endfor %}

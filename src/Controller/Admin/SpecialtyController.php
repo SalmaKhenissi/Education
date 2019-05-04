@@ -32,6 +32,17 @@ class SpecialtyController extends AbstractController
         ]);
     }
 
+     /**
+     * @Route("/show/{id}", name="admin_specialty_show", methods={"GET"})
+     */
+    public function show(Specialty $specialty, SpecialtyRepository $specialtyRepository): Response
+    {  
+        return $this->render('Admin/Specialty/show.html.twig', [
+            'specialty' => $specialty  
+            
+        ]);
+    }
+
     /**
      * @Route("/new", name="admin_specialty_new", methods={"GET","POST"})
      */
@@ -83,11 +94,11 @@ class SpecialtyController extends AbstractController
      */
     public function delete(Request $request, Specialty $specialty): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$specialty->getId(), $request->request->get('_token'))) {
+        
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($specialty);
             $entityManager->flush();
-        }
+        
 
         return $this->redirectToRoute('admin_specialty_index');
     }

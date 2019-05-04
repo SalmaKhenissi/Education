@@ -1,0 +1,42 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Années scolaires</a>
+                        </li>
+                        <li class="active-bre"><a href="{{path('admin_room_index')}}"> Liste des années scolaires</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Modifier une années scolaire</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+						    <div class="box-inn-sp admin-form">
+                                <div class="inn-title">
+                                    <h4>Modifier une année scolaire</h4>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                   {{ include('Admin/School_year/_form.html.twig' , {'button_label': 'Modifier'}) }}
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+
+        
+{% endblock %}

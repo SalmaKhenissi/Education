@@ -37,7 +37,7 @@ class Club
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
-     * @Vich\UploadableField(mapping="pictures", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="clubs", fileNameProperty="imageName")
      * 
      * @var File
      */

@@ -16,18 +16,7 @@
         </div>
         <div class="stu-db">
             <div class="container pg-inn">
-                <div class="col-md-3">
-                    <div class="pro-user">
-                        <img src="{{asset('images/student.jpg')}}" alt="user">
-                    </div>
-                    <div class="pro-user-bio">
-                        <ul>
-                            <li>
-                                <h4>{{guardian.lastName}}  {{guardian.firstName}}  </h4>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                {{ include('Front/Guardian/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
                         <div class="udb-sec udb-cour-stat">

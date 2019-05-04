@@ -1,0 +1,58 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+                <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Paramètres du site</a>
+                        </li>
+                        <li class="active-bre"><a href="{{ path('admin_parameters')}}">Paramétres générales</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Modifier les paramétres générales</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+						    <div class="box-inn-sp admin-form">
+                                <div class="inn-title">
+                                    <h4>Modifier les informations générales</h4>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                   {{ form_start(form) }}
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4">{{ form_row(form.phone)}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">{{ form_row(form.email)}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">{{ form_row(form.address)}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">{{ form_row(form.schoolYear)}}</div>
+                                    </div>
+                                    <button class="btn">{{ button_label|default('Modifier') }}</button>
+                                {{ form_end(form) }}
+
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                            
+            </div>
+
+{% endblock %}

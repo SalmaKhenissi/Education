@@ -18,23 +18,12 @@
         </div>
         <div class="stu-db">
             <div class="container pg-inn">
-                <div class="col-md-3">
-                    <div class="pro-user">
-                        <img src="{{asset('images/student.jpg')}}" alt="user">
-                    </div>
-                    <div class="pro-user-bio">
-                        <ul>
-                            <li>
-                                <h4>{{guardian.lastName}}  {{guardian.firstName}}  </h4>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                {{ include('Front/Guardian/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
-
+                    {% for c in guardian.children %}
                      <div class="udb-sec udb-cour">
-                            <h4><img src="{{asset('images/icon/db1.png')}}" alt="" /> Enfant1</h4>
+                            <h4><img src="{{asset('images/icon/db1.png')}}" alt="" /> {{c.firstName}} {{c.lastName}}</h4>
                             
                             <div class="sdb-cours">
                                 <ul>
@@ -83,6 +72,7 @@
                         </div>
   
                     </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

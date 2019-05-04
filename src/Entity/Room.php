@@ -28,9 +28,26 @@ class Room
      */
     private $seances;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Exam", mappedBy="room")
+     */
+    private $exams;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $bloc;
+
+    public function __toString(){
+        
+        $room='Bloc'.$this->bloc.' S'.$this->number;
+        return $room;
+     }
+
     public function __construct()
     {
         $this->seances = new ArrayCollection();
+        $this->exams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,6 +94,49 @@ class Room
                 $seance->setRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Exam[]
+     */
+    public function getExams(): Collection
+    {
+        return $this->exams;
+    }
+
+    public function addExam(Exam $exam): self
+    {
+        if (!$this->exams->contains($exam)) {
+            $this->exams[] = $exam;
+            $exam->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExam(Exam $exam): self
+    {
+        if ($this->exams->contains($exam)) {
+            $this->exams->removeElement($exam);
+            // set the owning side to null (unless already changed)
+            if ($exam->getRoom() === $this) {
+                $exam->setRoom(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getBloc(): ?string
+    {
+        return $this->bloc;
+    }
+
+    public function setBloc(string $bloc): self
+    {
+        $this->bloc = $bloc;
 
         return $this;
     }

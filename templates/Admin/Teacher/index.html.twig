@@ -31,16 +31,16 @@
                                     <div class="table-responsive table-desi">
                                         <form class=" form-row">
                                                 <div class="col" >
-                                                    <input type="text" class="form-control" placeholder="Prénom" name="first" style="border-style: ridge;" >
+                                                    <input type="text" class="form-control" placeholder=" Prénom" name="first" style="border-style: ridge;" >
                                                 </div>
                                                 <div class="col">
-                                                     <input type="text" class="form-control" placeholder="Nom" name="last" style="border-style: ridge;" >
+                                                     <input type="text" class="form-control" placeholder=" Nom" name="last" style="border-style: ridge;" >
                                                 </div>
                                                 <div class="col">
-                                                     <input type="text" class="form-control" placeholder="Classe" name="section" style="border-style: ridge;" >
+                                                     <input type="text" class="form-control" placeholder=" Spécialité" name="specialty" style="border-style: ridge;" >
                                                 </div>
                                                 <div class="col">
-                                                     <input type="submit"  value="Rechercher" >
+                                                     <input type="submit"  value="Rechercher" class="btn btn-primary btn-xs" >
                                                 </div>
                                         </form>
                                         <table class="table table-hover">
@@ -48,6 +48,7 @@
                                                 <tr>
                                                     <th>Prénom</th>
                                                     <th>Nom</th>
+                                                    <th>Spécialité</th>
 													<th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -57,9 +58,11 @@
                                                 <tr>
                                                     <td>{{ t.firstName}}</td>
                                                     <td>{{ t.LastName}}</td>
+                                                    <td>{{ t.specialty}}</td>
                                                     <td>
-                                                        <a href="{{ path('admin_teacher_show', {'id': t.id}) }}" class="ad-st-view">Voir</a>
-                                                        <a href="{{ path('admin_teacher_edit', {'id': t.id}) }}" ><span class="label label-success"> Modifier</span></a> 
+                                                        <a href="{{ path('admin_teacher_show', {'id': t.id}) }}"><span class="fa fa-eye">Voir</span></a><br>
+                                                        <a href="{{ path('admin_teacher_edit', {'id': t.id}) }}" ><span class="fa fa-pencil"> Modifier</span></a> 
+                                                        {{ include('Admin/Teacher/_delete_form.html.twig') }}
                                                     </td>
 											     </tr>
                                             {% endfor %}

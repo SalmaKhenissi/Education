@@ -48,7 +48,7 @@ class CourseController extends AbstractController
             $entityManager->persist($course);
             $entityManager->flush();
 
-            return $this->redirectToRoute('course_index');
+            return $this->redirectToRoute('admin_course_index');
         }
 
         return $this->render('Admin/Course/new.html.twig', [
@@ -94,11 +94,11 @@ class CourseController extends AbstractController
      */
     public function delete(Request $request, Course $course): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$course->getId(), $request->request->get('_token'))) {
+        
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($course);
             $entityManager->flush();
-        }
+        
 
         return $this->redirectToRoute('course_index');
     }

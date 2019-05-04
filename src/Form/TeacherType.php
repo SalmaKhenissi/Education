@@ -36,6 +36,9 @@ class TeacherType extends AbstractType
             ->add('address' , TextType::class , [
                 'label' => 'Adresse'
             ])
+            ->add('specialty' , TextType::class , [
+                'label' => 'Spécialité'
+            ])
         ;
     }
 

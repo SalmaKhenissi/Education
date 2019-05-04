@@ -31,8 +31,8 @@ class TeacherController extends AbstractController
     {
         $firstName = $request->get('first');
         $lastName = $request->get('last');
-        $section = $request->get('section');
-        $teachers=$paginator->paginate($teacherRepository->findByPram($firstName , $lastName , $section) , 
+        $specialty = $request->get('specialty');
+        $teachers=$paginator->paginate($teacherRepository->findByPram($firstName , $lastName , $specialty) , 
                                        $request->query->getInt('page', 1),
                                        12
         );
@@ -61,7 +61,9 @@ class TeacherController extends AbstractController
 
             $type=$teacher->getType();
             $teacher->setType($choicesType[$type]);
+            $teacher->setUpdatedAt(new \DateTime('now'));
 
+            $teacher->setImageName("inconnu");
 
             $teacher->setUsername($userRepository->generateUsername($teacher) );
             $teacher->setPassword($userRepository->generatePassword($teacher) );
@@ -97,17 +99,26 @@ class TeacherController extends AbstractController
      */
     public function edit(Request $request, Teacher $teacher): Response
     {   
+        $choicesSexe = Teacher::SEXE ;
+        $choicesType = Teacher::TYPE ;
+
         $form = $this->createForm(TeacherType::class, $teacher);
         
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             
+            $sexe=$teacher->getSexe();
+            $teacher->setSexe($choicesSexe[$sexe]);
+
+            $type=$teacher->getType();
+            $teacher->setType($choicesType[$type]);
+
             $teacher->setUpdatedAt(new \DateTime('now'));
+            
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('admin_teacher_index', [
-                'id' => $teacher->getId(),
-            ]);
+
+            return $this->redirectToRoute('admin_teacher_index');
         }
 
         
@@ -122,13 +133,11 @@ class TeacherController extends AbstractController
      */
     public function delete(Request $request, Teacher $teacher): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$teacher->getId(), $request->request->get('_token'))) {
-            
-
+        
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($teacher);
             $entityManager->flush();
-        }
+        
         return $this->redirectToRoute('admin_teacher_index');
     }
 

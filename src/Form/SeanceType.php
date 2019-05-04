@@ -33,7 +33,6 @@ class SeanceType extends AbstractType
             ])
             ->add('room'  , EntityType::class ,[
                 'class' => 'App\Entity\Room' ,
-                'choice_label' => 'number',
                 'multiple' => false ,
                 'label' => ' Salle'
           ])

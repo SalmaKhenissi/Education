@@ -53,6 +53,16 @@ class Exam
      */
     private $studentExams;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Section", inversedBy="exams")
+     */
+    private $section;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Room", inversedBy="exams")
+     */
+    private $room;
+
     public function __construct()
     {
         $this->studentExams = new ArrayCollection();
@@ -163,6 +173,30 @@ class Exam
                 $studentExam->setExam(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSection(): ?Section
+    {
+        return $this->section;
+    }
+
+    public function setSection(?Section $section): self
+    {
+        $this->section = $section;
+
+        return $this;
+    }
+
+    public function getRoom(): ?Room
+    {
+        return $this->room;
+    }
+
+    public function setRoom(?Room $room): self
+    {
+        $this->room = $room;
 
         return $this;
     }

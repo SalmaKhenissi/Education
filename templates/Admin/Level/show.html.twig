@@ -1,0 +1,66 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Niveaux</a>
+                        </li>
+                        <li class="active-bre"><a href="{{path('admin_level_index')}}"> Liste des niveaux</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Details niveau</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <h4>Détails niveau  </h4>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="udb-sec udb-prof">
+                                        
+                                        <div class="sdb-tabl-com sdb-pro-table">
+                                            <table class="responsive-table bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>Numéro</strong></td>
+                                                        <td>:</td>
+                                                        <td>{{ level.number}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Libellé</strong></td>
+                                                        <td>:</td>
+                                                        <td>{{ level.libelle}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Spécialités</strong></td>
+                                                        <td>:</td>
+                                                        <td>
+                                                            {% for s in level.specialties %}
+                                                                |{{ s }}
+                                                             {% endfor %}
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+{% endblock %}

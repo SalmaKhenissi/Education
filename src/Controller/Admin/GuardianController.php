@@ -56,6 +56,10 @@ class GuardianController extends AbstractController
             $guardian->setUsername($userRepository->generateUsername($guardian) );
             $guardian->setPassword($userRepository->generatePassword($guardian) );
 
+            $guardian->setUpdatedAt(new \DateTime('now'));
+
+            $guardian->setImageName("inconnu");
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($guardian);
             $entityManager->flush();
@@ -82,15 +86,21 @@ class GuardianController extends AbstractController
      * @Route("/{id}/edit", name="admin_guardian_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Guardian $guardian): Response
-    {
+    { 
+        $choicesSexe = Guardian::SEXE ;
 
         $form = $this->createForm(GuardianType::class, $guardian);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $sexe=$guardian->getSexe();
+            $guardian->setSexe($choicesSexe[$sexe]);
 
             $guardian->setUpdatedAt(new \DateTime('now'));
+
             $this->getDoctrine()->getManager()->flush();
+            
             return $this->redirectToRoute('admin_guardian_index');
         }
 
@@ -105,13 +115,12 @@ class GuardianController extends AbstractController
      */
     public function delete(Request $request, Guardian $guardian ,GuardianRepository $guardianRepository ): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$guardian->getId(), $request->request->get('_token'))) {
             
             
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($guardian);
             $entityManager->flush();
-        }
+        
         return $this->redirectToRoute('admin_guardian_index');
     }
 

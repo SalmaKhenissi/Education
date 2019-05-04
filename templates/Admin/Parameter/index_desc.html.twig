@@ -1,0 +1,61 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+                <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Paramétres du site</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Paramétres description</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!--== User Details ==-->
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <h4>Paramétres description</h4>
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="table-responsive table-desi">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Titre</th>
+													<th>Mise à jour</th>
+													<th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                           {% for d in descriptions %}
+                                                <tr>
+                                                    <td>{{d.title}}</td>
+                                                    <td>{{d.updatedAt|date("d/m/Y h:m") }}</td>
+												    <td>
+                                                        <a href="{{path('admin_parameter_show_desc' , {'id':d.id})}}" ><span class="fa fa-eye">Voir</span></a><br>
+                                                        <a href="{{path('admin_parameter_edit_desc' , {'id':d.id})}}" ><span class="fa fa-pencil"> Modifier</span></a> 
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}   
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+    </div>
+{% endblock %}

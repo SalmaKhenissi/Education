@@ -37,7 +37,7 @@
 		<div class="ad-log-main">
 			<div class="ad-log-in">
 				<div class="ad-log-in-logo">
-					<a href="index-2.html"><img src="{{ asset('images/logo.png')}}" alt=""></a>
+					<a href="index-2.html"><img src="{{ asset('images/logo2.png')}}" alt=""></a>
 				</div>
 				<div class="ad-log-in-con">
 			     <div class="log-in-pop">
@@ -55,7 +55,9 @@
                                 <label>Mot de passe</label>
                             </div>
                         </div>
-                        
+                        {% if not error == null %}
+                        <div class="alert alert-danger" >Votre nom d"utilisateur ou votre mot de passe est incorrecte ! Veuillez réessayer.  </div>
+                        {% endif %}
                         <div>
                             <div class="input-field s4">
                                 <i class="waves-effect waves-light log-in-btn waves-input-wrapper" style=""><input type="submit" value="Login" class="waves-button-input"></i> </div>

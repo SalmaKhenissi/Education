@@ -27,21 +27,28 @@ class Student extends User
      */
     private $guardian;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Section", inversedBy="students")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $section;
+    
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StudentExam", mappedBy="student")
      */
     private $studentExams;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Section", inversedBy="students")
+     */
+    private $sections;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $level;
+
     public function __construct()
     {
         parent::__construct();
         $this->studentExams = new ArrayCollection();
+        $this->sections = new ArrayCollection();
     }
 
     /**
@@ -67,17 +74,7 @@ class Student extends User
         return $this;
     }
 
-    public function getSection(): ?Section
-    {
-        return $this->section;
-    }
-
-    public function setSection(?Section $section): self
-    {
-        $this->section = $section;
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection|StudentExam[]
@@ -106,6 +103,44 @@ class Student extends User
                 $studentExam->setStudent(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Section[]
+     */
+    public function getSections(): Collection
+    {
+        return $this->sections;
+    }
+
+    public function addSection(Section $section): self
+    {
+        if (!$this->sections->contains($section)) {
+            $this->sections[] = $section;
+        }
+
+        return $this;
+    }
+
+    public function removeSection(Section $section): self
+    {
+        if ($this->sections->contains($section)) {
+            $this->sections->removeElement($section);
+        }
+
+        return $this;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): self
+    {
+        $this->level = $level;
 
         return $this;
     }

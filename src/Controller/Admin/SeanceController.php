@@ -35,7 +35,7 @@ class SeanceController extends AbstractController
         $seance = new Seance();
         $choicesDay = Seance::DAY ;
         $seance->setSection($section);
-        $seanceType = new SeanceType($section);
+        //$seanceType = new SeanceType($section);
         $form = $this->createFormBuilder($seance)
                     ->add('day' , ChoiceType::class , [
                           'choices' => $this->getDayChoices() ,
@@ -52,7 +52,6 @@ class SeanceController extends AbstractController
                         ])
                     ->add('room'  , EntityType::class ,[
                           'class' => 'App\Entity\Room' ,
-                          'choice_label' => 'number',
                           'multiple' => false ,
                           'label' => ' Salle'
                          ])
@@ -125,7 +124,6 @@ class SeanceController extends AbstractController
                         ])
                     ->add('room'  , EntityType::class ,[
                           'class' => 'App\Entity\Room' ,
-                          'choice_label' => 'number',
                           'multiple' => false ,
                           'label' => ' Salle'
                          ])
@@ -136,7 +134,7 @@ class SeanceController extends AbstractController
                         ])
                     ->add('course' , EntityType::class , [
                           'class' => 'App\Entity\Course' ,
-                          'choices' => $courseRepository->findByLevel($section->getLevel()),
+                          'choices' => $courseRepository->findByLevel($seance->getSection()->getLevel()),
                           'multiple'=>false ,
                           'label' => ' Cours' 
                         ])
@@ -144,9 +142,13 @@ class SeanceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $day=$seance->getDay();
+            $seance->setDay($choicesDay[$day]);
+
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('admin_section_show', [
-                'id' => $seance->getSection(),
+                'id' => $seance->getSection()->getId(),
             ]);
         }
 
@@ -161,11 +163,11 @@ class SeanceController extends AbstractController
      */
     public function delete(Request $request, Seance $seance): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$seance->getId(), $request->request->get('_token'))) {
+       
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($seance);
             $entityManager->flush();
-        }
+        
         return $this->redirectToRoute('admin_section_timeTable', [
             'id' => $seance->getSection(),
         ]);

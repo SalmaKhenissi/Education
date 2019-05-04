@@ -32,6 +32,11 @@ class StudentExam
      */
     private $exam;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $discipline;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +75,18 @@ class StudentExam
     public function setExam(?Exam $exam): self
     {
         $this->exam = $exam;
+
+        return $this;
+    }
+
+    public function getDiscipline(): ?string
+    {
+        return $this->discipline;
+    }
+
+    public function setDiscipline(string $discipline): self
+    {
+        $this->discipline = $discipline;
 
         return $this;
     }

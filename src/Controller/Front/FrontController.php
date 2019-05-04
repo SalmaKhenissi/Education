@@ -7,9 +7,11 @@ use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Repository\ClubRepository;
 use App\Repository\EventRepository;
+use App\Repository\ImageRepository;
 use App\Repository\PictureRepository;
 use App\Repository\ParameterRepository;
 use App\Notification\ContactNotification;
+use App\Repository\DescriptionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,7 +26,7 @@ class FrontController extends AbstractController
     /**
      * @Route("/contact", name="contact_new", methods={"GET","POST"})
      */
-    public function new(Request $request ,ContactNotification  $notification ,ParameterRepository $repo): Response
+    public function new(Request $request ,ContactNotification  $notification ,ParameterRepository $repo,PictureRepository $repoPi ,ImageRepository $repoI): Response
     {
         $contact = new Contact();
         $contact->setCreatedAt(new \DateTime());
@@ -33,12 +35,10 @@ class FrontController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $notification->notify($contact);
+            $notification->notify($contact ,$repo ,$repoI,$repoPi);
             $this->addFlash('success' , 'Votre message a été envoyé  avec succé');
-            return $this->redirectToRoute('contact_new', [
-            'form' => $form->createView() ,
-            'parameters' => $repo->find(1)
-        ]);
+            
+        
         }
         return $this->render('Front/Guest/contact.html.twig', [
             'form' => $form->createView() ,
@@ -84,10 +84,22 @@ class FrontController extends AbstractController
     /**
      * @Route("/about", name="about")
      */
-    public function redirectAbout( ParameterRepository $repo)
+    public function redirectAbout( ParameterRepository $repo ,ImageRepository $repoI ,DescriptionRepository $repoD)
     { 
         return$this->render('Front/Guest/about.html.twig',[
-            'parameters' => $repo->find(1)
+            'parameters' => $repo->find(1) ,
+            'avantage1' => $repoI->find(8),
+            'avantage2' => $repoI->find(9),
+            'avantage3' => $repoI->find(10),
+            'avantage4' => $repoI->find(11),
+            'avantage5' => $repoI->find(12),
+            'avantage6' => $repoI->find(13),
+            'desc1' => $repoD->find(5),
+            'desc2' => $repoD->find(6),
+            'desc3' => $repoD->find(7),
+            'desc4' => $repoD->find(8),
+            'desc5' => $repoD->find(9),
+            'desc6' => $repoD->find(10),
             ]);
     }
 

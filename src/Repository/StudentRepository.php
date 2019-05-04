@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Section;
 use App\Entity\Student;
 use App\Entity\Guardian;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -28,6 +29,100 @@ class StudentRepository extends ServiceEntityRepository
         ->setParameter('id', $id)
         ->getQuery()
         ->getSingleScalarResult();
+    }
+    public function findByLevel($section ,$schoolYear)
+    {
+        $students=[];
+        $i=0;   
+        $level=$section->getLevel()->getNumber();
+        $query=$this->createQueryBuilder('s')
+                    ->Where('s.level like :level')
+                    ->setParameter('level', $level-1)
+                    ->getQuery()
+                    ->getResult() ;
+        foreach($query as $student)
+        {   $affected=false;
+            $sections=$student->getSections();
+             
+            for($j=0;$j<count($sections); $j++)
+            {   if($sections[$j]->getSchoolYear()->getLibelle()==$schoolYear )
+                { 
+                      $affected=true;  
+                     
+                 }
+            }
+            
+            if($affected==false)
+            {
+                $students[$i]=$student; $i++;
+            }
+        }
+    
+        return $students;
+    }
+    public function findByLevelAffected($section ,$schoolYear)
+    {
+        $students=[];
+        $i=0;   
+        $level=$section->getLevel()->getNumber();
+        $query=$this->createQueryBuilder('s')
+                    ->Where('s.level like :level')
+                    ->setParameter('level', $level-1)
+                    ->getQuery()
+                    ->getResult() ;
+        foreach($query as $student)
+        {   $affected=false;
+            $sections=$student->getSections();
+             
+            for($j=0;$j<count($sections); $j++)
+            {   if($sections[$j]->getSchoolYear()->getLibelle()==$schoolYear )
+                { 
+                    if($sections[$j]==$section)
+                    {
+                      $affected=true;  
+                    } 
+                 }
+            }
+            
+            if($affected==true)
+            {
+                $students[$i]=$student; $i++;
+            }
+        }
+    
+        return $students;
+    }
+
+    public function findByGuardian($guardian ,$schoolYear)
+    {
+        $students=[];
+        $i=0;   
+        
+        $query=$this->createQueryBuilder('s')
+                    ->Join('s.guardian', 'g')
+                    ->Where('g.id like :guardian')
+                    ->setParameter('guardian', $guardian->getId())
+                    ->getQuery()
+                    ->getResult() ;
+        foreach($query as $student)
+        {   $affected=false;
+            $sections=$student->getSections();
+             
+            for($j=0;$j<count($sections); $j++)
+            {   if($sections[$j]->getSchoolYear()->getLibelle()==$schoolYear )
+                { 
+                     $affected=true;  
+                     
+                 }
+            }
+            
+            if($affected=true)
+            {
+                $students[$i]=$student; $i++;
+            }
+        }
+    
+        return $students;
     }
 
     

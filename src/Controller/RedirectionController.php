@@ -5,6 +5,8 @@ use App\Entity\Student;
 use App\Entity\Teacher;
 use App\Entity\Guardian;
 
+use App\Repository\ClubRepository;
+use App\Repository\ImageRepository;
 use App\Repository\PictureRepository;
 use App\Repository\SectionRepository;
 use App\Repository\StudentRepository;
@@ -14,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Repository\ClubRepository;
 
 class RedirectionController extends AbstractController
 {
@@ -38,10 +39,17 @@ class RedirectionController extends AbstractController
     /**
      * @Route("/front/home", name="home_page")
      */
-    public function redirectHome(ParameterRepository $repoP, PictureRepository $repoPi)
+    public function redirectHome(ParameterRepository $repoP, PictureRepository $repoPi ,ImageRepository $repoI)
     {
         return $this->render('Front/Guest/home.html.twig', [
             'parameters' => $repoP->find(1),
+            'slider1' => $repoI->find(1),
+            'slider2' => $repoI->find(2),
+            'slider3' => $repoI->find(3),
+            'service1' => $repoI->find(4),
+            'service2' => $repoI->find(5),
+            'service3' => $repoI->find(6),
+            'service4' => $repoI->find(7),
             'pictures' => $repoPi->findAll()
         ]);
     }
@@ -49,11 +57,15 @@ class RedirectionController extends AbstractController
     /**
      * @Route("/profile/student/{id}", name="student_profile")
      */
-    public function redirectStudent(Student  $student, ParameterRepository $repo)
+    public function redirectStudent(Student  $student, ParameterRepository $repoP  , SectionRepository $repoS)
     {
+        $schoolYear=$repoP->find(1)->getSchoolYear();
+        $sections=$student->getSections();
+        $section =$repoS->findByYear($sections,$schoolYear);
         return $this->render('Front/Student/profile.html.twig', [
             'student' => $student,
-            'parameters' => $repo->find(1)
+            'parameters' => $repoP->find(1) ,
+            'section'=> $section
         ]);
     }
 
@@ -62,7 +74,7 @@ class RedirectionController extends AbstractController
      */
     public function redirectTeacher(Teacher $teacher, ParameterRepository $repo)
     {
-        return $this->render('Front/Teacher/dashbord.html.twig', [
+        return $this->render('Front/Teacher/profile.html.twig', [
             'teacher' => $teacher,
             'parameters' => $repo->find(1)
         ]);

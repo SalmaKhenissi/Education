@@ -9,7 +9,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -22,10 +22,14 @@ class PictureController extends AbstractController
     /**
      * @Route("/index", name="admin_picture_index", methods={"GET"})
      */
-    public function index(PictureRepository $pictureRepository): Response
+    public function index(PictureRepository $pictureRepository , Request $request ,PaginatorInterface $paginator): Response
     {
+        $pictures=$paginator->paginate($pictureRepository->findAll(), 
+                                        $request->query->getInt('page', 1),
+                                        5
+        );
         return $this->render('Admin/Picture/index.html.twig', [
-            'pictures' => $pictureRepository->findAll(),
+            'pictures' => $pictures,
         ]);
     }
 
@@ -93,13 +97,12 @@ class PictureController extends AbstractController
      */
     public function delete(Request $request, Picture $picture): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$picture->getId(), $request->request->get('_token'))) {
 
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($picture);
             $entityManager->flush();
-        }
+        
 
         return $this->redirectToRoute('admin_picture_index');
     }

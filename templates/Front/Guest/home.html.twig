@@ -6,21 +6,21 @@
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
                 <div class="item slider1 active">
-                    <img src="{{ asset('images/slider/s1.png')}}" alt="">
+                    <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( slider1 ,'imageFile') }} "  alt="Slider1">
                     <div class="carousel-caption slider-con">
                         <h2 style="color:orangered ;">L'EXCELLENCE POUR TOUS !</h2>
                         <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
                     </div>
                 </div>
                 <div class="item">
-                    <img src="{{ asset('images/slider/s2.png')}}" alt="">
+                    <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( slider2 ,'imageFile') }}" alt="Slider2">
                     <div class="carousel-caption slider-con">
                         <h2 style="color:orangered ;">L'EXCELLENCE POUR TOUS !</h2>
                         <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
                     </div>
                 </div>
                 <div class="item">
-                    <img src="{{ asset('images/slider/s3.png')}}" alt="">
+                    <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( slider3 ,'imageFile') }}" alt="Slider3">
                     <div class="carousel-caption slider-con">
                         <h2 style="color:orangered ;">L'EXCELLENCE POUR TOUS !</h2>
                         <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form</p>
@@ -54,32 +54,32 @@
                     <div class="col-md-3 col-sm-4 col-xs-12">
                         <div class="ed-course-in">
                             <a class="course-overlay" href="{{ path('clubs')}}">
-                                <img src="{{ asset('images/club.png')}}" alt="">
-                                <span>Clubs</span>
+                                <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( service1 ,'imageFile') }}" alt="Service1">
+                                <span>{{service1.title}}</span>
                             </a>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-4 col-xs-12">
                         <div class="ed-course-in">
                             <a class="course-overlay" href="#">
-                                <img src="{{ asset('images/biling.jpg')}}" alt="biling">
-                                <span>Bilinguisme</span>
+                                <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( service2 ,'imageFile') }}" alt="Service2">
+                                <span>{{service2.title}}</span>
                             </a>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-4 col-xs-12">
                         <div class="ed-course-in">
                             <a class="course-overlay" href="#">
-                                <img src="{{ asset('images/péri.jpg')}}" alt="">
-                                <span>Périscolaire</span>
+                                <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( service3 ,'imageFile') }}" alt="Service3">
+                                <span>{{service3.title}}</span>
                             </a>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-4 col-xs-12">
                         <div class="ed-course-in">
                             <a class="course-overlay" href="#">
-                                <img src="{{ asset('images/ai.png')}}" alt="">
-                                <span>Aide à l’élève</span>
+                                <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( service4 ,'imageFile') }}" alt="Service4">
+                                <span>{{service4.title}}</span>
                             </a>
                         </div>
                     </div>

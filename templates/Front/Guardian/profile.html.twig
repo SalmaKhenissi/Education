@@ -17,18 +17,7 @@
         </div>
         <div class="stu-db">
             <div class="container pg-inn">
-                <div class="col-md-3">
-                    <div class="pro-user">
-                        <img src="{{asset('images/student.jpg')}}" alt="user">
-                    </div>
-                    <div class="pro-user-bio">
-                        <ul>
-                            <li>
-                                <h4>{{guardian.lastName}}  {{guardian.firstName}}  </h4>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                {{ include('Front/Guardian/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
 
@@ -61,7 +50,7 @@
                                         <tr>
                                             <td>Téléphone</td>
                                             <td>:</td>
-                                            <td>{{guardian.tel}}</td>
+                                            <td>{{guardian.tel|slice(0,2)}} {{guardian.tel|slice(2,3)}} {{guardian.tel|slice(5,3)}}</td>
                                         </tr>
                                         <tr>
                                             <td>Adresse</td>
@@ -77,6 +66,11 @@
                                             <td>Sexe</td>
                                             <td>:</td>
                                             <td>{{guardian.sexe}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Métier</td>
+                                            <td>:</td>
+                                            <td>{{guardian.job}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

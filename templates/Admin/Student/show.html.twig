@@ -6,11 +6,11 @@
             <!--== breadcrumbs ==-->
                 <div class="sb2-2-2">
                     <ul>
-                        <li><a href="index-2.html"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
                         </li>
-                        <li class="active-bre"><a href="#">Eléves</a>
+                        <li class="active-bre"><a href="{{path('admin_student_index')}}"> Liste des élèves</a>
                         </li>
-                        <li class="active-bre"><a href="#">Détails Eléve</a>
+                        <li class="active-bre"><a href="#"> Détails élève</a>
                         </li>
                     </ul>
                 </div>
@@ -24,48 +24,66 @@
                                 </div>
                                 <div class="tab-inn">
                                     <div class="udb-sec udb-prof">
-                                        <h4>{#<img class="materialboxed" src="{{ asset('uploads/photos/' ~ student.photo) }}" >#}{{ student.firstName}} {{ student.lastName}}</h4>
+                                        <h4>
+                                        {% if student.imageName == 'inconnu' and student.sexe == 'Homme' %}
+                                            <img  class="list-img" src="{{asset('images/inconnu.png')}}" alt="admin_photo">
+                                        {% elseif student.imageName == 'inconnu' and student.sexe == 'Femme'  %}
+                                            <img class="list-img" src="{{asset('images/inconnue.png')}}" alt="admin_photo">
+                                        {% else %}
+                                            <img class="list-img" src="" alt="admin_photo">
+                                        {% endif %}
+                                         {{ student.lastName}} {{ student.firstName}}</h4>
                                         
                                         <div class="sdb-tabl-com sdb-pro-table">
                                             <table class="responsive-table bordered">
                                                 <tbody>
                                                     <tr>
-                                                        <td>Date de naissance</td>
+                                                        <td><strong>Date de naissance</strong></td>
                                                         <td>:</td>
                                                         <td>{{ student.birthDate|date('d-m-Y')}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Lieu de naissance</td>
+                                                        <td><strong>Lieu de naissance</strong></td>
                                                         <td>:</td>
                                                         <td>{{ student.birthplace}} </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Sexe</td>
+                                                        <td><strong>Sexe</strong></td>
                                                         <td>:</td>
                                                         <td>{{ student.sexe}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Classe</td>
+                                                        <td><strong>Adresse</strong></td>
                                                         <td>:</td>
-                                                        <td>{{ student.section.name}} </td>
+                                                        <td>{{ student.guardian.address}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Photo</td>
+                                                        <td><strong>Parent</strong></td>
                                                         <td>:</td>
-                                                        <td>#</td>
+                                                        <td><a href="{{ path('admin_guardian_show', {'id': student.guardian.id}) }}">{{ student.guardian.firstName}} {{ student.guardian.lastName}}</a></td>
                                                     </tr>
+                                                    <tr>
+                                                        <td><strong>Niveau</strong></td>
+                                                        <td>:</td>
+                                                        <td>{{ student.level}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Classe</strong></td>
+                                                        <td>:</td>
+                                                        <td>{% if not section == null %}
+                                                                {{ section.libelle}}
+                                                            {% else %}
+                                                                 Pas encore affecté
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                    
                                                 </tbody>
                                             </table>
+                                            
                                         </div>
-                                    </div>
-                                    <div class="sb2-2-4">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                {{ include('Admin/Student/_delete_form.html.twig') }}
-                            
-                                            </div>
-                                        </div>
-                                    </div>
+                                        
+                                    
                                 </div>
                             </div>
                         </div>

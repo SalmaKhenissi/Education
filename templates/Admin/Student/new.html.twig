@@ -6,11 +6,11 @@
             <!--== breadcrumbs ==-->
                 <div class="sb2-2-2">
                     <ul>
-                        <li><a href="index-2.html"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
                         </li>
-                        <li class="active-bre"><a href="#"> Liste des parents</a>
+                        <li class="active-bre"><a href="{{path('admin_guardian_index')}}"> Liste des parents</a>
                         </li>
-                        <li class="active-bre"><a href="#">Détails parent</a>
+                        <li class="active-bre"><a href="{{path('admin_guardian_show' ,{'id':guardian.id})}}">Détails parent</a>
                         </li>
                         <li class="active-bre"><a href="#"> Ajouter un enfant</a>
                         </li>

@@ -1,0 +1,95 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="{{path('admin_guardian_index')}}"> Liste des parents</a>
+                        </li>
+                        <li class="active-bre"><a href="{{path('admin_guardian_show', {'id': student.guardian.id})}}">Détails parent</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Détails élève</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <h4>Détails Eléve  </h4>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="udb-sec udb-prof">
+                                        <h4>
+                                        {% if student.imageName == 'inconnu' and student.sexe == 'Homme' %}
+                                            <img  class="list-img" src="{{asset('images/inconnu.png')}}" alt="admin_photo">
+                                        {% elseif student.imageName == 'inconnu' and student.sexe == 'Femme'  %}
+                                            <img class="list-img" src="{{asset('images/inconnue.png')}}" alt="admin_photo">
+                                        {% else %}
+                                            <img class="list-img" src="" alt="admin_photo">
+                                        {% endif %}
+                                         {{ student.lastName}}  {{ student.firstName}}</h4>
+                                        
+                                        <div class="sdb-tabl-com sdb-pro-table">
+                                            <table class="responsive-table bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>Date de naissance</strong></td>
+                                                        <td>:</td>
+                                                        <td>{{ student.birthDate|date('d-m-Y')}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Lieu de naissance</strong></td>
+                                                        <td>:</td>
+                                                        <td>{{ student.birthplace}} </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Sexe</strong></td>
+                                                        <td>:</td>
+                                                        <td>{{ student.sexe}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Adresse</strong></td>
+                                                        <td>:</td>
+                                                        <td>{{ student.guardian.address}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Parent</strong></td>
+                                                        <td>:</td>
+                                                        <td><a href="{{ path('admin_guardian_show', {'id': student.guardian.id}) }}">{{ student.guardian.firstName}} {{ student.guardian.lastName}}</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Niveau</strong></td>
+                                                        <td>:</td>
+                                                        <td>{{ student.level}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Classe</strong></td>
+                                                        <td>:</td>
+                                                        <td>{% if not section == null %}
+                                                                {{ section.libelle}}
+                                                            {% else %}
+                                                                 Pas encore affecté
+                                                            {% endif %} </td>
+                                                    </tr>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+{% endblock %}

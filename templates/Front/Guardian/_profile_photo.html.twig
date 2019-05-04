@@ -1,0 +1,18 @@
+<div class="col-md-3">
+    <div class="pro-user">
+        {% if guardian.imageName == 'inconnu' and guardian.sexe == 'Homme' %}
+            <img src="{{asset('images/inconnu.png')}}" alt="user">
+        {% elseif guardian.imageName == 'inconnu' and guardian.sexe == 'Femme'  %}
+            <img src="{{asset('images/inconnue.png')}}" alt="user">
+        {% else %}
+            <img src="" alt="user">
+        {% endif %}
+    </div>
+    <div class="pro-user-bio">
+        <ul>
+            <li><h4>{{guardian.lastName}}  {{guardian.firstName}}  </h4> </li>
+            <li></li>
+            <li><strong>Nom d'utilisateur : </strong>{{guardian.username}}</li>
+        </ul>
+    </div>
+</div>

@@ -40,8 +40,10 @@
                                                     <td>{{c.name}}</td>
                                                     <td><img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( c ,'imageFile') }} " alt="picture" style="width:30%; height:auto;"></span></td>
                                                     <td>
-                                                        <a href="{{ path('admin_club_show', {'id': c.id}) }}" class="ad-st-view">Voir</a>
-													    <a href="{{path('admin_club_edit' , {'id':c.id})}}" ><span class="label label-success"> Modifier</span></a> </td>
+                                                        <a href="{{ path('admin_club_show', {'id': c.id}) }}" ><span class="fa fa-eye">Voir</span></a><br>
+													    <a href="{{path('admin_club_edit' , {'id':c.id})}}" ><span class="fa fa-pencil"> Modifier</span></a> 
+                                                        {{ include('Admin/Club/_delete_form.html.twig') }}
+                                                    </td>
                                                 </tr>
                                                 {% endfor %}
                                                 

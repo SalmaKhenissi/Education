@@ -33,6 +33,17 @@ class LevelController extends AbstractController
     }
 
     /**
+     * @Route("/show/{id}", name="admin_level_show", methods={"GET"})
+     */
+    public function show(Level $level, LevelRepository $levelRepository): Response
+    {  
+        return $this->render('Admin/Level/show.html.twig', [
+            'level' => $level  
+            
+        ]);
+    }
+
+    /**
      * @Route("/new", name="admin_level_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -84,11 +95,10 @@ class LevelController extends AbstractController
      */
     public function delete(Request $request, Level $level): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$level->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($level);
             $entityManager->flush();
-        }
+        
 
         return $this->redirectToRoute('admin_level_index');
     }
