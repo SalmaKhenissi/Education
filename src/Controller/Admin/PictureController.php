@@ -75,10 +75,14 @@ class PictureController extends AbstractController
     {
         $form = $this->createForm(PictureType::class, $picture);
         $form->handleRequest($request);
+        $imageName=$picture->getImageName();
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            
+            if($picture->getImageFile()!=null)
+            {
+                unlink(getcwd().'\uploads\pictures\\'.$picture->getImageName());
+                $picture->setImageName(null);
+            }
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('admin_picture_index', [

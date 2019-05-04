@@ -9,10 +9,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\FileType; 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType; 
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class TeacherType extends AbstractType
 {
@@ -39,6 +40,9 @@ class TeacherType extends AbstractType
             ->add('specialty' , TextType::class , [
                 'label' => 'Spécialité'
             ])
+            /*->add('save', SubmitType::class,  [
+                'label' => 'Modifier'
+            ])*/
         ;
     }
 

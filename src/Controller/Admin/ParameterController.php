@@ -135,7 +135,11 @@ class ParameterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            if($image->getImageFile()!=null)
+            {
+                unlink(getcwd().'\uploads\images\\'.$image->getImageName());
+                $image->setImageName(null);
+            }
             $image->setUpdatedAt(new \DateTime('now'));
             
             $this->getDoctrine()->getManager()->flush();

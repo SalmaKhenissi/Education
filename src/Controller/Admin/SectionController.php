@@ -76,15 +76,13 @@ class SectionController extends AbstractController
     /**
      * @Route("/show/{id}", name="admin_section_show", methods={"GET"})
      */
-    public function show(Section $section, StudentRepository $studentRepository  , SeanceRepository $seanceRepository): Response
+    public function show(Section $section, TeacherRepository $repoT  , SeanceRepository $seanceRepository): Response
     {  
          $seances=$seanceRepository->findBySection($section);
          $timetable=$seanceRepository->findTimeTable($seances);
-         $teachers=[];
-         for($i=0;$i<count($seances);$i++)
-         {
-            $teachers[$i]=$seances[$i]->getTeacher();
-         }
+        $teachers=$repoT->findBySection($seances,$repoT);
+         
+
         return $this->render('Admin/Section/show.html.twig', [
             'section' => $section,
             'timetable' => $timetable ,
@@ -132,6 +130,11 @@ class SectionController extends AbstractController
     public function affect(Section $section, StudentRepository $repoS ,SeanceRepository $seanceRepository ,Request $request ,ParameterRepository $repoP ): Response
     {  $schoolYear=$repoP->find(1)->getSchoolYear();
         $seances=$seanceRepository->findBySection($section);
+        $teachers=[];
+         for($i=0;$i<count($seances);$i++)
+         {
+            $teachers[$i]=$seances[$i]->getTeacher();
+         }
         $timetable=$seanceRepository->findTimeTable($seances);
         $form = $this->createFormBuilder($section)
                     ->add('students' , EntityType::class , [
@@ -156,7 +159,8 @@ class SectionController extends AbstractController
 
             return $this->render('Admin/Section/show.html.twig', [
             'section' => $section,
-            'timetable' => $timetable
+            'timetable' => $timetable,
+            'teachers' => $teachers
             ]);
         }
          
@@ -167,13 +171,27 @@ class SectionController extends AbstractController
     }
 
     /**
-     * @Route("/desaffect/{id}", name="admin_section_desaffect", methods={"GET","POST"})
+     * @Route("/eliminate/{id}", name="admin_section_eliminate", methods={"GET","POST"})
      */
-    public function desaffect(Section $section, StudentRepository $repoS ,SeanceRepository $seanceRepository ,Request $request ,ParameterRepository $repoP ): Response
-    {  $schoolYear=$repoP->find(1)->getSchoolYear();
+    public function eliminate(Section $section, StudentRepository $repoS ,SeanceRepository $seanceRepository ,Request $request ,ParameterRepository $repoP ): Response
+    {   $schoolYear=$repoP->find(1)->getSchoolYear();
+
         $seances=$seanceRepository->findBySection($section);
+        $teachers=[];
+         for($i=0;$i<count($seances);$i++)
+         {
+            $teachers[$i]=$seances[$i]->getTeacher();
+         }
         $timetable=$seanceRepository->findTimeTable($seances);
+
         $studentsAffected=$section->getStudents();
+        $tabA=[]; $i=0;
+            for($j=0;$j<=count($studentsAffected);$j++)
+            {
+                if($studentsAffected[$j]!=null)
+                { $tabA[$i]=$studentsAffected[$j]; $i++;}
+            }
+        
         $form = $this->createFormBuilder($section)
                     ->add('students' , EntityType::class , [
                             'class' => 'App\Entity\Student' ,
@@ -187,28 +205,43 @@ class SectionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             
             $students=$section->getStudents(); 
+            $tab=[]; $i=0;
+            for($j=0;$j<=count($students);$j++)
+            {
+                if($students[$j]!=null)
+                { $tab[$i]=$students[$j]; $i++;}
+            } 
 
-            for($j=0;$j<count($studentsAffected);$j++)
-            {   $exist=false;
-                for($i=0;$i<count($students);$i++)
-                {  if($students[$i]==$studentsAffected[$j])
-                    {$exist=true;}
-                        
+            for($j=0;$j<count($tabA);$j++)
+            {   $exist=false; 
+                for($i=0;$i<count($tab);$i++)
+                {     if($tab[$i]->getId()==$tabA[$j]->getId() )
+                        {
+                            $exist=true;
+                            break;
+                        }    
                 }
-                $studentsAffected[$j]->removeSection($section);
-                $this->getDoctrine()->getManager()->persist($studentsAffected[$j]);
-                $j++;
+                if($exist==false)
+                {   
+                    $tabA[$j]->removeSection($section);
+                    $this->getDoctrine()->getManager()->persist($tabA[$j]);
+                    
+                }
             }
+            
+            
+            
             $this->getDoctrine()->getManager()->persist($section);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->render('Admin/Section/show.html.twig', [
             'section' => $section,
-            'timetable' => $timetable
+            'timetable' => $timetable,
+            'teachers' => $teachers
             ]);
         }
          
-        return $this->render('Admin/Section/desaffect.html.twig', [
+        return $this->render('Admin/Section/eliminate.html.twig', [
                 'section' => $section,
                 'form' => $form->createView(),
         ]);

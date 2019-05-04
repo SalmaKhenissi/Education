@@ -41,8 +41,10 @@
                                                     <td>{{p.title}}</td>
                                                     <td> {{p.imageName }}</td>
                                                     <td><img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( p ,'imageFile') }} " alt="picture" style="width:30%; height:30%;"></td>
-													<td><a href="{{path('admin_picture_edit' , {'id':p.id})}}" ><span class="fa fa-pencil"> Modifier</span></a> </td>
-                                                    {{ include('Admin/Picture/_delete_form.html.twig') }}
+													<td>
+                                                        <a href="{{path('admin_picture_edit' , {'id':p.id})}}" ><span class="fa fa-pencil"> Modifier</span></a> 
+                                                        {{ include('Admin/Picture/_delete_form.html.twig') }}
+                                                    </td>
                                                 </tr>
                                                 {% endfor %}
                                                 

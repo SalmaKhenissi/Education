@@ -18,9 +18,21 @@ class TeacherRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Teacher::class);
     }
-
-   
-
+    public function findBySection($seances,$repoT)
+    {
+            $tabId=[];
+            for($i=0;$i<count($seances);$i++)
+            {
+                $tabId[$i]=$seances[$i]->getTeacher()->getId();
+            }
+            $tabId=array_unique($tabId); 
+            $teachers=[];
+            for($i=0;$i<count($tabId);$i++)
+            {
+                $teachers[$i]=$repoT->find($tabId[$i]);
+            }
+            return $teachers;
+    }
     public function findByPram($firstName , $lastName , $specialty)
     {
         

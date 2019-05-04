@@ -31,6 +31,21 @@ class SeanceRepository extends ServiceEntityRepository
         
     ;
     }
+
+    public function findByDay($day, $id)
+    { 
+
+        return $this->createQueryBuilder('s')
+                    ->Join('s.section', 'section')
+                    ->where('section.id = :section_id')
+                    ->andWhere('s.day = :day')
+                    ->setParameter('section_id', $id)
+                    ->setParameter('day', $day)
+                    ->getQuery()
+                    ->getResult()
+        
+    ;
+    }
     
 
     public function findTimeTable($seances)
