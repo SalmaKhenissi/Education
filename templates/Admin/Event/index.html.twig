@@ -33,6 +33,7 @@
                                                     <th>Image</th>
 													<th>Location</th>
                                                     <th>Temps</th>
+                                                    <th>Détails</th>
 													<th>Action</th>
                                                 </tr>
                                             </thead>
@@ -43,9 +44,9 @@
                                                     <td><img src="{{'/Pro-Education/public' ~ vich_uploader_asset( e ,'imageFile') }} " alt="picture" style="width:30%; "></span></td>
                                                     <td>{{e.location}}</td>
                                                     <td>{{ e.time ? e.time|date('Y-m-d H:i') : '' }}</td>
-                                                    <td>
-                                                        <a href="{{ path('admin_event_show', {'id': e.id}) }}" ><span class="fa fa-eye">Voir</span></a><br>
-													    <a href="{{path('admin_event_edit' , {'id':e.id})}}" ><span class="fa fa-pencil"> Modifier</span></a>
+                                                    <td><a href="{{ path('admin_event_show', {'id': e.id}) }}" class="btn btn-info fa fa-eye"></a></td>
+													<td>
+                                                        <a href="{{path('admin_event_edit' , {'id':e.id})}}" class="btn btn-warning fa fa-pencil"></a>
                                                         {{ include('Admin/Event/_delete_form.html.twig') }}
                                                      </td>
                                                 </tr>

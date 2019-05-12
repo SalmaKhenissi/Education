@@ -41,7 +41,7 @@
                                                     <td>{{i.title}}</td>
                                                     <td><img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( i ,'imageFile') }} " alt="picture" style="width:30%; height:30%;"></td>
                                                     <td>{{i.updatedAt|date("d/m/Y h:m") }}</td>
-													<td><a href="{{path('admin_parameter_edit_image' , {'id':i.id})}}" ><span class="fa fa-pencil"> Modifier</span></a> </td>
+													<td><a href="{{path('admin_parameter_edit_image' , {'id':i.id})}}" class="btn btn-warning fa fa-pencil"></a> </td>
                                                 </tr>
                                             {% endfor %}
                                                 

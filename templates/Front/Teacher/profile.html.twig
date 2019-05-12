@@ -9,7 +9,11 @@
                 <div class="col-md-9 col-md-offset-3">
                     <ul>
                         <li><a href="{{path('teacher_profile', {'id': teacher.id})}}" class="pro-act">Profile</a></li>
-                        <li><a href="#" >Emploi du temps</a></li>
+                        <li><a href="{{path('teacher_timetable', {'id': teacher.id})}}" >Emploi du temps</a></li>
+                        <li><a href="#"  >Discipline</a></li>
+                        <li><a href="{{path('teacher_exam_index', {'id': teacher.id})}}" >Examens</a></li>
+                        <li><a href="{{path('teacher_doc_index', {'id': teacher.id})}}"  >Documents</a></li>
+                        <li><a href="#" >Club</a></li>
                     </ul>
                 </div>
             </div>
@@ -21,7 +25,7 @@
                     <div class="udb">
 
                         <div class="udb-sec udb-prof">
-                            <h4><img src="{{asset('images/icon/db1.png')}}" alt="" /> Mon Profile </h4>
+                            <h4><img src="{{asset('images/icon/db1.png')}}" alt="" />Profile </h4>
                             <div class="sdb-tabl-com sdb-pro-table">
                                 <table class="responsive-table bordered">
                                     <tbody>

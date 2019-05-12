@@ -33,6 +33,9 @@ class TeacherRepository extends ServiceEntityRepository
             }
             return $teachers;
     }
+
+    
+
     public function findByPram($firstName , $lastName , $specialty)
     {
         
@@ -114,7 +117,73 @@ class TeacherRepository extends ServiceEntityRepository
          return $query->getResult() ;
     }
 
-    
+    public function findBySpecialty($specialty)
+    {
+        $query=$this->createQueryBuilder('t')
+                        ->Where('t.specialty like :specialty')
+                        ->setParameter('specialty', $specialty)
+                        ->getQuery();
+         return $query->getResult() ;
+            
+    }
+
+    public function findByAvailability($exam , $teachers ,$examsPerDate)
+    { 
+        $start=$exam->getStartAt();
+        $finish=$exam->getFinishAt();
+        $teacherExams=[];
+        foreach($examsPerDate as $e) 
+        {   
+            if($e->getStartAt()>=$start && $e->getStartAt()<$finish )
+            {
+                foreach($e->getTeachers() as $t) 
+                {   
+                    $teacherExams[]=$t;
+                }
+            }
+        }
+
+        $UniqueTab=array_unique($teacherExams);
+        $tab=array_diff($teachers,$UniqueTab);
+        
+        if($exam->getTeachers()!=null)
+        {
+            foreach($exam->getTeachers() as $t) 
+                {   
+                    $tab[]=$t;
+                }
+        }
+        
+
+        return ($tab);
+
+    }
+
+    public function findTeacherByAvailability($seance ,$teachers ,$seancesPerDay)
+    {
+        
+        $start=$seance->getStartAt();
+        $finish=$seance->getFinishAt();
+        $teacherSeances=[];
+        foreach($seancesPerDay as $s) 
+        {   
+            if($s->getStartAt()>=$start && $s->getStartAt()<$finish )
+            {
+                $teacherSeances[]=$s->getTeacher();
+            }
+        }
+
+        $UniqueTab=array_unique($teacherSeances);
+        $tab=array_diff($teachers,$UniqueTab);
+        
+        if($seance->getTeacher()!=null)
+        {
+            $tab[]=$seance->getTeacher();
+        }
+        
+
+        return ($tab);
+    }
 
     
 

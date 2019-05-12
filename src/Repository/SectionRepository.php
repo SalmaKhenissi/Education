@@ -2,8 +2,9 @@
 
 namespace App\Repository;
 
-use App\Entity\Section;
 use App\Entity\Level;
+use App\Entity\Section;
+use App\Entity\Teacher;
 use Doctrine\ORM\Query;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -23,17 +24,18 @@ class SectionRepository extends ServiceEntityRepository
 
     
     
-   /* public function findbyTeacher(Teacher $teacher)
+    public function findbyTeacher(Teacher $teacher)
     {
-        return $this->createQueryBuilder('s')
-        ->Join('s.teachers', 't')
-        ->where('t.id = :teacher_id')
-        ->setParameter('teacher_id', $teacher->getId())
-        ->getQuery()
-        ->getResult()
+        $seances=$teacher->getSeances();
+        $sections=[];
+        foreach($seances as $s)
+        {
+            $sections[]=$s->getSection();
+        }
         
-    ;
-    }*/
+        return(array_unique($sections));
+    
+    }
 
     public function generateName($section )    
     {

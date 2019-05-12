@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Exam;
+use App\Entity\Student;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,21 +23,25 @@ class StudentExam
      */
     private $note;
 
+    
+
+   
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Exam", inversedBy="studentExams" )
+     */
+    private $Exam;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Student", inversedBy="studentExams")
      */
     private $student;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Exam", inversedBy="studentExams")
-     */
-    private $exam;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $discipline;
+    public function __construct(Exam $exam, Student $student)
+    {
+        $this->exam=$exam;
+        $this->student=$student;
+    }
 
     public function getId(): ?int
     {
@@ -55,6 +61,20 @@ class StudentExam
     }
 
 
+    
+
+    public function getExam(): ?Exam
+    {
+        return $this->Exam;
+    }
+
+    public function setExam(?Exam $Exam): self
+    {
+        $this->Exam = $Exam;
+
+        return $this;
+    }
+
     public function getStudent(): ?Student
     {
         return $this->student;
@@ -63,30 +83,6 @@ class StudentExam
     public function setStudent(?Student $student): self
     {
         $this->student = $student;
-
-        return $this;
-    }
-
-    public function getExam(): ?Exam
-    {
-        return $this->exam;
-    }
-
-    public function setExam(?Exam $exam): self
-    {
-        $this->exam = $exam;
-
-        return $this;
-    }
-
-    public function getDiscipline(): ?string
-    {
-        return $this->discipline;
-    }
-
-    public function setDiscipline(string $discipline): self
-    {
-        $this->discipline = $discipline;
 
         return $this;
     }

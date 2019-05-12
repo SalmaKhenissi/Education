@@ -28,19 +28,20 @@ class Room
      */
     private $seances;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Exam", mappedBy="room")
-     */
-    private $exams;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $bloc;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Exam", mappedBy="room")
+     */
+    private $exams;
+
     public function __toString(){
         
-        $room='Bloc'.$this->bloc.' S'.$this->number;
+        $room='Bloc '.$this->bloc.' Salle '.$this->number;
         return $room;
      }
 
@@ -98,6 +99,20 @@ class Room
         return $this;
     }
 
+    
+
+    public function getBloc(): ?string
+    {
+        return $this->bloc;
+    }
+
+    public function setBloc(string $bloc): self
+    {
+        $this->bloc = $bloc;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Exam[]
      */
@@ -125,18 +140,6 @@ class Room
                 $exam->setRoom(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getBloc(): ?string
-    {
-        return $this->bloc;
-    }
-
-    public function setBloc(string $bloc): self
-    {
-        $this->bloc = $bloc;
 
         return $this;
     }

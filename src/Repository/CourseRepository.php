@@ -19,6 +19,23 @@ class CourseRepository extends ServiceEntityRepository
         parent::__construct($registry, Course::class);
     }
 
+    public function findBySection($section)
+    {
+        $specialty=$section->getSpecialty()->getId();
+        $level=$section->getLevel()->getId();
+
+        $query=$this->createQueryBuilder('c')    
+                        ->Join('c.level', 'L')
+                        ->Join('c.specialty', 'S')           
+                        ->where('L.id like :idL')
+                        ->andWhere('S.id like :idS')
+                        ->setParameter('idL', $level)
+                        ->setParameter('idS', $specialty)
+                        ->getQuery();
+
+        return $query->getResult() ;
+    }
+
     // /**
     //  * @return Course[] Returns an array of Course objects
     //  */

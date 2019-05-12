@@ -1,0 +1,92 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        <div class="pro-menu">
+            <div class="container">
+                <div class="col-md-9 col-md-offset-3">
+                    <ul>
+                        <li><a href="{{path('teacher_profile', {'id': teacher.id})}}" >Profile</a></li>
+                        <li><a href="{{path('teacher_timetable', {'id': teacher.id})}}" >Emploi du temps</a></li>
+                        <li><a href="#"  >Discipline</a></li>
+                        <li><a href="{{path('teacher_exam_index', {'id': teacher.id})}}" class="pro-act" >Examens</a></li>
+                        <li><a href="{{path('teacher_doc_index', {'id': teacher.id})}}"  >Documents</a></li>
+                        <li><a href="#" >Club</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="stu-db">
+            <div class="container pg-inn">
+                {{ include('Front/Teacher/_profile_photo.html.twig') }}
+                <div class="col-md-9">
+                    <div class="udb">
+                        <div class="udb-sec udb-cour-stat">
+                            <h4><img src="{{asset('images/icon/db5.png')}}" alt="" />Examens</h4>
+                            <div class="container">
+                                {{ form_start(form)}}
+                                    <div class="form-row">
+                                        <div class="col-md-2">
+                                            {{ form_row(form.quarter )}}
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ form_row(form.section )}}
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-primary"> Rechercher </button>
+                                        </div>
+                                    </div>
+                                {{ form_end(form)}}
+                                </div>
+                            <div class="pro-con-table">
+                                 
+                                <table class="bordered responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Trimestre</th>
+                                            <th>Classe</th>
+                                            <th>Type</th>
+                                            <th>Détails</th>
+                                            <th>Notes</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for e in exams %}
+                                        <tr>
+                                            <td>{{e.quarter.number}}</td>
+                                            <td>{{e.section}}</td>
+                                            <td>{{e.type}}</td>
+                                            <td><a href="{{path('teacher_exam_show', {'teacher':teacher.id ,'id': e.id})}}" class="btn btn-info fa fa-eye"></a></td>
+                                            <td><a href="{{path('teacher_exam_note', {'teacher':teacher.id ,'id': e.id})}}" class="btn btn-success fa fa-star"></a></td>
+                                            <td><a href="{{path('teacher_exam_edit', {'teacher':teacher.id ,'id': e.id})}}" class="btn btn-warning fa fa-pencil"></a></td>
+                                            <td>   {{ include('Front/Teacher/Exam/_delete_form.html.twig') }}</td>
+                                        </tr>
+                                        
+                                    {% endfor %}  
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                            <div class="sdb-bot-edit">
+                                    
+                                    <a href="{{path('teacher_exam_new', {'id': teacher.id})}}" ><i class="fa fa-plus-square-o"></i> Ajouter un examen</a>
+                            </div>
+                        </div>
+                        <div class="pagination">
+                             {{ knp_pagination_render(exams) }}
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+
+
+{% endblock %} 

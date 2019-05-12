@@ -18,7 +18,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\DiscriminatorMap({"user" = "User", "admin" = "Admin" , "teacher" = "Teacher" , "student" = "Student" , "guardian" = "Guardian"})
  * @Vich\Uploadable
  */
-class User implements UserInterface
+class User implements UserInterface 
 {
 
     const SEXE= [
@@ -189,6 +189,8 @@ class User implements UserInterface
     {
         
     }
+     
+
 
     public function getSexe(): ?string
     {

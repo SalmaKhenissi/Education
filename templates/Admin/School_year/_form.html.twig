@@ -1,12 +1,19 @@
 {{ form_start(form) }}
-    <div class="row">
-       <div class="col-md-4">{{ form_row(form.libelle)}}</div>
-     </div>
      <div class="row">
        <div class="col-md-4">{{ form_row(form.startAt)}}</div>
      </div>
      <div class="row">
        <div class="col-md-4">{{ form_row(form.finishAt)}}</div>
      </div>
-    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+     <div class="col-sm-8 col-sm-offset-2" id="quarter_list" data-prototype="{{ form_widget(form.quarters.vars.prototype)|e('html_attr')}}">
+        {% for row in form.quarters %}
+            <div class="panel panel-warning">
+                <div class="panel-heading">Trimestre{{row.vars.value.number}}</div>
+                <div class="panel-body">
+                    {{ form_row(row)}}
+                </div>
+            </div>
+        {% endfor %} 
+        </div>
+    
 {{ form_end(form) }}

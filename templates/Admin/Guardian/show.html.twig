@@ -107,7 +107,7 @@
                                                 <tr>
                                                     <th>Nom</th>
                                                     <th>Prénom</th>
-													<th>Actions</th>
+													<th>Détails</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -117,8 +117,7 @@
                                                     <td>{{ s.firstName}}</td>
                                                     <td>{{ s.LastName}}</td>
                                                     <td>
-                                                        <a href="{{ path('admin_student_show2', {'id': s.id}) }}" ><span class="fa fa-eye">Voir</span></a><br>
-                                                        <a href="{{ path('admin_student_edit2', {'id': s.id}) }}" ><span class="fa fa-pencil"> Modifier</span></a>
+                                                        <a href="{{ path('admin_student_show2', {'id': s.id}) }}" class="btn btn-info fa fa-eye"></a>
                                                      </td>
 											     </tr>
                                             {% endfor %}

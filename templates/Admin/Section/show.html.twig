@@ -82,6 +82,7 @@
                                                             </div>
                                                         </li>
                                                     {% endfor %} 
+                                                    {% set i = 0 %}
                                                     </ul>
                                                 </div>
                                             </div>
@@ -114,7 +115,7 @@
                                                             <tr>
                                                                 <td>{{ s.firstName }}</td>
                                                                 <td>{{ s.lastName }}</td>
-                                                                <td> <a href="{{ path('admin_section_student' , {'id': s.id})}}" class="fa fa-eye">Voir</a></td>
+                                                                <td> <a href="{{ path('admin_section_student' , {'id': s.id})}}" class="btn btn-info fa fa-eye"></a></td>
                                                             </tr>
                                                         {% endfor %}
                                                         </tbody>
@@ -153,7 +154,7 @@
                                                                 <td>{{ t.firstName }}</td>
                                                                 <td>{{ t.lastName }}</td>
                                                                 <td>{{ t.specialty }}</td>
-                                                                <td> <a href="{{ path('admin_teacher_show' , {'id': t.id})}}" class="fa fa-eye">Voir</a></td>
+                                                                <td> <a href="{{ path('admin_teacher_show' , {'id': t.id})}}" class="btn btn-info fa fa-eye"></a></td>
                                                             </tr>
                                                         {% endfor %}
                                                         </tbody>
@@ -166,26 +167,32 @@
                                 <div id="menu4" class="tab-pane fade">
                                     <div class="box-inn-sp">
                                         <div class="inn-title">
-                                            <h4>Emploi des examens</h4>
+                                            <h4>Emploi des examens (Devoirs de Synthése)</h4>
 
                                         </div>
                                         <div class="tab-inn">
                                             <div class="udb-sec udb-time ">
                                                 <div class="tour_head1 udb-time-line days">
-                                                    {#<ul>
-                                                    {% for tab in timetable %}
+                                                    <ul>
+                                                    {% for tab in timetableExam %}
                                                         <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
                                                             <div class="sdb-cl-tim">
                                                                 <div class="sdb-cl-day">
                                                                     <h5>{{ jours[ i ] }}</h5>
+                                                                    <span>
+                                                                        {% if not tab|length == 0 %}
+                                                                            {{ tab[0].passAt|date("d/m/Y") }}
+                                                                        {% endif %}
+                                                                    </span>
+                                                                    
                                                                 </div>
                                                                 <div class="sdb-cl-class">
                                                                     <ul>
-                                                                    {% for s in tab %}
+                                                                    {% for e in tab %}
                                                                         <li>
                                                                             <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
                                                                                 <span>
-                                                                                    {% set start = s.startAt|date("h") %}
+                                                                                    {% set start = e.startAt|date("h") %}
                                                                                     {% if start < 8 %}
                                                                                        {{start}}:00 PM
                                                                                     {% else %}
@@ -193,7 +200,7 @@
                                                                                     {% endif %}
                                                                                 </span>
                                                                                 <span>
-                                                                                    {% set finish = s.finishAt|date("h") %}
+                                                                                    {% set finish = e.finishAt|date("h") %}
                                                                                     {% if finish < 8 %}
                                                                                        {{finish}}:00 PM
                                                                                     {% else %}
@@ -202,8 +209,14 @@
                                                                                 </span>
                                                                             </div>
                                                                             <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
-                                                                                <h5><a href="{{path('admin_seance_edit',{'id':s.id  })}}">{{s.course.libelle}}</a><span style="color:DarkGreen;">{{s.teacher}}</span></h5>
-                                                                                <span class="sdn-hall-na">Salle {{s.room.number}}</span>
+                                                                                <h5> {{e.course.libelle}}
+                                                                                     <span style="color:DarkGreen;">
+                                                                                     {% for t in e.teachers %}
+                                                                                        {{t}}</br>
+                                                                                    {% endfor %}
+                                                                                     </span>
+                                                                                </h5>
+                                                                                <span class="sdn-hall-na">Salle {{e.room.number}}</span>
                                                                             </div>
                                                                         </li>
                                                                     {% endfor %} 
@@ -213,11 +226,14 @@
                                                             </div>
                                                         </li>
                                                     {% endfor %} 
-                                                    </ul>#}
+                                                    </ul>
                                                 </div>
                                             </div>
                                             <div class="text-left">
-                                               <h4> <a href="#" class="fa fa-plus-square-o "> Ajouter un examen</a></h4>
+                                               <h4> <a href="{{ path('admin_exam_new' , {'id':section.id} ) }}" class="fa fa-plus-square-o "> Ajouter un examen</a></h4>
+                                            </div>
+                                            <div class="text-left">
+                                               <h4> <a href="{{ path('admin_exam_index' , {'id':section.id} ) }}" class="fa fa-th-list "> Liste des examens</a></h4>
                                             </div>
                                             
                                         </div>

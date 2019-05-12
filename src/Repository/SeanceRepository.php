@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Seance;
 use App\Entity\Section;
+use App\Entity\Parameter;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -32,6 +33,7 @@ class SeanceRepository extends ServiceEntityRepository
     ;
     }
 
+
     public function findByDay($day, $id)
     { 
 
@@ -45,6 +47,24 @@ class SeanceRepository extends ServiceEntityRepository
                     ->getResult()
         
     ;
+    }
+    public function findAllByDay($day, $section)
+    { 
+        $sections=$section->getSchoolYear()->getSections();
+        $tab=[];
+        foreach($sections as $s)
+        {
+            $seances=$s->getSeances();
+            foreach($seances as $sea)
+            {
+                if($sea->getDay()==$day)
+                {
+                    $tab[]=$sea;
+                }
+            }
+        }
+        
+        return $tab;
     }
     
 
@@ -92,6 +112,22 @@ class SeanceRepository extends ServiceEntityRepository
         return $timetable ;
         
     ;
+    }
+
+    public function findByTeaching($teacher,$section)
+    { 
+        $tab=[];
+        $seances=$section->getSeances();
+        foreach($seances as $s)
+        {
+            if($s->getCourse()->getLibelle()==$teacher->getSpecialty())
+            {
+                $tab[]=$s;
+            }
+        }
+        
+        
+        return $tab;
     }
     
     

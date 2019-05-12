@@ -61,14 +61,21 @@ class Section
      */
     private $students;
 
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Document", mappedBy="sections")
+     */
+    private $documents;
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Exam", mappedBy="section")
      */
     private $exams;
+
     
     public function __toString(){
         
-        $section = $this->libelle . ' ' . $this->schoolYear;
+        $section = $this->libelle . ' ' . $this->schoolYear->getLibelle();
         return $section;
      }
     
@@ -77,6 +84,7 @@ class Section
     {
         $this->seances = new ArrayCollection();
         $this->students = new ArrayCollection();
+        $this->documents = new ArrayCollection();
         $this->exams = new ArrayCollection();
     }
 
@@ -210,10 +218,38 @@ class Section
         return $this;
     }
 
+    
+
     /**
-     * @return Collection|Exam[]
+     * @return Collection|Document[]
      */
-    public function getExams(): Collection
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents[] = $document;
+            $document->addSection($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->contains($document)) {
+            $this->documents->removeElement($document);
+            $document->removeSection($this);
+        }
+
+        return $this;
+    }
+
+    
+    public function getExams()
     {
         return $this->exams;
     }
@@ -240,6 +276,8 @@ class Section
 
         return $this;
     }
+
+    
 
 
     

@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 use App\Entity\Section;
 use App\Entity\Student;
 use App\Form\SectionType;
+use App\Repository\ExamRepository;
 use App\Repository\SeanceRepository;
 use App\Repository\SectionRepository;
 use App\Repository\StudentRepository;
@@ -76,16 +77,21 @@ class SectionController extends AbstractController
     /**
      * @Route("/show/{id}", name="admin_section_show", methods={"GET"})
      */
-    public function show(Section $section, TeacherRepository $repoT  , SeanceRepository $seanceRepository): Response
+    public function show(Section $section, TeacherRepository $repoT  , SeanceRepository $seanceRepository , ExamRepository $examRepository): Response
     {  
-         $seances=$seanceRepository->findBySection($section);
-         $timetable=$seanceRepository->findTimeTable($seances);
+        $seances=$seanceRepository->findBySection($section);
+        $timetable=$seanceRepository->findTimeTable($seances);
+
+        $exams=$examRepository->findBySection($section);
+        $timetableExam=$examRepository->findTimeTable($exams);
+        
         $teachers=$repoT->findBySection($seances,$repoT);
          
 
         return $this->render('Admin/Section/show.html.twig', [
             'section' => $section,
             'timetable' => $timetable ,
+            'timetableExam' => $timetableExam ,
             'teachers' =>$teachers
         ]);
     }

@@ -11,6 +11,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Quarter
 {
+    const NUMBER = [
+        0 => '1',
+        1 => '2' ,
+        2 => '3',
+        
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -50,11 +57,16 @@ class Quarter
      */
     private $exams;
 
+
     public function __construct()
     {
         $this->exams = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->libelle;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +115,11 @@ class Quarter
         return $this->number;
     }
 
+    public function getNumberType(): string
+    {
+        return self::NUMBER[$this->number];
+    }
+    
     public function setNumber(int $number): self
     {
         $this->number = $number;
@@ -152,4 +169,5 @@ class Quarter
 
         return $this;
     }
+
 }

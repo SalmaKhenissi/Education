@@ -1,0 +1,102 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="{{ path('admin_section_index')}}"> Liste des Classes</a></li>
+                        <li class="active-bre"><a href="{{ path('admin_section_show' ,{'id':id})}}">Détails classe</a> </li>
+                        <li class="active-bre"><a href="#"> Liste des examens</a></li>
+                    </ul>
+                </div>
+                <div>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <div class="container">
+                                        <h4>Liste des examens</h4>
+                                        
+                                    </div>
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="table-responsive table-desi">
+                                         <form class=" form-row">
+                                                <div class="col">
+                                                     <input type="text" class="form-control" placeholder=" Trimestre" name="quarter" style="border-style: ridge;" >
+                                                </div>
+                                                <div class="col" >
+                                                    <input type="text" class="form-control" placeholder=" Cours" name="course" style="border-style: ridge;" >
+                                                </div>
+                                                <div class="col">
+                                                     <input type="text" class="form-control" placeholder=" Type" name="type" style="border-style: ridge;" >
+                                                </div>
+                                                <div class="col">
+                                                     <input type="submit"  value="Rechercher" class="btn btn-primary btn-xs" >
+                                                </div>
+                                        </form>
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Cours</th>
+                                                    <th>Date</th>
+                                                    <th>Fin</th>
+                                                    <th>Début</th>
+                                                    <th>Type</th>
+                                                    <th>Superviseurs</th>
+													<th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            
+                                            {% for e in exams %}
+                                                <tr>
+                                                
+                                                    <td>{{ e.course}}</td>
+                                                    <td>{{ e.passAt|date('d-m-Y')}}</td>
+                                                    <td>
+                                                        {% set start = e.startAt|date("h") %}
+                                                        {% if start < 8 %}
+                                                            {{start}}:00 PM
+                                                        {% else %}
+                                                            {{start}}:00 AM
+                                                         {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        {% set finish = e.finishAt|date("h") %}
+                                                        {% if finish < 8 %}
+                                                            {{finish}}:00 PM
+                                                        {% else %}
+                                                            {{finish}}:00 AM
+                                                         {% endif %}
+                                                    </td>
+                                                    <td>{{e.type}}</td>
+                                                    <td>
+                                                        {% for t in e.teachers %}
+                                                            {{t}}</br>
+                                                         {% endfor %}
+                                                    <td>
+                                                   {#} {% if e.type == 'Synthése' %}#}
+                                                       <a href="{{path('admin_exam_edit',{'id':e.id  })}}" class="btn btn-warning fa fa-pencil"></a>
+                                                       {{ include('Admin/Exam/_delete_form.html.twig') }}
+                                                    {#} {% endif %} #}  
+                                                    </td>
+											     </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

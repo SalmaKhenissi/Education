@@ -44,6 +44,7 @@
                                                 <tr>
                                                     <th>Prénom</th>
                                                     <th>Nom</th>
+                                                    <th>Détails</th>
 													<th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -53,9 +54,9 @@
                                                 <tr>
                                                     <td>{{ g.firstName}}</td>
                                                     <td>{{ g.LastName}}</td>
+                                                    <td><a href="{{ path('admin_guardian_show', {'id': g.id}) }}" class="btn btn-info fa fa-eye"></a></td>
                                                     <td>
-                                                        <a href="{{ path('admin_guardian_show', {'id': g.id}) }}" ><span class="fa fa-eye">Voir</span></a><br>
-                                                        <a href="{{ path('admin_guardian_edit', {'id': g.id}) }}" ><span class="fa fa-pencil"> Modifier</span></a> 
+                                                        <a href="{{ path('admin_guardian_edit', {'id': g.id}) }}" class="btn btn-warning fa fa-pencil"></a> 
                                                         {{ include('Admin/Guardian/_delete_form.html.twig') }}
                                                     </td>
 											     </tr>

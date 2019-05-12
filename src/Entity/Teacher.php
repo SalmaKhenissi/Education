@@ -80,10 +80,23 @@ class Teacher extends User
      */
     private $specialty;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="teacher")
+     */
+    private $documents;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Exam", mappedBy="teachers")
+     */
+    private $exams;
+
+    
 
     public function __construct()
     {
         $this->seances = new ArrayCollection();
+        $this->documents = new ArrayCollection();
+        $this->exams = new ArrayCollection();
     }
 
     
@@ -223,4 +236,66 @@ class Teacher extends User
 
         return $this;
     }
+
+    /**
+     * @return Collection|Document[]
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents[] = $document;
+            $document->setTeacher($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->contains($document)) {
+            $this->documents->removeElement($document);
+            // set the owning side to null (unless already changed)
+            if ($document->getTeacher() === $this) {
+                $document->setTeacher(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Exam[]
+     */
+    public function getExams(): Collection
+    {
+        return $this->exams;
+    }
+
+    public function addExam(Exam $exam): self
+    {
+        if (!$this->exams->contains($exam)) {
+            $this->exams[] = $exam;
+            $exam->addTeacher($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExam(Exam $exam): self
+    {
+        if ($this->exams->contains($exam)) {
+            $this->exams->removeElement($exam);
+            $exam->removeTeacher($this);
+        }
+
+        return $this;
+    }
+
+
+    
 }

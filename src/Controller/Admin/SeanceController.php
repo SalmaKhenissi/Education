@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 use App\Entity\Seance;
 use App\Entity\Section;
 use App\Form\SeanceType;
+use App\Form\SeanceType2;
+use App\Repository\RoomRepository;
 use App\Repository\CourseRepository;
 use App\Repository\SeanceRepository;
 use App\Repository\SectionRepository;
@@ -31,43 +33,17 @@ class SeanceController extends AbstractController
     /**
      * @Route("/new/{id}", name="admin_seance_new", methods={"GET","POST"})
      */
-    public function new(Request $request , Section $section ,CourseRepository  $courseRepository): Response
+    public function new(Request $request , Section $section ,CourseRepository  $courseRepository  ): Response
     {
         $seance = new Seance();
         $choicesDay = Seance::DAY ;
         $seance->setSection($section);
-        //$seanceType = new SeanceType($section);
-        $form = $this->createFormBuilder($seance)
-                    ->add('day' , ChoiceType::class , [
-                          'choices' => $this->getDayChoices() ,
-                          'multiple'=>false ,
-                          'label' => ' Jour'
-                         ])
-                    ->add('startAt' , TimeType::class, [
-                          'label' => 'Début',
-                         'widget' => 'single_text' 
-                         ])
-                    ->add('finishAt' , TimeType::class, [
-                          'label' => 'Fin',
-                          'widget' => 'single_text'
-                        ])
-                    ->add('room'  , EntityType::class ,[
-                          'class' => 'App\Entity\Room' ,
-                          'multiple' => false ,
-                          'label' => ' Salle'
-                         ])
-                    ->add('teacher' , EntityType::class , [
-                          'class' => 'App\Entity\Teacher' ,
-                          'multiple' => false ,
-                          'label' => 'Enseignant',
-                        ])
-                    ->add('course' , EntityType::class , [
-                          'class' => 'App\Entity\Course' ,
-                          'choices' => $courseRepository->findByLevel($section->getLevel()),
-                          'multiple'=>false ,
-                          'label' => ' Cours' 
-                        ])
-                    ->getForm();
+        
+        $form = $this->createForm(SeanceType::class, $seance , [
+            'section' => $section,
+            'courseRepository' => $courseRepository
+        ]);
+        
     
       
         $form->handleRequest($request);
@@ -80,9 +56,9 @@ class SeanceController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($seance);
             $entityManager->flush();
-            //return new Response("heloo w");
-            return $this->redirectToRoute('admin_section_show', [
-                'id' => $section->getId(),
+            
+            return $this->redirectToRoute('admin_seance_new2', [
+                'id' => $seance->getId(),
             ]);
         }
 
@@ -91,54 +67,55 @@ class SeanceController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    private function getDayChoices()
+
+    
+    /**
+     * @Route("/new2/{id}", name="admin_seance_new2", methods={"GET","POST"})
+     */
+    public function new2(Request $request ,  Seance $seance , TeacherRepository $teacherRepository , RoomRepository $roomRepository ,SeanceRepository $seanceRepository): Response
     {
-        $choices = Seance::DAY ;
-        $output = [];
-        foreach ($choices as $k => $v)
-        {
-            $output[$v] = $k ;
+        $form = $this->createForm(SeanceType2::class, $seance , [
+            'seance' => $seance,
+            'roomRepository' => $roomRepository,
+            'teacherRepository' => $teacherRepository ,
+            'seanceRepository' => $seanceRepository
+        ]);
+        
+        
+      
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->getDoctrine()->getManager()->flush();
+            
+            return $this->redirectToRoute('admin_section_show', [
+                'id' => $seance->getsection()->getId(),
+            ]);
         }
-        return $output ;
+       /* else {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($seance);
+            $entityManager->flush();
+        }*/
+
+        return $this->render('Admin/Seance/new_2.html.twig', [
+            'seance' => $seance,
+            'form' => $form->createView(),
+        ]);
     }
+    
 
     
     /**
      * @Route("/{id}/edit", name="admin_seance_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Seance $seance , CourseRepository  $courseRepository): Response
-    {   $choicesDay = Seance::DAY ;
-        $form = $this->createFormBuilder($seance)
-                    ->add('day' , ChoiceType::class , [
-                          'choices' => $this->getDayChoices() ,
-                          'multiple'=>false ,
-                          'label' => ' Jour'
-                         ])
-                    ->add('startAt' , TimeType::class, [
-                          'label' => 'Début',
-                         'widget' => 'single_text' 
-                         ])
-                    ->add('finishAt' , TimeType::class, [
-                          'label' => 'Fin',
-                          'widget' => 'single_text'
-                        ])
-                    ->add('room'  , EntityType::class ,[
-                          'class' => 'App\Entity\Room' ,
-                          'multiple' => false ,
-                          'label' => ' Salle'
-                         ])
-                    ->add('teacher' , EntityType::class , [
-                          'class' => 'App\Entity\Teacher' ,
-                          'multiple' => false ,
-                          'label' => 'Enseignant',
-                        ])
-                    ->add('course' , EntityType::class , [
-                          'class' => 'App\Entity\Course' ,
-                          'choices' => $courseRepository->findByLevel($seance->getSection()->getLevel()),
-                          'multiple'=>false ,
-                          'label' => ' Cours' 
-                        ])
-                    ->getForm();
+    {   
+        $choicesDay = Seance::DAY ;
+        $form = $this->createForm(SeanceType::class, $seance , [
+            'section' => $seance->getsection(),
+            'courseRepository' => $courseRepository
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -147,12 +124,48 @@ class SeanceController extends AbstractController
             $seance->setDay($choicesDay[$day]);
 
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('admin_section_show', [
-                'id' => $seance->getSection()->getId(),
+            return $this->redirectToRoute('admin_seance_edit2', [
+                'id' => $seance->getId(),
             ]);
         }
 
         return $this->render('Admin/Seance/edit.html.twig', [
+            'seance' => $seance,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit2", name="admin_seance_edit2", methods={"GET","POST"})
+     */
+    public function edit2(Request $request, Seance $seance , TeacherRepository $teacherRepository , RoomRepository $roomRepository ,SeanceRepository $seanceRepository ): Response
+    {   
+        $form = $this->createForm(SeanceType2::class, $seance , [
+            'seance' => $seance,
+            'roomRepository' => $roomRepository,
+            'teacherRepository' => $teacherRepository ,
+            'seanceRepository' => $seanceRepository
+        ]);
+        dump($seanceRepository->findAllByDay($seance->getDay() ,$seance->getSection()));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            
+
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('admin_seance_index', [
+                'id' => $seance->getSection()->getId(),
+                'day' => $seance->getDay()
+            ]);
+        }
+       /* else {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($seance);
+            $entityManager->flush();
+        }*/
+
+        return $this->render('Admin/Seance/edit_2.html.twig', [
             'seance' => $seance,
             'form' => $form->createView(),
         ]);

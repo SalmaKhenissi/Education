@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ParameterType extends AbstractType
 {
@@ -15,6 +16,10 @@ class ParameterType extends AbstractType
         $builder
             ->add('schoolYear', TextType::class ,[
                 'label' => ' Année scolaire '
+            ])
+            ->add('quarter', ChoiceType::class , [
+                'choices' => $this->getQuarterChoices() ,
+                'label' => 'Trimestre'
             ])
             ->add('phone', TextType::class ,[
                 'label' => ' Téléphone '
@@ -40,5 +45,16 @@ class ParameterType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Parameter::class,
         ]);
+    }
+
+    private function getQuarterChoices()
+    {
+        $choices = Parameter::NUMBER ;
+        $output = [];
+        foreach ($choices as $k => $v)
+        {
+            $output[$v] = $k ;
+        }
+        return $output ;
     }
 }

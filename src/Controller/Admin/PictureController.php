@@ -43,7 +43,7 @@ class PictureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $picture->setUpdatedAt(new \DateTime('now'));
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($picture);
@@ -83,6 +83,7 @@ class PictureController extends AbstractController
                 unlink(getcwd().'\uploads\pictures\\'.$picture->getImageName());
                 $picture->setImageName(null);
             }
+            $picture->setUpdatedAt(new \DateTime('now'));
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('admin_picture_index', [

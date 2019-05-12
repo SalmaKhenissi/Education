@@ -47,7 +47,8 @@
                                                 <tr>
                                                     <th>Nom</th>
                                                     <th>Prénom</th>
-													<th>Actions</th>
+                                                    <th>Détails</th>
+													<th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -56,10 +57,10 @@
                                                 <tr>
                                                     <td>{{ s.firstName}}</td>
                                                     <td>{{ s.LastName}}</td>
-                                                    <td>
-                                                        <a href="{{ path('admin_student_show', {'id': s.id}) }}" ><span class="fa fa-eye  ">Voir</span></a><br>
-                                                        <a href="{{ path('admin_student_edit', {'id': s.id}) }}" ><span class="fa fa-pencil ">Modifier </span></a>
-                                                        {{ include('Admin/Student/_delete_form.html.twig') }}
+                                                    <td><a href="{{ path('admin_student_show', {'id': s.id}) }}" class="btn btn-info fa fa-eye" ></a></td>
+                                                    <td>   
+                                                        <a href="{{ path('admin_student_edit', {'id': s.id}) }}" class="btn btn-warning fa fa-pencil" ></a>
+                                                         {{ include('Admin/Student/_delete_form.html.twig') }}
                                                      </td>
 											     </tr>
                                             {% endfor %}

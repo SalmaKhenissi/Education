@@ -24,23 +24,48 @@
                                     <h4>Paramétres générales</h4>
                                 </div>
                                 <div class="tab-inn">
-                                            <div class="udb-sec udb-time ">
-                                                <div class="tour_head1 udb-time-line days">
-                                                    <div class="row">
-                                                        <div ><h5>Adresse : </h5>{{ parameter.address}}</div><br>
-                                                        <div ><h5>Téléphone : </h5>{{parameter.phone|slice(0,2)}} {{parameter.phone|slice(2,3)}} {{parameter.phone|slice(5,3)}}</div><br>
-                                                        <div ><h5>E-mail : </h5>{{ parameter.email}}</div><br>
-                                                        <div ><h5>Année scolaire : </h5>{{ parameter.schoolYear}}</div><br>
-                                                    </div>  
-                                                    <div class="text-right">
-                                                        <a href="{{ path('admin_parameter_edit_general')}}"  class="btn fa fa-pencil">Modifier </a>
-                                                     </div>
-                                                </div>
+
+                                         <div class="sdb-tabl-com sdb-pro-table">
+                                            <table class="responsive-table bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>Année scolaire</strong></td>
+                                                        <td>:</td>
+                                                        <td>{{ parameter.schoolYear}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Trimestre</strong></td>
+                                                        <td>:</td>
+                                                        <td>{{ parameter.quarter}} </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Téléphone</strong></td>
+                                                        <td>:</td>
+                                                        <td>{{parameter.phone|slice(0,2)}} {{parameter.phone|slice(2,3)}} {{parameter.phone|slice(5,3)}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>E-mail</strong></td>
+                                                        <td>:</td>
+                                                        <td>{{ parameter.email}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Adresse</strong></td>
+                                                        <td>:</td>
+                                                        <td>{{ parameter.address}}</td>
+                                                    </tr>
+                                                   
+                                                    
+                                                </tbody>
+                                            </table>
+                                            <br>
+                                            <div class="text-right">
+                                                <a href="{{ path('admin_parameter_edit_general')}}"  class="btn fa fa-pencil">Modifier </a>
                                             </div>
+                                        </div>
+                                           
                                 </div>
                             </div>
-                                                            {#<a href="{{'/Pro-Education/public' ~ vich_uploader_asset( parameter ,'programFile') }}">voir program (PDF)</a>#}
-                                                            {#<embed src="{{'/Pro-Education/public' ~ vich_uploader_asset( parameter ,'programFile') }}"  width=800 height=500 type='application/pdf'/>#}
+                                                            
                         </div>                     
                     </div>                            
                 </div>

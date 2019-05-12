@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Room;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Room|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,64 @@ class RoomRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Room::class);
+    }
+
+    public function findByAvailability($exam , $rooms ,$examsPerDate)
+    { 
+        
+        $start=$exam->getStartAt();
+        $finish=$exam->getFinishAt();
+        $roomExams=[];
+        foreach($examsPerDate as $e) 
+        {   if($e->getStartAt()>=$start && $e->getStartAt()<$finish )
+            {
+                $roomExams[]=$e->getRoom();
+            }
+        }
+        $tab=array_diff($rooms,$roomExams);
+        if($exam->getRoom()!=null)
+        {
+            $tab[]=$exam->getRoom();
+        }
+
+        return ( $tab);
+
+    }
+
+    public function findRoomByAvailability($seance , $rooms ,$seancesPerDay)
+    {
+
+        $start=$seance->getStartAt();
+        $finish=$seance->getFinishAt();
+        $roomSeances=[];
+        foreach($seancesPerDay as $s) 
+        {   if($s->getStartAt()>=$start && $s->getStartAt()<$finish )
+            {
+                $roomSeances[]=$s->getRoom();
+            }
+        }
+        $tab=array_diff($rooms,$roomSeances);
+        if($seance->getRoom()!=null)
+        {
+            $tab[]=$seance->getRoom();
+        }
+
+        return ( $tab);
+    }
+
+    public function findByDay($seances ,$exam)
+    {
+        $week=['Dimanche','Lundi','Mardi' ,'Mercredi' , 'Jeudi' ,'Vendredi','Samedi'];
+        foreach($seances as $s)
+            {   
+                $d=date('N',strtotime($exam->getPassAt()->format('Y-m-d')));
+                if($s->getDay()==$week[$d])
+                {
+                    $room=$s->getRoom();
+                }
+
+            }
+            return $room;
     }
 
     // /**

@@ -31,6 +31,7 @@
                                                 <tr>
                                                     <th>Titre</th>
 													<th>Mise à jour</th>
+                                                    <th>Détails</th>
 													<th>Action</th>
                                                 </tr>
                                             </thead>
@@ -39,10 +40,8 @@
                                                 <tr>
                                                     <td>{{d.title}}</td>
                                                     <td>{{d.updatedAt|date("d/m/Y h:m") }}</td>
-												    <td>
-                                                        <a href="{{path('admin_parameter_show_desc' , {'id':d.id})}}" ><span class="fa fa-eye">Voir</span></a><br>
-                                                        <a href="{{path('admin_parameter_edit_desc' , {'id':d.id})}}" ><span class="fa fa-pencil"> Modifier</span></a> 
-                                                    </td>
+												    <td><a href="{{path('admin_parameter_show_desc' , {'id':d.id})}}" class="btn btn-info fa fa-eye"></a></td>
+                                                    <td><a href="{{path('admin_parameter_edit_desc' , {'id':d.id})}}" class="btn btn-warning fa fa-pencil"></a></td>
                                                 </tr>
                                             {% endfor %}   
                                             </tbody>

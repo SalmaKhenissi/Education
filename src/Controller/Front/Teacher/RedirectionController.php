@@ -2,10 +2,11 @@
 namespace App\Controller\Front\Teacher;
 
 use App\Entity\Teacher;
+use App\Repository\SeanceRepository;
 use App\Repository\SectionRepository;
 use App\Repository\StudentRepository;
-use App\Repository\TeacherRepository;
 
+use App\Repository\TeacherRepository;
 use App\Repository\ParameterRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @IsGranted("ROLE_GUARDIAN" , statusCode=404)
+ * @IsGranted("ROLE_TEACHER" , statusCode=404)
  * @Route("/profile/teacher")
  */
 class RedirectionController extends AbstractController
@@ -24,12 +25,23 @@ class RedirectionController extends AbstractController
      /**
      * @Route("/timetable/{id}", name="teacher_timetable")
      */
-    public function redirectTimeTabel( Teacher $teacher ,ParameterRepository $repoP)
-    { 
+    public function redirectTimeTabel( Teacher $teacher ,ParameterRepository $repoP , SeanceRepository  $seanceRepository)
+    {   
+        $param=$repoP->find(1);
+        $seances=$teacher->getSeances();
+        $tab=[];
+        foreach($seances as $s){
+            if($s->getSection()->getSchoolYear()->getLibelle()==$param->getSchoolYear())
+            {
+                $tab[]=$s;
+            }
+        }
+        $timeTable=$seanceRepository->findTimeTable($tab);
         
         return $this->render('Front/Teacher/timetable.html.twig',[
             'teacher' => $teacher ,
-            'parameters' => $repoP->find(1) ,
+            'parameters' => $param ,
+            'timetable' => $timeTable
 
             ]);
     }

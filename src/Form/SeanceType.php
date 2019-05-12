@@ -4,9 +4,11 @@ namespace App\Form;
 use App\Entity\Course;
 use App\Entity\Seance;
 use App\Entity\Section;
-use App\Entity\Teacher;
-use App\Repository\CourseRepository;
+use App\Repository\TeacherRepository;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,8 +17,18 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class SeanceType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function __construct()
     {
+        
+    }
+    public function buildForm(FormBuilderInterface $builder, array $options  )
+    {
+
+        $section = $options['section'];
+        $courseRepository = $options['courseRepository'];
+        
+        
+
         $builder
             ->add('day' , ChoiceType::class , [
                 'choices' => $this->getDayChoices() ,
@@ -31,28 +43,16 @@ class SeanceType extends AbstractType
                 'label' => 'Fin',
                 'widget' => 'single_text'
             ])
-            ->add('room'  , EntityType::class ,[
-                'class' => 'App\Entity\Room' ,
-                'multiple' => false ,
-                'label' => ' Salle'
-          ])
-            ->add('teacher' , EntityType::class , [
-                'class' => 'App\Entity\Teacher' ,
-                'multiple' => false ,
-                 'label' => 'Enseignant',
-            ])
+            
             ->add('course' , EntityType::class , [
                 'class' => 'App\Entity\Course' ,
-                'query_builder' => function (CourseRepository $er) {
-                    return $er->createQueryBuilder('c')
-                    ->where('c.level = :l')
-                    ->setParameter('l', $section->getLevel());
-                },
+                'choices' => $courseRepository->findByLevel($section->getLevel()),
                 'multiple'=>false ,
-                'label' => ' Cours' ,
-                'required' => false
+                'label' => ' Cours' 
             ])
         ;
+
+        
     }
 
      
@@ -71,7 +71,9 @@ class SeanceType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Seance::class,
-        ]);
+                    'data_class' => Seance::class,
+                 ])
+                 ->setRequired('section')
+                 ->setRequired('courseRepository');
     }
 }

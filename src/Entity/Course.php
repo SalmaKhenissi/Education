@@ -46,9 +46,11 @@ class Course
     private $specialty;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Exam", mappedBy="cours")
+     * @ORM\OneToMany(targetEntity="App\Entity\Exam", mappedBy="course")
      */
     private $exams;
+
+    
 
     
 
@@ -163,7 +165,7 @@ class Course
     {
         if (!$this->exams->contains($exam)) {
             $this->exams[] = $exam;
-            $exam->setCours($this);
+            $exam->setCourse($this);
         }
 
         return $this;
@@ -174,13 +176,15 @@ class Course
         if ($this->exams->contains($exam)) {
             $this->exams->removeElement($exam);
             // set the owning side to null (unless already changed)
-            if ($exam->getCours() === $this) {
-                $exam->setCours(null);
+            if ($exam->getCourse() === $this) {
+                $exam->setCourse(null);
             }
         }
 
         return $this;
     }
+
+   
 
    
 

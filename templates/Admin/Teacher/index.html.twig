@@ -49,6 +49,7 @@
                                                     <th>Prénom</th>
                                                     <th>Nom</th>
                                                     <th>Spécialité</th>
+                                                    <th>Détails</th>
 													<th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -59,9 +60,9 @@
                                                     <td>{{ t.firstName}}</td>
                                                     <td>{{ t.LastName}}</td>
                                                     <td>{{ t.specialty}}</td>
+                                                    <td><a href="{{ path('admin_teacher_show', {'id': t.id}) }}" class="btn btn-info fa fa-eye"></a></td>
                                                     <td>
-                                                        <a href="{{ path('admin_teacher_show', {'id': t.id}) }}"><span class="fa fa-eye">Voir</span></a><br>
-                                                        <a href="{{ path('admin_teacher_edit', {'id': t.id}) }}" ><span class="fa fa-pencil"> Modifier</span></a> 
+                                                        <a href="{{ path('admin_teacher_edit', {'id': t.id}) }}" class="btn btn-warning fa fa-pencil"></a> 
                                                         {{ include('Admin/Teacher/_delete_form.html.twig') }}
                                                     </td>
 											     </tr>

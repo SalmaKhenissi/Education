@@ -50,7 +50,7 @@
                                                         {% endfor %}
                                                     </td>
                                                     <td>
-                                                        <a href="{{ path('admin_level_edit', {'id': l.id}) }}" ><span class="fa fa-pencil"> Modifier</span></a> 
+                                                        <a href="{{ path('admin_level_edit', {'id': l.id}) }}" class="btn btn-warning fa fa-pencil"></a> 
                                                         {{ include('Admin/Level/_delete_form.html.twig') }}
                                                     </td>
 											     </tr>

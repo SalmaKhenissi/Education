@@ -13,6 +13,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Parameter
 {
+    const NUMBER = [
+        0 => '1',
+        1 => '2' ,
+        2 => '3',
+        
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -55,6 +62,11 @@ class Parameter
      * @var \DateTime
      */
     private $updatedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $quarter;
 
     public function __construct(){
         $this->updatedAt = new \DateTime('now');
@@ -138,6 +150,23 @@ class Parameter
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    public function getQuarter(): ?string
+    {
+        return $this->quarter;
+    }
+
+    public function getQuarterType(): string
+    {
+        return self::NUMBER[$this->quarter];
+    }
+
+    public function setQuarter(string $quarter): self
+    {
+        $this->quarter = $quarter;
+
+        return $this;
     }
 
    

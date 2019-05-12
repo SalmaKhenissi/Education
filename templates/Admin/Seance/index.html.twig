@@ -32,9 +32,9 @@
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>Séance</th>
-                                                    <th>Fin</th>
+                                                    <th>Cours</th>
                                                     <th>Début</th>
+                                                    <th>Fin</th>
 													<th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -60,7 +60,7 @@
                                                          {% endif %}
                                                     </td>
                                                     <td>
-                                                       <a href="{{path('admin_seance_edit',{'id':s.id  })}}"><span class="fa fa-pencil"> Modifier</span></a>
+                                                       <a href="{{path('admin_seance_edit',{'id':s.id  })}}" class="btn btn-warning fa fa-pencil"></a>
                                                        {{ include('Admin/Seance/_delete_form.html.twig') }}
                                                         
                                                     </td>

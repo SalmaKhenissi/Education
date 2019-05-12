@@ -47,13 +47,14 @@ class ParameterController extends AbstractController
     public function editGeneral(Request $request ,ParameterRepository $repo ): Response
     {
         $parameter=$repo->find(1);
-       
+        $choicesQuarter = Parameter::NUMBER ;
         $form = $this->createForm(ParameterType::class, $parameter);
         
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $quarter=$parameter->getQuarter();
+            $parameter->setQuarter($choicesQuarter[$quarter]);
             $parameter->setUpdatedAt(new \DateTime('now'));
             
             $this->getDoctrine()->getManager()->flush();

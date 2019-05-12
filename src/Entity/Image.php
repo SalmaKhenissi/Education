@@ -102,7 +102,7 @@ class Image
      *
      * @param \DateTime $updatedAt
      *
-     * @return Club
+     * @return Image
      */
     public function setUpdatedAt($updatedAt)
     {

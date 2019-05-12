@@ -51,6 +51,7 @@
                                                 <tr>
                                                     <th>Libellé</th>
                                                     <th>Année scolaire</th>
+                                                    <th>Détails</th>
 													<th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -60,9 +61,9 @@
                                                 <tr>
                                                     <td>{{ s.libelle}}</td>
                                                     <td>{{ s.schoolYear.libelle}}</td>
+                                                    <td><a href="{{ path('admin_section_show', {'id': s.id}) }}" class="btn btn-info fa fa-eye"></a></td>
                                                     <td>
-                                                       <a href="{{ path('admin_section_show', {'id': s.id}) }}" ><span class="fa fa-eye">Voir</span></a><br>
-                                                       <a href="{{ path('admin_section_edit', {'id': s.id}) }}" ><span class="fa fa-pencil"> Modifier</span></a>
+                                                       <a href="{{ path('admin_section_edit', {'id': s.id}) }}" class="btn btn-warning fa fa-pencil"></a>
                                                        {{ include('Admin/Section/_delete_form.html.twig') }}
                                                         
                                                     </td>

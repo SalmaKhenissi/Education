@@ -23,7 +23,7 @@
                                     
                                 </div>
                                 <div class="tab-inn">
-                                   {{ include('Admin/Seance/_form.html.twig' , {'button_label': 'Ajouter'}) }}
+                                   {{ include('Admin/Seance/_form.html.twig' , {'button_label': 'Suivant'}) }}
                                     
                                 </div>
                             </div>
@@ -34,10 +34,28 @@
 
         
 {% endblock %}
-{#}
+
 {% block javascripts %}
 <script>
-        var $course = $('#seance_course');   
+        var $course = $("#seance_course")
+        var $token = $("#seance__token")
+        $course.change(function ()
+        {
+            var $form = $(this).closest('form')
+            var data = {}
+            data[$token.attr('name')] = $token.val();
+            data[$course.attr('name')] = $course.val()
+
+            $.post($form.attr('action'), data).then(function (response)
+            {
+                $("#seance_teacher").replaceWith(
+                    $(response).find("#seance_teacher")
+                )
+            })
+        
+
+        })
+        {#var $course = $('#seance_course');   
         $course.change(function() {
                 var $form = $(this).closest('form');
                 var data = {};
@@ -51,6 +69,6 @@
                          $('#seance_teacher').replaceWith(  $(html).find('#seance_teacher') );
                      }
                 });
-        });
+        });#}
 </script>
-{% endblock %}#}
+{% endblock %}

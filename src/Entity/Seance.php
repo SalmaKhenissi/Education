@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Section;
 
@@ -44,12 +45,16 @@ class Seance
     private $teacher;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="time")
+     * @Assert\Time
+     * @var string A "H:i:s" formatted value
      */
     private $startAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="time")
+     * @Assert\Time
+     * @var string A "H:i:s" formatted value
      */
     private $finishAt;
 

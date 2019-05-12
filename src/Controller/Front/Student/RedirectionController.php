@@ -23,11 +23,14 @@ class RedirectionController extends AbstractController
     /**
      * @Route("/club/{id}", name="student_club")
      */
-    public function redirectClub(Student $student ,ParameterRepository $repo )
-    { 
+    public function redirectClub(Student $student ,ParameterRepository $repoP ,SectionRepository $repoS)
+    {   $schoolYear=$repoP->find(1)->getSchoolYear();
+        $sections=$student->getSections();
+        $section =$repoS->findByYear($sections,$schoolYear);
         return$this->render('Front/Student/club.html.twig', [
             'student' => $student ,
-            'parameters' => $repo->find(1)
+            'parameters' => $repoP->find(1),
+            'section' => $section,
             ]);
     }
 
@@ -52,33 +55,42 @@ class RedirectionController extends AbstractController
     /**
      * @Route("/exams/{id}", name="student_exams")
      */
-    public function redirectExams(Student $student ,ParameterRepository $repo )
-    { 
+    public function redirectExams(Student $student ,ParameterRepository $repoP ,SectionRepository $repoS )
+    { $schoolYear=$repoP->find(1)->getSchoolYear();
+        $sections=$student->getSections();
+        $section =$repoS->findByYear($sections,$schoolYear);
         return$this->render('Front/Student/exams.html.twig', [
             'student' => $student ,
-            'parameters' => $repo->find(1)
+            'parameters' => $repoP->find(1),
+            'section' => $section,
             ]);
     }
 
     /**
      * @Route("/discipline/{id}", name="student_discipline")
      */
-    public function redirectDiscipline(Student $student ,ParameterRepository $repo )
-    { 
+    public function redirectDiscipline(Student $student ,ParameterRepository $repoP ,SectionRepository $repoS)
+    { $schoolYear=$repoP->find(1)->getSchoolYear();
+        $sections=$student->getSections();
+        $section =$repoS->findByYear($sections,$schoolYear);
         return$this->render('Front/Student/discipline.html.twig', [
             'student' => $student ,
-            'parameters' => $repo->find(1)
+            'parameters' => $repoP->find(1),
+            'section' => $section,
             ]);
     }
 
     /**
      * @Route("/notes/{id}", name="student_notes")
      */
-    public function redirectNotes(Student $student ,ParameterRepository $repo )
-    { 
+    public function redirectNotes(Student $student ,ParameterRepository $repoP ,SectionRepository $repoS )
+    { $schoolYear=$repoP->find(1)->getSchoolYear();
+        $sections=$student->getSections();
+        $section =$repoS->findByYear($sections,$schoolYear);
         return$this->render('Front/Student/notes.html.twig', [
             'student' => $student ,
-            'parameters' => $repo->find(1)
+            'parameters' => $repoP->find(1),
+            'section' => $section,
             ]);
     }
 }

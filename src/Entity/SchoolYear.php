@@ -39,9 +39,11 @@ class SchoolYear
     private $sections;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Quarter", mappedBy="schoolYear")
+     * @ORM\OneToMany(targetEntity="App\Entity\Quarter", mappedBy="schoolYear"  , cascade={"persist" ,"remove"})
      */
     private $quarters;
+
+    
 
     public function __construct()
     {
@@ -151,4 +153,5 @@ class SchoolYear
 
         return $this;
     }
+
 }

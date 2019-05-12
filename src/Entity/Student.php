@@ -30,11 +30,6 @@ class Student extends User
     
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StudentExam", mappedBy="student")
-     */
-    private $studentExams;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Section", inversedBy="students")
      */
     private $sections;
@@ -44,11 +39,16 @@ class Student extends User
      */
     private $level;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\StudentExam", mappedBy="student")
+     */
+    private $studentExams;
+
     public function __construct()
     {
         parent::__construct();
-        $this->studentExams = new ArrayCollection();
         $this->sections = new ArrayCollection();
+        $this->studentExams = new ArrayCollection();
     }
 
     /**
@@ -76,36 +76,7 @@ class Student extends User
 
     
 
-    /**
-     * @return Collection|StudentExam[]
-     */
-    public function getStudentExams(): Collection
-    {
-        return $this->studentExams;
-    }
-
-    public function addStudentExam(StudentExam $studentExam): self
-    {
-        if (!$this->studentExams->contains($studentExam)) {
-            $this->studentExams[] = $studentExam;
-            $studentExam->setStudent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStudentExam(StudentExam $studentExam): self
-    {
-        if ($this->studentExams->contains($studentExam)) {
-            $this->studentExams->removeElement($studentExam);
-            // set the owning side to null (unless already changed)
-            if ($studentExam->getStudent() === $this) {
-                $studentExam->setStudent(null);
-            }
-        }
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection|Section[]
@@ -141,6 +112,37 @@ class Student extends User
     public function setLevel(int $level): self
     {
         $this->level = $level;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|StudentExam[]
+     */
+    public function getStudentExams(): Collection
+    {
+        return $this->studentExams;
+    }
+
+    public function addStudentExam(StudentExam $studentExam): self
+    {
+        if (!$this->studentExams->contains($studentExam)) {
+            $this->studentExams[] = $studentExam;
+            $studentExam->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudentExam(StudentExam $studentExam): self
+    {
+        if ($this->studentExams->contains($studentExam)) {
+            $this->studentExams->removeElement($studentExam);
+            // set the owning side to null (unless already changed)
+            if ($studentExam->getStudent() === $this) {
+                $studentExam->setStudent(null);
+            }
+        }
 
         return $this;
     }

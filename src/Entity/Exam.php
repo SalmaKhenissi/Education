@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,6 +12,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Exam
 {
+    const TYPE = [
+        0 => 'Orale',
+        1 => 'TP' ,
+        2 => 'Controle1',
+        3 => 'Controle2',
+        4 => 'Synthése1' ,
+        5 => 'Synthése2'
+        
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -29,12 +40,16 @@ class Exam
     private $passAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="time")
+     * @Assert\Time
+     * @var string A "H:i:s" formatted value
      */
     private $startAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="time")
+     * @Assert\Time
+     * @var string A "H:i:s" formatted value
      */
     private $finishAt;
 
@@ -44,14 +59,14 @@ class Exam
     private $quarter;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $coefficient;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Course", inversedBy="exams")
      */
     private $course;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StudentExam", mappedBy="exam")
-     */
-    private $studentExams;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Section", inversedBy="exams")
@@ -63,11 +78,22 @@ class Exam
      */
     private $room;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\StudentExam", mappedBy="Exam" , cascade={"persist" ,"remove"})
+     */
+    private $studentExams;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Teacher", inversedBy="exams")
+     */
+    private $teachers;
+
+
     public function __construct()
     {
         $this->studentExams = new ArrayCollection();
+        $this->teachers = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -77,6 +103,11 @@ class Exam
     public function getType(): ?string
     {
         return $this->type;
+    }
+
+    public function getTypeType(): string
+    {
+        return self::TYPE[$this->type];
     }
 
     public function setType(string $type): self
@@ -134,6 +165,18 @@ class Exam
         return $this;
     }
 
+    public function getCoefficient(): ?int
+    {
+        return $this->coefficient;
+    }
+
+    public function setCoefficient(int $coefficient): self
+    {
+        $this->coefficient = $coefficient;
+
+        return $this;
+    }
+
     public function getCourse(): ?Course
     {
         return $this->course;
@@ -142,6 +185,30 @@ class Exam
     public function setCourse(?Course $course): self
     {
         $this->course = $course;
+
+        return $this;
+    }
+
+    public function getSection(): ?Section
+    {
+        return $this->section;
+    }
+
+    public function setSection(?Section $section): self
+    {
+        $this->section = $section;
+
+        return $this;
+    }
+
+    public function getRoom(): ?Room
+    {
+        return $this->room;
+    }
+
+    public function setRoom(?Room $room): self
+    {
+        $this->room = $room;
 
         return $this;
     }
@@ -177,28 +244,31 @@ class Exam
         return $this;
     }
 
-    public function getSection(): ?Section
+    /**
+     * @return Collection|Teacher[]
+     */
+    public function getTeachers(): Collection
     {
-        return $this->section;
+        return $this->teachers;
     }
 
-    public function setSection(?Section $section): self
+    public function addTeacher(Teacher $teacher): self
     {
-        $this->section = $section;
+        if (!$this->teachers->contains($teacher)) {
+            $this->teachers[] = $teacher;
+        }
 
         return $this;
     }
 
-    public function getRoom(): ?Room
+    public function removeTeacher(Teacher $teacher): self
     {
-        return $this->room;
-    }
-
-    public function setRoom(?Room $room): self
-    {
-        $this->room = $room;
+        if ($this->teachers->contains($teacher)) {
+            $this->teachers->removeElement($teacher);
+        }
 
         return $this;
     }
+
 
 }

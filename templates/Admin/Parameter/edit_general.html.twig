@@ -27,19 +27,19 @@
                                 </div>
                                 <div class="tab-inn">
                                    {{ form_start(form) }}
-                                    
                                     <div class="row">
-                                        <div class="col-md-4">{{ form_row(form.phone)}}</div>
+                                        <div class="col-md-4">{{ form_row(form.schoolYear)}}</div>
+                                        <div class="col-md-4">{{ form_row(form.quarter)}}</div>
                                     </div>
                                     <div class="row">
+                                        <div class="col-md-4">{{ form_row(form.phone)}}</div>
+                                    
                                         <div class="col-md-4">{{ form_row(form.email)}}</div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">{{ form_row(form.address)}}</div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-4">{{ form_row(form.schoolYear)}}</div>
-                                    </div>
+                                    
                                     <button class="btn">{{ button_label|default('Modifier') }}</button>
                                 {{ form_end(form) }}
 

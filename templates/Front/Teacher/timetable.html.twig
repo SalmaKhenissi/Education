@@ -1,4 +1,6 @@
 {% extends 'front-base.html.twig  ' %}
+{% set jours = ['Lundi', 'Mardi' , 'Mercredi' , 'Jeudi' , 'Vendredi' ,'Samedi'] %}
+{% set i = 0 %}
 {% block body %}
 <!--SECTION START-->
     <section>
@@ -8,49 +10,69 @@
             <div class="container">
                 <div class="col-md-9 col-md-offset-3">
                     <ul>
-                        <li><a href="{{path('guardian_profile', {'id': guardian.id})}}" >Profile</a></li>
-                        <li><a href="{{path('guardian_children', {'id': guardian.id})}}" class="pro-act" >Enfants</a></li>
-                        <li><a href="{{path('guardian_teachers', {'id': guardian.id})}}" >Enseignants</a></li>
+                        <li><a href="{{path('teacher_profile', {'id': teacher.id})}}" >Profile</a></li>
+                        <li><a href="{{path('teacher_timetable', {'id': teacher.id})}}" class="pro-act" >Emploi du temps</a></li>
+                        <li><a href="#"  >Discipline</a></li>
+                        <li><a href="{{path('teacher_exam_index', {'id': teacher.id})}}" >Examens</a></li>
+                        <li><a href="{{path('teacher_doc_index', {'id': teacher.id})}}"  >Documents</a></li>
+                        <li><a href="#" >Club</a></li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="stu-db">
             <div class="container pg-inn">
-                {{ include('Front/Guardian/_profile_photo.html.twig') }}
+                {{ include('Front/Teacher/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
 
                         <div class="udb-sec udb-time">
-                            <h4><img src="{{asset('images/icon/db4.png')}}" alt="" /> Mon emploi du temps</h4>
+                            <h4><img src="{{asset('images/icon/db4.png')}}" alt="" /> Emploi du temps</h4>
                             
                             <div class="tour_head1 udb-time-line days">
-                                <ul>
-                                    <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                        <div class="sdb-cl-tim">
-                                            <div class="sdb-cl-day">
-                                                <h5>Lundi</h5>
-                                            </div>
-                                            <div class="sdb-cl-class">
-                                                <ul>
-                                                    <li>
-                                                        <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
-                                                            <span>08:00 </span>
-                                                            <span>10:00 </span>
-                                                        </div>
-                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
-                                                            <h5>Français <span>TEACHER1 teacher1</span></h5>
-                                                            <span class="sdn-hall-na">S15</span>
-                                                        </div>
-                                                    </li>
-                                                    
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    
-                                </ul>
-                            </div>
+                                                    <ul>
+                                                    {% for tab in timetable %}
+                                                        <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                            <div class="sdb-cl-tim">
+                                                                <div class="sdb-cl-day">
+                                                                    <h5>{{ jours[ i ] }}</h5>
+                                                                </div>
+                                                                <div class="sdb-cl-class">
+                                                                    <ul>
+                                                                    {% for s in tab %}
+                                                                        <li>
+                                                                            <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
+                                                                                <span>
+                                                                                    {% set start = s.startAt|date("h") %}
+                                                                                    {% if start < 8 %}
+                                                                                       {{start}}:00 PM
+                                                                                    {% else %}
+                                                                                        {{start}}:00 AM
+                                                                                    {% endif %}
+                                                                                </span>
+                                                                                <span>
+                                                                                    {% set finish = s.finishAt|date("h") %}
+                                                                                    {% if finish < 8 %}
+                                                                                       {{finish}}:00 PM
+                                                                                    {% else %}
+                                                                                        {{finish}}:00 AM
+                                                                                    {% endif %}
+                                                                                </span>
+                                                                            </div>
+                                                                            <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                                                <h5>{{s.section.level.number}} {{s.section.specialty}} {{s.section.number}}</h5>
+                                                                                <span class="sdn-hall-na">{{s.room}}</span>
+                                                                            </div>
+                                                                        </li>
+                                                                    {% endfor %} 
+                                                                    </ul>
+                                                                {% set i = i + 1 %}
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    {% endfor %} 
+                                                    </ul>
+                                                </div>
                         </div>
                     </div>
                 </div>
