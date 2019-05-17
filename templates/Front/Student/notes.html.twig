@@ -1,4 +1,6 @@
 {% extends 'front-base.html.twig  ' %}
+{% set i = 0 %}
+{% set nbM = 0 %}
 {% block body %}
 <!--SECTION START-->
     <section>
@@ -10,11 +12,27 @@
                     <ul>
                         <li><a href="{{path('student_profile', {'id': student.id})}}">Profile</a></li>
                         <li><a href="{{path('student_timetable', {'id': student.id})}}" >Emploi du temps</a></li>
-                        {#<li><a href="{{path('student_absences', {'id': student.id})}}" class="pro-act">Discipline</a></li>#}
+                        <li><a href="{{path('student_discipline', {'id': student.id})}}" >Discipline</a></li>
                         <li><a href="{{path('student_exams', {'id': student.id})}}">Examens</a></li>
-                        <li><a href="{{path('student_notes', {'id': student.id})}}" class="pro-act">Notes</a></li>
-                        <li><a href="#">Documents</a></li>
-                        <li><a href="#">Club</a></li>
+                        <li><a href="{{path('student_notes', {'id': student.id})}}" class="pro-act">Résultats</a></li>
+                        {% if nb1 == 0 %}
+                        <li><a href="{{path('student_obs', {'id': student.id})}}">Observations</a></li>
+                        {% else %}
+                        <li>
+                            <a href="{{path('student_obs', {'id': student.id})}}" >Observations
+                                <i class="fa fa-bell" style="color:red;"></i><span style="color:red;">({{nb1}})</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if nb == 0 %}
+                        <li><a href="{{path('student_doc_index', {'id': student.id})}}" >Documents</a></li>
+                        {% else %}
+                        <li>
+                            <a href="{{path('student_doc_index', {'id': student.id})}}" >Documents
+                                <i class="fa fa-bell" style="color:red;"></i><span style="color:red;">({{nb}})</span>
+                            </a>
+                        </li>
+                        {% endif %}
                         
                     </ul>
                 </div>
@@ -26,37 +44,116 @@
                 <div class="col-md-9">
                     <div class="udb">
                         <div class="udb-sec udb-cour-stat">
-                            <h4><img src="{{asset('images/icon/db5.png')}}" alt="" />Notes</h4>
+                            <h4><img src="{{asset('images/icon/db5.png')}}" alt="" />Fiche des notes : Trimestre {{parameters.quarter}}</h4>
                             
                             <div class="pro-con-table">
                                 <table class="bordered responsive-table">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>Course Name</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
-                                            <th>Status</th>
-                                            <th>Edit</th>
-                                            <th>View</th>
+                                            <th>Matiére</th>
+                                            <th>Coefficient</th>
+                                            <th>Examens</th>
+                                            <th>Notes</th>
+                                            <th>Moyenne</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
+                                    {% for  key ,t in noteTable %}
+                                        {% set tab = key|split(',') %}
+                                        
                                         <tr>
-                                            <td>01</td>
-                                            <td>Software Testing</td>
-                                            <td>12May 2018</td>
-                                            <td>18Aug 2018</td>
-                                            <td><span class="pro-user-act">active</span></td>
-                                            <td><a href="sdb-course-edit.html" class="pro-edit">edit</a></td>
-                                            <td><a href="sdb-course-view.html" class="pro-edit">view</a></td>
+                                            <td>{{tab.0}}</td>
+                                            <td>{{tab.1}} </td>
+                                            <td>
+                                                <table>
+                                                    {% for e in t %}
+                                                        <tr>{{e.1}}</tr><br>
+                                                    {% endfor %}
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table>
+                                                    {% for e in t %}
+                                                        <tr>{{e.2}}</tr><br>
+                                                    {% endfor %}
+                                                </table>
+                                            </td>
+                                           <td>
+                                                {% set s = 0 %}
+                                                {% set l = 0 %}
+                                                {% set SC = 0 %}
+                                                {% for e in t %}
+                                                    {% if   e.3 == true  %}
+                                                        {% set c = e.2 * e.0 %}
+                                                        {% set s = s + c %} 
+                                                        {% set l = l + 1 %} 
+                                                        {% set SC = SC + e.0 %} 
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% if l == t|length %}
+                                                    {% set m = s / SC %}
+                                                    {{m}} 
+                                                {% endif %}
+                                            </td>
                                         </tr>
-                                        
-                                        
-                                    </tbody>
+                                    {% endfor %}   
+                                    </tbody> 
                                 </table>
                             </div>
+                        </div>
+                        <div class="udb-sec udb-cour-stat">
+                            <h4><img src="{{asset('images/icon/cor1.png')}}" alt="" />Résultat  : </h4>
+                            
+                            <div class="pro-con-table">
+                                <table>
+                                   <thead>
+                                        <tr>
+                                            <th>Période</th>
+                                            <th>Moyenne</th>
+                                            <th>Rang</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% if tabA|length > 1 %}
+                                            <tr>
+                                                <td>1ére trimestre</td>
+                                                <td>{{tabA[0]}} </td>
+                                                <td>{{tabR[0]}} </td>
+                                            </tr>
+                                        {% endif %}
+                                        {% if tabA|length > 2 %}
+                                            <tr>
+                                                <td>2éme trimestre</td>
+                                                <td>{{tabA[1]}} </td>
+                                                <td>1{{tabR[1]}}</td>
+                                            </tr>
+                                        {% endif %}
+                                        {% if  tabA|length == 4  %}
+                                            <tr>
+                                                <td>3éme trimestre</td>
+                                                <td>{{tabA[2]}} </td>
+                                                <td>{{tabR[2]}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Générale</td>
+                                                <td>{{tabA[3]}} </td>
+                                                <td>{{tabR[3]}} </td>
+                                            </tr>
+                                        {% endif %}
+                                    <tbody>
+                                </table>
+                            </div>
+                            {% if  tabA|length == 4  %}
+                                <div class="pro-con-table">
+                                {% if tabA[3] >=  10 %}
+                                <h5>Décision : <span>Admis </span></h5>
+                                {% else %}
+                                    <h5>Décision : <span>Réfusé </span></h5>
+                                {% endif %}
+                                </div>
+                            {% endif %}
                         </div>
                         
                         

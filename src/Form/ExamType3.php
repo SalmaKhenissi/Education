@@ -16,19 +16,13 @@ class ExamType3 extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     { 
-        $sections=$options['sections'];
+        $section = $options['section'];
         $quarterRepository = $options['quarterRepository'];
 
         $builder
-            ->add('section', EntityType::class ,[
-                'class' => 'App\Entity\Section' ,
-                'choices' => $sections,
-                'multiple' => false ,
-                'label' => ' Classe'
-            ])
             ->add('quarter', EntityType::class ,[
                 'class' => 'App\Entity\Quarter' ,
-                'choices' => $quarterRepository->findBySchoolYear($sections[0]->getSchoolYear()),
+                'choices' => $quarterRepository->findBySchoolYear($section->getSchoolYear()),
                 'multiple' => false ,
                 'label' => ' Trimestre'
             ])
@@ -56,7 +50,7 @@ class ExamType3 extends AbstractType
         $resolver->setDefaults([
             'data_class' => Exam::class,
             ])
-            ->setRequired('sections')
+            ->setRequired('section')
             ->setRequired('quarterRepository')
 
     ;

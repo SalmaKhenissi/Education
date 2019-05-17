@@ -4,6 +4,7 @@ namespace App\Controller\Front\Teacher;
 
 use App\Entity\Exam;
 use App\Form\NoteType;
+use App\Entity\Section;
 use App\Entity\Teacher;
 use App\Form\ExamType3;
 use App\Entity\ExamSearch;
@@ -32,45 +33,57 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ExamController extends AbstractController
 {
     /**
-     * @Route("/index/{id}", name="teacher_exam_index", methods={"GET"})
+     * @Route("{teacher}/index/{section}", name="teacher_exam_index", methods={"GET"})
      */
-    public function index(Teacher $teacher,ExamRepository $examRepository  ,SectionRepository $sectionRepository ,ParameterRepository $repoP , Request $request ,PaginatorInterface $paginator): Response
+    public function index(Teacher $teacher, Section $section,ExamRepository $examRepository  ,SectionRepository $sectionRepository ,ParameterRepository $repoP , Request $request ,PaginatorInterface $paginator): Response
     {   
         $param=$repoP->find(1);
-        $sections=$sectionRepository->findbyTeacher($teacher);
         
         $search = new ExamSearch();
-        $form = $this->createForm(ExamSearchType::class , $search ,[
-            'sections' => $sections 
-        ]);
+        $form = $this->createForm(ExamSearchType::class , $search );
         $form->handleRequest($request);
 
-        $exams=$paginator->paginate($examRepository->findbyTeacher($sections,$teacher ,$search), 
+        $exams=$paginator->paginate($examRepository->findByTeacher($section,$teacher ,$search), 
                                         $request->query->getInt('page', 1),
                                         5
         );
         return $this->render('Front/Teacher/Exam/index.html.twig', [
             'exams' => $exams,
             'teacher' => $teacher,
+            'section' => $section,
             'parameters' => $param ,
             'form' => $form->createView()
         ]);
     }
 
     /**
-     * @Route("/new/{id}", name="teacher_exam_new", methods={"GET","POST"})
+     * @Route("/sections/{id}", name="teacher_exam_sections", methods={"GET"})
      */
-    public function new(Teacher $teacher ,Request $request ,ParameterRepository $repoP ,CourseRepository $courseRepository ,SectionRepository $sectionRepository , RoomRepository $roomRepository, QuarterRepository $quarterRepository , SeanceRepository $seanceRepository ): Response
+    public function section(Teacher $teacher  ,SectionRepository $sectionRepository ,ParameterRepository $repoP ): Response
+    {   
+        $param=$repoP->find(1);
+        $sections=$sectionRepository->findbyTeacher($teacher);
+        
+        return $this->render('Front/Teacher/Exam/sections.html.twig', [
+            'sections' => $sections,
+            'teacher' => $teacher,
+            'parameters' => $param ,
+        ]);
+    }
+
+    /**
+     * @Route("{id}/new/{section}", name="teacher_exam_new", methods={"GET","POST"})
+     */
+    public function new(Teacher $teacher ,Section $section ,Request $request ,ParameterRepository $repoP ,CourseRepository $courseRepository ,SectionRepository $sectionRepository , RoomRepository $roomRepository, QuarterRepository $quarterRepository , SeanceRepository $seanceRepository ): Response
     {   
         $param=$repoP->find(1);
 
         $choicesType = Exam::TYPE ;
         $exam = new Exam();
 
-        $sections=$sectionRepository->findByTeacher($teacher);
 
         $form = $this->createForm(ExamType3::class, $exam, [
-            'sections' => $sections ,
+            'section' => $section,
             'quarterRepository' => $quarterRepository 
         ]);
         $form->handleRequest($request);
@@ -84,8 +97,9 @@ class ExamController extends AbstractController
             else{$exam->setCoefficient(1);}
 
             $exam->addTeacher($teacher);
+            $exam->setSection($section);
 
-            $courses=$courseRepository->findBySection($exam->getSection());
+            $courses=$courseRepository->findBySection($section);
             foreach($courses as $c)
             {
                 if($c->getLibelle()==$teacher->getSpecialty())
@@ -94,7 +108,7 @@ class ExamController extends AbstractController
                 }
             }
 
-            $seances=$seanceRepository->findByTeaching($teacher,$exam->getSection());
+            $seances=$seanceRepository->findByTeaching($teacher,$section);
             $room=$roomRepository->findByDay($seances ,$exam);
             $exam->setRoom($room);
 
@@ -116,7 +130,8 @@ class ExamController extends AbstractController
 
             $id=$teacher->getId();
             return $this->redirectToRoute('teacher_exam_index', [
-                'id' => $id,
+                'teacher' => $id,
+                'section' => $section->getId()
             ]);
         }
 
@@ -149,7 +164,7 @@ class ExamController extends AbstractController
     {  $param=$repoP->find(1);
         $choicesType = Exam::TYPE ;
         $form = $this->createForm(ExamType3::class, $exam , [
-            'sections' => $sections ,
+            'section' => $exam->getSection(),
             'quarterRepository' => $quarterRepository 
         ]);
         $form->handleRequest($request);
@@ -170,7 +185,8 @@ class ExamController extends AbstractController
 
             $id=$teacher->getId();
             return $this->redirectToRoute('teacher_exam_index', [
-                'id' => $id,
+                'teacher' => $id,
+                'section' => $exam->getSection()->getId()
             ]);
         }
 
@@ -187,7 +203,7 @@ class ExamController extends AbstractController
      */
     public function delete(Teacher $teacher , Exam $exam ,Request $request): Response
     {
-            
+            $section=$exam->getSection();
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($exam);
@@ -195,7 +211,8 @@ class ExamController extends AbstractController
         
 
         return $this->redirectToRoute('teacher_exam_index' , [
-            'id' => $teacher->getId(),
+            'teacher' => $teacher->getId(),
+            'section' =>$section->getId()
         ]);
     }
 
@@ -220,7 +237,8 @@ class ExamController extends AbstractController
 
             $id=$teacher->getId();
             return $this->redirectToRoute('teacher_exam_index', [
-                'id' => $id,
+                'teacher' => $id,
+                'section' => $exam->getSection()->getId()
             ]);
         }
         
@@ -233,4 +251,23 @@ class ExamController extends AbstractController
         ]);
     }
     
+    /**
+     * @Route("/{teacher}/calendar/{section}", name="teacher_exam_calendar", methods={"GET"})
+     */
+    public function calendar(Teacher $teacher, Section $section,ExamRepository $examRepository   ,ParameterRepository $repoP , Request $request ,PaginatorInterface $paginator): Response
+    {   
+        $param=$repoP->find(1);
+        $quarter=$param->getQuarter();
+
+        $exams=$paginator->paginate($examRepository->findByQuarter($section ,$quarter), 
+                                        $request->query->getInt('page', 1),
+                                        5
+        );
+        return $this->render('Front/Teacher/Exam/calendar.html.twig', [
+            'exams' => $exams,
+            'teacher' => $teacher,
+            'section' => $section,
+            'parameters' => $param ,
+        ]);
+    }
 }

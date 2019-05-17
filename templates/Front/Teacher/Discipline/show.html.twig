@@ -1,0 +1,50 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        {{ include('Front/Teacher/Discipline/_menu.html.twig') }}
+        <div class="stu-db">
+            <div class="container pg-inn">
+                {{ include('Front/Teacher/_profile_photo.html.twig') }}
+                <div class="col-md-9">
+                    <div class="udb">
+                        <div class="udb-sec udb-cour-stat">
+                        <h4><img src="{{asset('images/icon/db3.png')}}" alt="" />Discipline : </h4>
+                             
+                                <div class="pro-con-table">
+                                        <table class="bordered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nom & Prénom</th>
+                                                    <th>Discipline</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            
+                                                {% for d in page %}
+                                                    <tr>
+                                                        <td>{{d.student}}</td>  
+                                                        <td>{{d.type}}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        
+                                </div>
+                                
+                            
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+
+
+{% endblock %} 

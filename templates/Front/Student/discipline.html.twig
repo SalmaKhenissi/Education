@@ -9,11 +9,27 @@
                     <ul>
                         <li><a href="{{path('student_profile', {'id': student.id})}}">Profile</a></li>
                         <li><a href="{{path('student_timetable', {'id': student.id})}}" >Emploi du temps</a></li>
-                        {#<li><a href="{{path('student_absences', {'id': student.id})}}" class="pro-act">Discipline</a></li>#}
-                        <li><a href="{{path('student_exams', {'id': student.id})}}" class="pro-act">Examens</a></li>
-                        <li><a href="{{path('student_notes', {'id': student.id})}}">Notes</a></li>
-                        <li><a href="#">Documents</a></li>
-                        <li><a href="#">Club</a></li>
+                        <li><a href="{{path('student_discipline', {'id': student.id})}}" class="pro-act">Discipline</a></li>
+                        <li><a href="{{path('student_exams', {'id': student.id})}}" >Examens</a></li>
+                        <li><a href="{{path('student_notes', {'id': student.id})}}">Résultats</a></li>
+                        {% if nb1 == 0 %}
+                        <li><a href="{{path('student_obs', {'id': student.id})}}">Observations</a></li>
+                        {% else %}
+                        <li>
+                            <a href="{{path('student_obs', {'id': student.id})}}" >Observations
+                                <i class="fa fa-bell" style="color:red;"></i><span style="color:red;">({{nb1}})</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if nb == 0 %}
+                        <li><a href="{{path('student_doc_index', {'id': student.id})}}">Documents</a></li>
+                        {% else %}
+                        <li>
+                            <a href="{{path('student_doc_index', {'id': student.id})}}" >Documents
+                                <i class="fa fa-bell" style="color:red;"></i><span style="color:red;">({{nb}})</span>
+                            </a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -24,32 +40,62 @@
                 <div class="col-md-9">
                     <div class="udb">
                         <div class="udb-sec udb-cour-stat">
-                            <h4><img src="{{asset('images/icon/db3.png')}}" alt="" />Discipline</h4>
+                            <h4><img src="{{asset('images/icon/db3.png')}}" alt="" />Assiduité : Trimestre {{parameters.quarter}}</h4>
                             
                             <div class="pro-con-table">
                                 <table class="bordered responsive-table">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>Course Name</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
-                                            <th>Status</th>
-                                            <th>Edit</th>
-                                            <th>View</th>
+                                            <th>Séance</th>
+                                            <th>Matiére</th>
+                                            <th>Enseignant</th>
+                                            <th>Date</th>
+                                            <th>Type</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
+                                        {% for d in disciplines %}
                                         <tr>
-                                            <td>01</td>
-                                            <td>Software Testing</td>
-                                            <td>12May 2018</td>
-                                            <td>18Aug 2018</td>
-                                            <td><span class="pro-user-act">active</span></td>
-                                            <td><a href="sdb-course-edit.html" class="pro-edit">edit</a></td>
-                                            <td><a href="sdb-course-view.html" class="pro-edit">view</a></td>
+                                            <td>{{d.seance.day}}</td>
+                                            <td>{{d.seance.course}}</td>
+                                            <td>{{d.seance.teacher}}</td>
+                                            <td>{{d.date|date("d/m/Y ")}}</td>
+                                            <td>{{d.type}}</td>
+                                         </tr>
+                                        
+                                    {% endfor %}  
+                                        
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="udb-sec udb-cour-stat">
+                            <h4><img src="{{asset('images/icon/db.png')}}" alt="" />Punition : Trimestre {{parameters.quarter}}</h4>
+                            
+                            <div class="pro-con-table">
+                                <table class="bordered responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Type</th>
+                                            <th>Description</th>
+                                            <th>Enseignant</th>
+                                            <th>Date</th>
                                         </tr>
+                                    </thead>
+
+                                    <tbody>
+                                      {#}  {% for d in disciplines %}
+                                        <tr>
+                                            <td>{{d.seance.day}}</td>
+                                            <td>{{d.seance.course}}</td>
+                                            <td>{{d.seance.teacher}}</td>
+                                            <td>{{d.date|date("d/m/Y ")}}</td>
+                                            <td>{{d.type}}</td>
+                                         </tr>
+                                        
+                                    {% endfor %}  #}
                                         
                                         
                                     </tbody>

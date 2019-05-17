@@ -4,56 +4,47 @@
     <section>
         <div class="pro-cover">
         </div>
-        <div class="pro-menu">
-            <div class="container">
-                <div class="col-md-9 col-md-offset-3">
-                    <ul>
-                        <li><a href="{{path('teacher_profile', {'id': teacher.id})}}" >Profile</a></li>
-                        <li><a href="{{path('teacher_timetable', {'id': teacher.id})}}" >Emploi du temps</a></li>
-                        <li><a href="{{path('teacher_exam_index', {'id': teacher.id})}}" >Examens</a></li>
-                        <li><a href="#"  class="pro-act" >Discipline</a></li>
-                        <li><a href="{{path('teacher_doc_index', {'id': teacher.id})}}"   >Documents</a></li>
-                        <li><a href="#" >Club</a></li>
-                        
-                    </ul>
-                </div>
-            </div>
-        </div>
+        {{ include('Front/Teacher/Discipline/_menu.html.twig') }}
         <div class="stu-db">
             <div class="container pg-inn">
                 {{ include('Front/Teacher/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
-                        <div class="udb-sec udb-cour">
-                            <h4><img src="{{asset('images/icon/db3.png')}}" alt="" />Discipline</h4>
-                            <div class="sdb-cours">
-                                <ul>
-                                    <li>
-                                        <a href="#">
-                                            <div class="list-mig-like-com com-mar-bot-30">
-                                                <div class="list-mig-lc-img"> <img src="{{asset('images/course/3.jpg')}}" alt=""> <span class="home-list-pop-rat list-mi-pr">Duration:150 Days</span> </div>
-                                                <div class="list-mig-lc-con">
-                                                    <h5>Faire l'appel</h5>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="list-mig-like-com com-mar-bot-30">
-                                                <div class="list-mig-lc-img"> <img src="{{asset('images/course/3.jpg')}}" alt=""> <span class="home-list-pop-rat list-mi-pr">Duration:20 Days</span> </div>
-                                                <div class="list-mig-lc-con">
-                                                    <h5>Envoyer une observation</h5>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-
+                        <div class="udb-sec udb-cour-stat">
+                            <h4><img src="{{asset('images/icon/db3.png')}}" alt="" />Registre d'appel</h4>
                             
+                            <div class="pro-con-table">
+                                 
+                                <table class="bordered responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Séance</th>
+                                            <th>Date</th>
+                                            <th>Détails</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for s in register %}
+                                        {% set date = s.0.date|date("md")  %}
+                                        <tr>
+                                            <td>{{s.0.seance.day}}</td>
+                                            <td>{{s.0.date|date("d/m/Y ")}}</td>
+                                            <td><a href="{{path('teacher_discipline_show', {'teacher': teacher.id ,'section' : section.id ,'date':date})}}" class="btn btn-info fa fa-eye"></a></td>
+                                            <td><a href="{{path('teacher_discipline_edit', {'teacher': teacher.id ,'section' : section.id ,'date':date})}}" class="btn btn-warning fa fa-pencil"></a></td>
+                                        </tr>
+                                        
+                                    {% endfor %}  
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                            <div class="sdb-bot-edit">
+                                    
+                                    <a href="{{path('teacher_discipline_call', {'teacher': teacher.id ,'section' : section.id})}}" ><i class="fa fa-check-circle-o"></i> Faire l'appel</a>
+                            </div>
                         </div>
-                       
                         
                     </div>
                 </div>

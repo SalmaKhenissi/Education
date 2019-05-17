@@ -4,28 +4,14 @@
     <section>
         <div class="pro-cover">
         </div>
-        <div class="pro-menu">
-            <div class="container">
-                <div class="col-md-9 col-md-offset-3">
-                    <ul>
-                        <li><a href="{{path('teacher_profile', {'id': teacher.id})}}" >Profile</a></li>
-                        <li><a href="{{path('teacher_timetable', {'id': teacher.id})}}" >Emploi du temps</a></li>
-                        <li><a href="#"  >Discipline</a></li>
-                        <li><a href="{{path('teacher_exam_index', {'id': teacher.id})}}" class="pro-act" >Examens</a></li>
-                        <li><a href="{{path('teacher_doc_index', {'id': teacher.id})}}"   >Documents</a></li>
-                        <li><a href="#" >Club</a></li>
-                        
-                    </ul>
-                </div>
-            </div>
-        </div>
+        {{ include('Front/Teacher/Exam/_menu.html.twig') }}
         <div class="stu-db">
             <div class="container pg-inn">
                 {{ include('Front/Teacher/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
                         <div class="udb-sec udb-cour-stat">
-                        <h4><img src="{{asset('images/icon/db5.png')}}" alt="" />Examens</h4>
+                        <h4><img src="{{asset('images/icon/db5.png')}}" alt="" />Examens {{teacher.specialty}} : {{exam.type}}</h4>
                         <div class="sdb-tabl-com sdb-pro-table">
                                 <table class="responsive-table bordered">
                                     <tbody>

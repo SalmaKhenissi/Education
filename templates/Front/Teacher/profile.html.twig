@@ -10,10 +10,9 @@
                     <ul>
                         <li><a href="{{path('teacher_profile', {'id': teacher.id})}}" class="pro-act">Profile</a></li>
                         <li><a href="{{path('teacher_timetable', {'id': teacher.id})}}" >Emploi du temps</a></li>
-                        <li><a href="#"  >Discipline</a></li>
-                        <li><a href="{{path('teacher_exam_index', {'id': teacher.id})}}" >Examens</a></li>
+                        <li><a href="{{path('teacher_discipline_sections', {'id': teacher.id})}}"  >Discipline</a></li>
+                        <li><a href="{{path('teacher_exam_sections', {'id': teacher.id})}}" >Examens</a></li>
                         <li><a href="{{path('teacher_doc_index', {'id': teacher.id})}}"  >Documents</a></li>
-                        <li><a href="#" >Club</a></li>
                     </ul>
                 </div>
             </div>
@@ -79,7 +78,7 @@
                                 </table>
                                 <div class="sdb-bot-edit">
                                     
-                                    <a href="#" ><i class="fa fa-pencil"></i> Modifier mon profile</a>
+                                    <a href="#" ><i class="fa fa-pencil"></i> Modifier le profile</a>
                                 </div>
                             </div>
                         </div>

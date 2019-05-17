@@ -29,7 +29,9 @@ class DocumentType extends AbstractType
             ])
             ->add('docFile', VichFileType::class ,[
                 'required' => false ,
-                'allow_delete' => true,
+                'allow_delete' => false,
+                'download_uri'=> false,
+                'download_label'=> false,
                 'label' => ' Fichier '
             
             ])

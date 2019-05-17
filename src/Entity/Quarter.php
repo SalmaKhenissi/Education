@@ -57,6 +57,23 @@ class Quarter
      */
     private $exams;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $coefficient;
+
+    
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $resultDisplay;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $notesDisplay;
+
 
     public function __construct()
     {
@@ -166,6 +183,44 @@ class Quarter
                 $exam->setQuarter(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCoefficient(): ?int
+    {
+        return $this->coefficient;
+    }
+
+    public function setCoefficient(int $coefficient): self
+    {
+        $this->coefficient = $coefficient;
+
+        return $this;
+    }
+
+    
+
+    public function getResultDisplay(): ?bool
+    {
+        return $this->resultDisplay;
+    }
+
+    public function setResultDisplay(bool $resultDisplay): self
+    {
+        $this->resultDisplay = $resultDisplay;
+
+        return $this;
+    }
+
+    public function getNotesDisplay(): ?bool
+    {
+        return $this->notesDisplay;
+    }
+
+    public function setNotesDisplay(bool $notesDisplay): self
+    {
+        $this->notesDisplay = $notesDisplay;
 
         return $this;
     }

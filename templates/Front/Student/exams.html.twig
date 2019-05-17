@@ -1,4 +1,6 @@
 {% extends 'front-base.html.twig  ' %}
+{% set jours = ['Lundi', 'Mardi' , 'Mercredi' , 'Jeudi' , 'Vendredi' ,'Samedi'] %}
+{% set i = 0 %}
 {% block body %}
 <!--SECTION START-->
     <section>
@@ -10,11 +12,27 @@
                     <ul>
                         <li><a href="{{path('student_profile', {'id': student.id})}}">Profile</a></li>
                         <li><a href="{{path('student_timetable', {'id': student.id})}}" >Emploi du temps</a></li>
-                        {#<li><a href="{{path('student_absences', {'id': student.id})}}" class="pro-act">Discipline</a></li>#}
+                        <li><a href="{{path('student_discipline', {'id': student.id})}}" >Discipline</a></li>
                         <li><a href="{{path('student_exams', {'id': student.id})}}" class="pro-act">Examens</a></li>
-                        <li><a href="{{path('student_notes', {'id': student.id})}}">Notes</a></li>
-                        <li><a href="#">Documents</a></li>
-                        <li><a href="#">Club</a></li>
+                        <li><a href="{{path('student_notes', {'id': student.id})}}">Résultats</a></li>
+                        {% if nb1 == 0 %}
+                        <li><a href="{{path('student_obs', {'id': student.id})}}">Observations</a></li>
+                        {% else %}
+                        <li>
+                            <a href="{{path('student_obs', {'id': student.id})}}" >Observations
+                                <i class="fa fa-bell" style="color:red;"></i><span style="color:red;">({{nb1}})</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if nb == 0 %}
+                        <li><a href="{{path('student_doc_index', {'id': student.id})}}">Documents</a></li>
+                        {% else %}
+                        <li>
+                            <a href="{{path('student_doc_index', {'id': student.id})}}" >Documents
+                                <i class="fa fa-bell" style="color:red;"></i><span style="color:red;">({{nb}})</span>
+                            </a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -22,37 +40,92 @@
         <div class="stu-db">
             <div class="container pg-inn">
                 {{ include('Front/Student/_profile_photo.html.twig') }}
-                <div class="col-md-9">
+                <div class="col-md-8">
                     <div class="udb">
 
                         <div class="udb-sec udb-time">
-                            <h4><img src="{{asset('images/icon/db5.png')}}" alt="" /> Emploi d'examens</h4>
+                            <h4><img src="{{asset('images/icon/cor4.png')}}" alt="" /> Cahier des devoirs : Trimestre {{parameters.quarter}}</h4>
+                            
+                             <div class="pro-con-table">
+                                 
+                                <table class="bordered responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Matiére</th>
+                                            <th>Type</th>
+                                            <th>Date</th>
+                                            <th>Début</th>
+                                            <th>Fin</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for e in tabC %}
+                                        <tr>
+                                            <td>{{e.course}}</td>
+                                            <td>{{e.type}}</td>
+                                            <td>{{e.passAt|date('d-m-Y')}} </td>
+                                            <td>{{e.startAt|date('h:m')}}</td>
+                                            <td>{{e.finishAt|date('h:m')}}</td>
+                                           
+                                        </tr>
+                                        
+                                    {% endfor %}  
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+                        <div class="udb-sec udb-time">
+                            <h4><img src="{{asset('images/icon/db4.png')}}" alt="" />Semaine bloquée : Trimestre {{parameters.quarter}}</h4>
                             
                             <div class="tour_head1 udb-time-line days">
                                 <ul>
-                                    <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                     {% for tab in timetableExam %}
+                                        <li class="l-info-pack-plac"> <i class="fa fa-clock-o" aria-hidden="true"></i>
                                         <div class="sdb-cl-tim">
                                             <div class="sdb-cl-day">
-                                                <h5>Lundi</h5>
+                                                <h5>{{ jours[ i ] }}</h5>
+                                                <span>
+                                                    {% if not tab|length == 0 %}
+                                                        {{ tab[0].passAt|date("d/m/Y") }}
+                                                    {% endif %}
+                                                </span>
                                             </div>
                                             <div class="sdb-cl-class">
                                                 <ul>
+                                                    {% for e in tab %}
                                                     <li>
                                                         <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
-                                                            <span>08:00 </span>
-                                                            <span>10:00 </span>
-                                                        </div>
-                                                        <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
-                                                            <h5>Français <span>TEACHER1 teacher1</span></h5>
-                                                            <span class="sdn-hall-na">S15</span>
-                                                        </div>
-                                                    </li>
-                                                    
-                                                </ul>
+                                                            <span>
+                                                                {% set start = e.startAt|date("h") %}
+                                                                {% if start < 8 %}
+                                                                    {{e.startAt|date("h:m")}} PM
+                                                                {% else %}
+                                                                    {{e.startAt|date("h:m")}} AM
+                                                                {% endif %}
+                                                            </span>
+                                                            <span>
+                                                                {% set finish = e.finishAt|date("h") %}
+                                                                {% if finish < 8 %}
+                                                                    {{e.finishAt|date("h:m")}} PM
+                                                                {% else %}
+                                                                    {{e.finishAt|date("h:m")}} AM
+                                                                {% endif %}
+                                                            </span>
+                                                            </div>
+                                                            <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
+                                                                <h5>{{e.course.libelle}}</h5>
+                                                                <span class="sdn-hall-na">{{e.room}}</span>
+                                                            </div>
+                                                        </li>
+                                                    {% endfor %} 
+                                                    </ul>
+                                                    {% set i = i + 1 %}
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    
+                                        </li>
+                                    {% endfor %} 
                                 </ul>
                             </div>
                         </div>

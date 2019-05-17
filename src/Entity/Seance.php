@@ -68,12 +68,17 @@ class Seance
      */
     private $course;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Discipline", mappedBy="seance")
+     */
+    private $disciplines;
+
 
 
     public function __construct()
     {
-        
-     }
+        $this->disciplines = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -167,6 +172,37 @@ class Seance
     public function setCourse(?Course $course): self
     {
         $this->course = $course;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Discipline[]
+     */
+    public function getDisciplines(): Collection
+    {
+        return $this->disciplines;
+    }
+
+    public function addDiscipline(Discipline $discipline): self
+    {
+        if (!$this->disciplines->contains($discipline)) {
+            $this->disciplines[] = $discipline;
+            $discipline->setSeance($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiscipline(Discipline $discipline): self
+    {
+        if ($this->disciplines->contains($discipline)) {
+            $this->disciplines->removeElement($discipline);
+            // set the owning side to null (unless already changed)
+            if ($discipline->getSeance() === $this) {
+                $discipline->setSeance(null);
+            }
+        }
 
         return $this;
     }

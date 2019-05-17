@@ -1,0 +1,58 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        {{ include('Front/Teacher/Exam/_menu.html.twig') }}
+        <div class="stu-db">
+            <div class="container pg-inn">
+                {{ include('Front/Teacher/_profile_photo.html.twig') }}
+                <div class="col-md-9">
+                    <div class="udb">
+                        <div class="udb-sec udb-cour-stat">
+                            <h4><img src="{{asset('images/icon/db5.png')}}" alt="" />Cahier des examens : Trimestre {{parameters.quarter}} </h4>
+                            
+                            <div class="pro-con-table">
+                                 
+                                <table class="bordered responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Matiére</th>
+                                            <th>Type</th>
+                                            <th>Date</th>
+                                            <th>Début</th>
+                                            <th>Fin</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for e in exams %}
+                                        <tr>
+                                            <td>{{e.course}}</td>
+                                            <td>{{e.type}}</td>
+                                            <td>{{e.passAt|date('d-m-Y')}} </td>
+                                            <td>{{e.startAt|date('h:m')}}</td>
+                                            <td>{{e.finishAt|date('h:m')}}</td>
+                                           
+                                        </tr>
+                                        
+                                    {% endfor %}  
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+                        <div class="pagination">
+                             {{ knp_pagination_render(exams) }}
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+
+
+{% endblock %} 

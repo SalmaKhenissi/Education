@@ -62,10 +62,27 @@ class RedirectionController extends AbstractController
         $schoolYear=$repoP->find(1)->getSchoolYear();
         $sections=$student->getSections();
         $section =$repoS->findByYear($sections,$schoolYear);
+
+        $nb=0;
+        foreach($section->getDocuments() as $d)
+        {
+            if($d->getType()!='Examen' && $d->getViewed()==0 )
+            {   
+                 $nb++;
+            }
+        } 
+        $nb1=0;
+        foreach($section->getObservations() as $o)
+        {
+            if($o->getViewed()==0)
+            { $nb1++;}
+        }
         return $this->render('Front/Student/profile.html.twig', [
             'student' => $student,
             'parameters' => $repoP->find(1) ,
-            'section'=> $section
+            'section'=> $section,
+            'nb' =>$nb,
+            'nb1' => $nb1
         ]);
     }
 

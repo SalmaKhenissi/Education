@@ -1,0 +1,54 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        {{ include('Front/Teacher/Discipline/_menu.html.twig') }}
+        <div class="stu-db">
+            <div class="container pg-inn">
+                {{ include('Front/Teacher/_profile_photo.html.twig') }}
+                <div class="col-md-9">
+                    <div class="udb">
+                        <div class="udb-sec udb-cour">
+                            <h4><img src="{{asset('images/icon/db3.png')}}" alt="" />Discipline</h4>
+                            {% for s in sections %}
+                            <div class="sdb-cours">
+                            <h4><strong>{{s}}</strong></h4>
+                                <ul>
+                                    <li>
+                                        <a href="{{path('teacher_discipline_index', {'teacher': teacher.id,'section':s.id})}}">
+                                            <div class="list-mig-like-com com-mar-bot-30">
+                                                <div class="list-mig-lc-img"> <img src="{{asset('images/classe/2.jpg')}}" alt=""> </div>
+                                                <div class="list-mig-lc-con">
+                                                    <h5>Registre d'appel</h5>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{path('teacher_discipline_index', {'teacher': teacher.id,'section':s.id})}}">
+                                            <div class="list-mig-like-com com-mar-bot-30">
+                                                <div class="list-mig-lc-img"> <img src="{{asset('images/classe/3.jpg')}}" alt=""> </div>
+                                                <div class="list-mig-lc-con">
+                                                    <h5>Observations</h5>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            {% endfor %}
+                            
+                        </div>
+                       
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+
+
+{% endblock %} 

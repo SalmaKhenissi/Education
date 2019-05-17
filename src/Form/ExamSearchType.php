@@ -2,7 +2,6 @@
 
 namespace App\Form;
 use App\Entity\Quarter;
-use App\Entity\Section;
 use App\Entity\ExamSearch;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,17 +18,8 @@ class ExamSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $sections=$options['sections'];
 
         $builder
-        ->add('section' , EntityType::class , [
-            'label' => false,
-            'class' => 'App\Entity\Section' ,
-            'choices' => $sections,
-            'choice_label' => 'libelle',
-            'multiple' => false ,
-            
-        ])
         ->add('quarter' , EntityType::class , [
             'label' => false,
             'class' => Quarter::class,
@@ -48,7 +38,6 @@ class ExamSearchType extends AbstractType
                     'method' => 'get',
                     'csrf_protection' => false
                  ])
-        ->setRequired('sections')
         ;
     }
 

@@ -27,10 +27,17 @@ class DocumentController extends AbstractController
      */
     public function index(Teacher $teacher ,DocumentRepository $documentRepository ,ParameterRepository $repoP , Request $request ,PaginatorInterface $paginator): Response
     {   $param=$repoP->find(1);
-        $docs=$paginator->paginate($documentRepository->findAll(), 
-                                        $request->query->getInt('page', 1),
-                                        5
-        );
+
+        $tab=$teacher->getDocuments();
+        $sorted=[];
+        foreach($tab as $d)
+        {
+            $k=date('n',strtotime($d->getPostedAt()->format('Y-m-d'))).date('d',strtotime($d->getPostedAt()->format('Y-m-d')));
+            $sorted[$k]=$d;
+        }
+        krsort($sorted);
+
+        $docs=$paginator->paginate($sorted, $request->query->getInt('page', 1), 5);
         return $this->render('Front/Teacher/Document/index.html.twig', [
             'docs' => $docs,
             'teacher' => $teacher,

@@ -48,6 +48,21 @@ class SeanceRepository extends ServiceEntityRepository
         
     ;
     }
+
+    public function findByDate($date, $seances)
+    { 
+        $week=['Dimanche','Lundi','Mardi' ,'Mercredi' , 'Jeudi' ,'Vendredi','Samedi'];
+        $day=date('N' ,strtotime($date->format('Y-m-d')));
+        foreach($seances as $s)
+        {
+            if($s->getDay()==$week[$day])
+            {
+                $seance=$s;
+            }
+        }
+        return $seance;
+    }
+
     public function findAllByDay($day, $section)
     { 
         $sections=$section->getSchoolYear()->getSections();

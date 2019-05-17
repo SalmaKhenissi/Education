@@ -7,6 +7,7 @@ use App\Entity\Exam;
 use App\Form\ExamType;
 use App\Entity\Section;
 use App\Form\Exam2Type;
+use App\Entity\StudentExam;
 use App\Repository\ExamRepository;
 use App\Repository\RoomRepository;
 use App\Repository\CourseRepository;
@@ -35,7 +36,7 @@ class ExamController extends AbstractController
         $type = $request->get('type');
         $quarter = $request->get('quarter');
 
-        $examsFiltred=$examRepository->findByOptions($course ,$type , $quarter);
+        $examsFiltred=$examRepository->findByOptions($course ,$type , $quarter ,$section);
         
         return $this->render('Admin/Exam/index.html.twig', [
             'exams' => $examsFiltred  ,
@@ -100,6 +101,15 @@ class ExamController extends AbstractController
             
 
             $this->getDoctrine()->getManager()->flush();
+
+            foreach($exam->getSection()->getStudents() as $s)
+            {
+                $StudentExam = new StudentExam($exam,$s);
+                $StudentExam->setNote(0);
+                $StudentExam->setExam($exam);
+                $entityManager->persist($StudentExam);
+                $entityManager->flush();
+            }
 
             return $this->redirectToRoute('admin_section_show', [
                 'id' => $exam->getSection()->getId(),

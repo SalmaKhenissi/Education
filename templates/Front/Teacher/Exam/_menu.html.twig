@@ -1,0 +1,14 @@
+<div class="pro-menu">
+            <div class="container">
+                <div class="col-md-9 col-md-offset-3">
+                    <ul>
+                        <li><a href="{{path('teacher_profile', {'id': teacher.id})}}" >Profile</a></li>
+                        <li><a href="{{path('teacher_timetable', {'id': teacher.id})}}" >Emploi du temps</a></li>
+                        <li><a href="{{path('teacher_discipline_sections', {'id': teacher.id})}}"  >Discipline</a></li>
+                        <li><a href="{{path('teacher_exam_sections', {'id': teacher.id})}}"  class="pro-act" >Examens</a></li>
+                        <li><a href="{{path('teacher_doc_index', {'id': teacher.id})}}"  >Documents</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+</div>

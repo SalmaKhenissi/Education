@@ -1,0 +1,29 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        {{ include('Front/Student/Document/_menu.html.twig') }}
+        <div class="stu-db">
+            <div class="container pg-inn">
+                {{ include('Front/Student/_profile_photo.html.twig') }}
+                <div class="col-md-9">
+                    <div class="udb">
+                        <div class="udb-sec udb-cour-stat">
+                        <h4><img src="{{asset('images/icon/db2.png')}}" alt="" />Documents</h4>
+                           <embed src="{{'/Pro-Education/public' ~ vich_uploader_asset( doc ,'docFile') }}"  width=700 height=1000 type='application/pdf'/>
+                            {#<a href="{{'/Pro-Education/public' ~ vich_uploader_asset( doc ,'docFile') }}">voir program (PDF)</a>#}
+                            
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+
+
+{% endblock %} 

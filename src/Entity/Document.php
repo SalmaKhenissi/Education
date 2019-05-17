@@ -18,6 +18,7 @@ class Document
         0 => 'Cours',
         1 => 'Exercies',
         2 => 'TP',
+        3 => 'Examen',
     ];
 
     /**
@@ -67,6 +68,11 @@ class Document
      * @ORM\ManyToMany(targetEntity="App\Entity\Section", inversedBy="documents")
      */
     private $sections;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $viewed;
 
     public function __construct()
     {
@@ -203,6 +209,18 @@ class Document
         if ($this->sections->contains($section)) {
             $this->sections->removeElement($section);
         }
+
+        return $this;
+    }
+
+    public function getViewed(): ?bool
+    {
+        return $this->viewed;
+    }
+
+    public function setViewed(bool $viewed): self
+    {
+        $this->viewed = $viewed;
 
         return $this;
     }

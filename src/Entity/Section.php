@@ -72,6 +72,11 @@ class Section
      */
     private $exams;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Observation", mappedBy="sections")
+     */
+    private $observations;
+
     
     public function __toString(){
         
@@ -86,6 +91,7 @@ class Section
         $this->students = new ArrayCollection();
         $this->documents = new ArrayCollection();
         $this->exams = new ArrayCollection();
+        $this->observations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -272,6 +278,34 @@ class Section
             if ($exam->getSection() === $this) {
                 $exam->setSection(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Observation[]
+     */
+    public function getObservations(): Collection
+    {
+        return $this->observations;
+    }
+
+    public function addObservation(Observation $observation): self
+    {
+        if (!$this->observations->contains($observation)) {
+            $this->observations[] = $observation;
+            $observation->addSection($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObservation(Observation $observation): self
+    {
+        if ($this->observations->contains($observation)) {
+            $this->observations->removeElement($observation);
+            $observation->removeSection($this);
         }
 
         return $this;

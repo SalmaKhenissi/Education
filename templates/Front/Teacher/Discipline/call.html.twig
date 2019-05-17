@@ -1,0 +1,52 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        {{ include('Front/Teacher/Discipline/_menu.html.twig') }}
+        <div class="stu-db">
+            <div class="container pg-inn">
+                {{ include('Front/Teacher/_profile_photo.html.twig') }}
+                <div class="col-md-9">
+                    <div class="udb">
+                        <div class="udb-sec udb-cour-stat">
+                        <h4><img src="{{asset('images/icon/db3.png')}}" alt="" />Faire l'appel</h4>
+                            {{ form_start(form)}} 
+                                <div class="pro-con-table">
+                                        <table class="bordered responsive-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nom & Prénom</th>
+                                                    <th>Discipline</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            
+                                                {% for row in form.disciplines %}
+                                                    <tr>
+                                                        <td>{{row.vars.value.student}}</td>  
+                                                        <td>{{ form_row(row)}}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        
+                                </div>
+                                <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+                                <br><br><br>
+                            {{ form_end(form)}}
+                            
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+
+
+{% endblock %} 
