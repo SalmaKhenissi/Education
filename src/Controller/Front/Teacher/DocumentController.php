@@ -28,16 +28,18 @@ class DocumentController extends AbstractController
     public function index(Teacher $teacher ,DocumentRepository $documentRepository ,ParameterRepository $repoP , Request $request ,PaginatorInterface $paginator): Response
     {   $param=$repoP->find(1);
 
-        $tab=$teacher->getDocuments();
-        $sorted=[];
-        foreach($tab as $d)
-        {
-            $k=date('n',strtotime($d->getPostedAt()->format('Y-m-d'))).date('d',strtotime($d->getPostedAt()->format('Y-m-d')));
-            $sorted[$k]=$d;
+        $tab=[];
+        foreach($teacher->getDocuments() as $d){
+            foreach($d->getSections() as $s)
+            { if($s->getSchoolYear()->getLibelle()==$param->getSchoolYear())
+                { $k=strtotime($d->getPostedAt()->format('Y-m-d H:i:s'));
+                    $tab[$k]=$d;
+                }
+            }
         }
-        krsort($sorted);
+        krsort($tab);
 
-        $docs=$paginator->paginate($sorted, $request->query->getInt('page', 1), 5);
+        $docs=$paginator->paginate($tab, $request->query->getInt('page', 1), 5);
         return $this->render('Front/Teacher/Document/index.html.twig', [
             'docs' => $docs,
             'teacher' => $teacher,
@@ -50,10 +52,15 @@ class DocumentController extends AbstractController
      */
     public function new(Teacher $teacher ,Request $request ,ParameterRepository $repoP, SectionRepository $sectionRepository): Response
     {   $param=$repoP->find(1);
-        $choicesType = Document::TYPE ;
         $doc = new Document();
         $doc->setTeacher($teacher);
-        $sections=$sectionRepository->findByTeacher($teacher);
+        $sections=[];
+        foreach($sectionRepository->findByTeacher($teacher) as $s)
+            {
+                if($s->getSchoolYear()->getLibelle()==$param->getSchoolYear())
+                { $sections[]=$s; }
+            }
+    
         $form = $this->createForm(DocumentType::class, $doc, [
             'sections' => $sections  
         ]);
@@ -61,8 +68,6 @@ class DocumentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $type=$doc->getType();
-            $doc->setType($choicesType[$type]);
 
             $doc->setPostedAt(new \DateTime('now'));
             $entityManager = $this->getDoctrine()->getManager();
@@ -100,8 +105,13 @@ class DocumentController extends AbstractController
      */
     public function edit(Request $request, Document $doc ,ParameterRepository $repoP , SectionRepository $sectionRepository): Response
     {  $param=$repoP->find(1);
-        $choicesType = Document::TYPE ;
-        $sections=$sectionRepository->findByTeacher($doc->getTeacher());
+        $sections=[];
+        $teacher=$doc->getTeacher();
+        foreach($sectionRepository->findByTeacher($teacher) as $s)
+            {
+                if($s->getSchoolYear()->getLibelle()==$param->getSchoolYear())
+                { $sections[]=$s; }
+            }
         $form = $this->createForm(DocumentType::class, $doc , [
             'sections' => $sections  
         ]);
@@ -109,8 +119,6 @@ class DocumentController extends AbstractController
         $docName=$doc->getDocName();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $type=$doc->getType();
-            $doc->setType($choicesType[$type]);
 
             if($doc->getDocFile()!=null)
             {

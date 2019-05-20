@@ -1,0 +1,19 @@
+<div class="col-md-3">
+    <div class="pro-user">
+        {% if teacher.imageName == 'inconnu' and teacher.sexe == 0 %}
+            <img src="{{asset('images/inconnu.png')}}" alt="user">
+        {% elseif teacher.imageName == 'inconnu' and teacher.sexe == 1  %}
+            <img src="{{asset('images/inconnue.png')}}" alt="user">
+        {% else %}
+            <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( teacher ,'imageFile') }} " alt="user" >
+        {% endif %}
+    </div>
+    <div class="pro-user-bio">
+        <ul>
+            <li><h4>{{teacher.lastName}}  {{teacher.firstName}}  </h4> </li>
+            <li><strong>Spécialité : </strong>{{teacher.specialty}} </li>
+            <li><strong>Nom d'utilisateur : </strong>{{teacher.username}}</li>
+            <li><a href="{{path('teacher_password_edit' ,{'id' : teacher.id})}}" style="color:gray; "><i class="fa fa-key"></i> Changer le mot de passe</a></li>
+        </ul>
+    </div>
+</div>

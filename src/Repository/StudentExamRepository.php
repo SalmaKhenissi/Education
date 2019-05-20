@@ -19,51 +19,51 @@ class StudentExamRepository extends ServiceEntityRepository
         parent::__construct($registry, StudentExam::class);
     }
 
-    public function findNoteTable($exams,$student, $quarter)
-    {
-        
-        $tabC=[];
-        foreach($exams as $e)
-        {
-            if($e->getQuarter()->getNumber()==$quarter )
+    public function findNoteTable($exams,$student , $quarter)
+    { 
+        $tabC=[]; 
+        foreach ($exams as $e)
+        {   $c=$e->getCourse();
+            if (!in_array($c,$tabC))
             {
-                $tabC[]=$e->getCourse();
-            }
-
+                $tabC[]=$c;
+            }    
         }
-        $courses=array_unique($tabC);
 
         $tab=[];
-        foreach($courses as $c)
-        {   $tabEQ=[];
-            
+        foreach($tabC as $c)
+        {   $tabN=[];
             foreach($c->getExams() as $e)
-            { if($e->getQuarter()->getNumber()==$quarter)
-                {
-                    $t=[];
+            {  if($e->getQuarter()->getNumber()== $quarter)
+                {   $t=[];
                     $t[]=$e->getCoefficient();
                     $t[]=$e->getType();
-                    if(count($e->getStudentExams())==0)
+                    if(count($e->getStudentExams())!=0)
                     {
-                        $t[]=" "; 
-                        $t[]=false ;
-                    }
-                    else{
                         foreach($e->getStudentExams() as $se)
-                        {   
-                            if($se->getStudent()==$student)
+                        {   if($se->getStudent()==$student)
                             {
                                 $t[]=$se->getNote();
-                                $t[]=true ;
+                                $t[]=true;
+                            }
+                            else
+                            {
+                                $t[]=" ";
+                                $t[]=false;
                             }
                             
                         }
                     }
-                    $tabEQ[$e->getType()]=$t;   
+                    else {
+                        $t[]=" ";
+                        $t[]=false;
+                    }
+                    
                 }
-                
+                $tabN[]=$t;
             }
-            $tab[$c->getLibelle().','.$c->getCoefficient()]=$tabEQ;
+            $tab[$c->getLibelle().','.$c->getCoefficient()]=$tabN;
+            
         }
 
         return $tab ;
@@ -87,7 +87,7 @@ class StudentExamRepository extends ServiceEntityRepository
             $sub=0;
             foreach($t as $e)
             {
-                if($e[3] == 1)
+                if($e[3] == 1 )
                 {
                     $f=$e[2]*$e[0];
                     $s=$s+$f;

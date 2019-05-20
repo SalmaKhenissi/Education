@@ -7,7 +7,7 @@
         {{ include('Front/Teacher/Discipline/_menu.html.twig') }}
         <div class="stu-db">
             <div class="container pg-inn">
-                {{ include('Front/Teacher/_profile_photo.html.twig') }}
+                {{ include('Front/Teacher/Profile/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
                         <div class="udb-sec udb-cour-stat">
@@ -27,7 +27,14 @@
                                                 {% for d in page %}
                                                     <tr>
                                                         <td>{{d.student}}</td>  
-                                                        <td>{{d.type}}</td>
+                                                        <td>{% if d.type == 0 %}
+                                                                    Présent
+                                                            {% elseif d.type == 1  %}
+                                                                        Absent
+                                                            {% else %}
+                                                                    En retard
+                                                            {% endif %}
+                                                        </td>
                                                     </tr>
                                                 {% endfor %}
                                             </tbody>

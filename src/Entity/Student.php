@@ -49,12 +49,18 @@ class Student extends User
      */
     private $disciplines;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Punishment", mappedBy="student")
+     */
+    private $punishments;
+
     public function __construct()
     {
         parent::__construct();
         $this->sections = new ArrayCollection();
         $this->studentExams = new ArrayCollection();
         $this->disciplines = new ArrayCollection();
+        $this->punishments = new ArrayCollection();
     }
 
     /**
@@ -178,6 +184,37 @@ class Student extends User
             // set the owning side to null (unless already changed)
             if ($discipline->getStudent() === $this) {
                 $discipline->setStudent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Punishment[]
+     */
+    public function getPunishments(): Collection
+    {
+        return $this->punishments;
+    }
+
+    public function addPunishment(Punishment $punishment): self
+    {
+        if (!$this->punishments->contains($punishment)) {
+            $this->punishments[] = $punishment;
+            $punishment->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removePunishment(Punishment $punishment): self
+    {
+        if ($this->punishments->contains($punishment)) {
+            $this->punishments->removeElement($punishment);
+            // set the owning side to null (unless already changed)
+            if ($punishment->getStudent() === $this) {
+                $punishment->setStudent(null);
             }
         }
 

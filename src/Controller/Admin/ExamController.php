@@ -107,6 +107,7 @@ class ExamController extends AbstractController
                 $StudentExam = new StudentExam($exam,$s);
                 $StudentExam->setNote(0);
                 $StudentExam->setExam($exam);
+                $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($StudentExam);
                 $entityManager->flush();
             }

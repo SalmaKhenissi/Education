@@ -7,7 +7,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 
 class QuarterType extends AbstractType
@@ -23,9 +22,9 @@ class QuarterType extends AbstractType
                 'label' => ' Fin',
                  'widget' => 'single_text'
             ])
-            ->add('number', ChoiceType::class , [
-                'choices' => $this->getNumberChoices() ,
-                'label' => 'Numéro'
+            ->add('councilDate',BirthdayType::class, [
+                'label' => ' Date du conseil de classe',
+                 'widget' => 'single_text'
             ])
         ;
     }
@@ -37,14 +36,5 @@ class QuarterType extends AbstractType
         ]);
     }
 
-    private function getNumberChoices()
-    {
-        $choices = Quarter::NUMBER ;
-        $output = [];
-        foreach ($choices as $k => $v)
-        {
-            $output[$v] = $k ;
-        }
-        return $output ;
-    }
+   
 }

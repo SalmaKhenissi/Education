@@ -47,14 +47,6 @@
             <div class="col-md-6 col-sm-6 mob-hide">
                 
             </div>
-            {#<!--== NOTIFICATION ==-->
-            <div class="col-md-2 tab-hide">
-                <div class="top-not-cen">
-                    <a class='waves-effect btn-noti' href="#" title="all enquiry messages"><i class="fa fa-commenting-o" aria-hidden="true"></i><span>5</span></a>
-                    <a class='waves-effect btn-noti' href="#" title="course booking messages"><i class="fa fa-envelope-o" aria-hidden="true"></i><span>5</span></a>
-                    <a class='waves-effect btn-noti' href="#" title="admission enquiry"><i class="fa fa-tag" aria-hidden="true"></i><span>5</span></a>
-                </div>
-            </div>#}
             <!--== MY ACCCOUNT ==-->
             <div class="col-md-2 col-sm-3 col-xs-6">
                 <!-- Dropdown Trigger -->
@@ -63,7 +55,7 @@
 
                 <!-- Dropdown Structure -->
                 <ul id='top-menu' class='dropdown-content top-menu-sty'>
-                    <li><a href="admin-panel-setting.html" class="waves-effect"><i class="fa fa-cogs" aria-hidden="true"></i>Paramétre Admin</a>
+                    <li><a href="{{path('admin_data_edit',{'id' : app.user.id})}}" class="waves-effect"><i class="fa fa-cogs" aria-hidden="true"></i>Paramétre Admin</a>
                     </li>
                     <li class="divider"></li>
                     <li><a href="{{ path('logout') }}" class="ho-dr-con-last waves-effect"><i class="fa fa-sign-out" aria-hidden="true"></i> Déconnexion</a>
@@ -81,12 +73,12 @@
                 <div class="sb2-12">
                     <ul>
                         <li>
-                            {% if app.user.imageName == 'inconnu' and app.user.sexe == 'Homme' %}
+                            {% if app.user.imageName == 'inconnu' and app.user.sexe == 0 %}
                                 <img src="{{asset('images/inconnu.png')}}" alt="admin_photo">
-                            {% elseif app.user.imageName == 'inconnu' and app.user.sexe == 'Femme'  %}
+                            {% elseif app.user.imageName == 'inconnu' and app.user.sexe == 1  %}
                                 <img src="{{asset('images/inconnue.png')}}" alt="admin_photo">
                             {% else %}
-                                <img src="" alt="admin_photo">
+                                <img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( app.user ,'imageFile') }} " alt="user" >
                             {% endif %}
                         </li>
                         <li>
@@ -273,7 +265,7 @@
     <script src="{{ asset('js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('js/materialize.min.js')}}"></script>
     <script src="{{ asset('js/custom.js')}}"></script>
-    <script src="{{ asset('js/quarter.js')}}"></script>
+    {#<script src="{{ asset('js/quarter.js')}}"></script>#}
     {% block javascripts %}{% endblock %}
 </body>
 

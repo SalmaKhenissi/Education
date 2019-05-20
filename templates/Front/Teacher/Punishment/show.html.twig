@@ -1,0 +1,65 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        <div class="pro-menu">
+            <div class="container">
+                <div class="col-md-9 col-md-offset-3">
+                    <ul>
+                        <li><a href="{{path('teacher_profile', {'id': teacher.id})}}" >Profile</a></li>
+                        <li><a href="{{path('teacher_timetable', {'id': teacher.id})}}" >Emploi du temps</a></li>
+                        <li><a href="{{path('teacher_discipline_sections', {'id': teacher.id})}}" class="pro-act" >Discipline</a></li>
+                        <li><a href="{{path('teacher_exam_sections', {'id': teacher.id})}}" >Examens</a></li>
+                        <li><a href="{{path('teacher_doc_index', {'id': teacher.id})}}"  >Documents</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="stu-db">
+            <div class="container pg-inn">
+                {{ include('Front/Teacher/Profile/_profile_photo.html.twig') }}
+                <div class="col-md-9">
+                    <div class="udb">
+
+                        <div class="udb-sec udb-prof">
+                            <h4><img src="{{asset('images/icon/db.png')}}" alt="" />Punition :
+                               {% if punishment.type == 0 %}
+                                    Avertissement
+                               {% elseif punishment.type == 1  %}
+                                        Exclusion
+                               {% else %}
+                                    Expulsion
+                               {% endif %}
+                            </h4>
+                            <div class="sdb-tabl-com sdb-pro-table">
+                                <table class="responsive-table bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td>Elève</td>
+                                            <td>:</td>
+                                            <td>{{punishment.student}} </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>Date </td>
+                                            <td>:</td>
+                                            <td>{{punishment.date|date('d-m-Y')}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Description</td>
+                                            <td>:</td>
+                                            <td>{{punishment.description}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+    {% endblock %} 

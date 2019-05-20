@@ -19,16 +19,7 @@ class ObservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Observation::class);
     }
 
-    public function findNotifications($section)
-    {
-        $nb1=0;
-        foreach($section->getObservations() as $o)
-        {
-            if($o->getViewed()==0)
-            { $nb1++;}
-        }
-        return $nb1;
-    }
+   
 
     // /**
     //  * @return Observation[] Returns an array of Observation objects

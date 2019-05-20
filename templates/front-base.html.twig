@@ -131,6 +131,10 @@
                                     {% elseif is_granted('ROLE_ADMIN') %}
                                         <a href="{{path('admin_dashbord')}}">Mon compte</a>
 
+                                    
+                                    {% elseif is_granted('ROLE_TEACHER') %}
+                                        <a href="{{path('teacher_profile', {'id': app.user.id})}}">Mon compte</a>
+
                                     {% endif %}
                                 </li>
                                 {% else %}

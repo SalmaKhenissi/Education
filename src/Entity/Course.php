@@ -50,6 +50,11 @@ class Course
      */
     private $exams;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $nbrExams;
+
     
 
     
@@ -180,6 +185,18 @@ class Course
                 $exam->setCourse(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNbrExams(): ?int
+    {
+        return $this->nbrExams;
+    }
+
+    public function setNbrExams(int $nbrExams): self
+    {
+        $this->nbrExams = $nbrExams;
 
         return $this;
     }

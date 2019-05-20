@@ -30,9 +30,15 @@ class DisciplineController extends AbstractController
     {   
         $param=$repoP->find(1);
         $sections=$sectionRepository->findbyTeacher($teacher);
+        foreach($sections as $s){
+            if($s->getSchoolYear()->getLibelle()==$param->getSchoolYear())
+            {
+                $tab[]=$s;
+            }
+        }
         
         return $this->render('Front/Teacher/Discipline/sections.html.twig', [
-            'sections' => $sections,
+            'sections' => $tab,
             'teacher' => $teacher,
             'parameters' => $param ,
         ]);
@@ -83,8 +89,7 @@ class DisciplineController extends AbstractController
      */
     public function call(Teacher $teacher, Section $section ,SeanceRepository $seanceRepository,ParameterRepository $repoP,Request $request ): Response
     {   
-        $param=$repoP->find(1);
-        $choicesType = Discipline::TYPE ; 
+        $param=$repoP->find(1); 
 
         $disciplines=[];
         foreach($section->getStudents() as $s)
@@ -104,8 +109,6 @@ class DisciplineController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             foreach($disciplines as $d)
             {
-                $type=$d->getType();
-                $d->setType($choicesType[$type]);
 
                 $date=new \DateTime('now');
                 $d->setDate($date);
@@ -136,7 +139,7 @@ class DisciplineController extends AbstractController
      * @Route("{teacher}/edit/{section}/{date}", name="teacher_discipline_edit", methods={"GET" ,"POST"})
      */
     public function edit(Teacher $teacher ,Section $section, $date ,SeanceRepository $seanceRepository ,DisciplineRepository $disciplineRepository,ParameterRepository $repoP,Request $request ): Response
-    {   $choicesType = Discipline::TYPE ; 
+    {  
         $param=$repoP->find(1);
 
         $seances=$seanceRepository->findByTeaching($teacher,$section);
@@ -152,12 +155,7 @@ class DisciplineController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach($page as $d)
-            {
-                $type=$d->getType();
-                $d->setType($choicesType[$type]);
-            }
-
+            
 
             $this->getDoctrine()->getManager()->flush();
 

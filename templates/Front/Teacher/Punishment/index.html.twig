@@ -1,0 +1,66 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        {{ include('Front/Teacher/Discipline/_menu.html.twig') }}
+        <div class="stu-db">
+            <div class="container pg-inn">
+                {{ include('Front/Teacher/Profile/_profile_photo.html.twig') }}
+                <div class="col-md-9">
+                    <div class="udb">
+                        <div class="udb-sec udb-cour-stat">
+                            <h4><img src="{{asset('images/icon/db.png')}}" alt="" />Punitions ({{punish|length}})</h4>
+                            
+                            <div class="pro-con-table">
+                                 
+                                <table class="bordered responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Type</th>
+                                            <th>Elève</th> 
+                                            <th>Date</th>
+                                            <th>Détails</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for p in punish %}
+                                        <tr>
+                                            <td>
+                                              {% if p.type == 0 %}
+                                                   Avertissement
+                                              {% elseif p.type == 1 %}
+                                                    Exclusion
+                                              {% else  %}
+                                                    Expulsion
+                                              {% endif %}
+                                            </td>
+                                            <td>{{p.student}}</td>
+                                            <td>{{p.date|date("d/m/Y ")}}</td>
+                                            <td><a href="{{path('teacher_punishment_show', {'id':p.id})}}" class="btn btn-info fa fa-eye"></a></td>
+                                            <td><a href="{{path('teacher_punishment_edit', {'id': p.id ,'section' : section.id })}}" class="btn btn-warning fa fa-pencil"></a></td>
+                                            <td>   {{ include('Front/Teacher/Punishment/_delete_form.html.twig') }}</td>
+                                        </tr>
+                                        
+                                    {% endfor %}  
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                           <div class="sdb-bot-edit">
+                                    <a href="{{path('teacher_punishment_new', {'teacher': teacher.id ,'section' : section.id})}}" ><i class="fa fa-plus-square-o"></i> Créer une punition</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+
+
+{% endblock %} 

@@ -77,6 +77,7 @@ class Section
      */
     private $observations;
 
+
     
     public function __toString(){
         
@@ -310,6 +311,7 @@ class Section
 
         return $this;
     }
+  
 
     
 

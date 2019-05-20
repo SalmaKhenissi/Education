@@ -1,0 +1,61 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        {{ include('Front/Teacher/Observation/_menu.html.twig') }}
+        <div class="stu-db">
+            <div class="container pg-inn">
+                {{ include('Front/Teacher/Profile/_profile_photo.html.twig') }}
+                <div class="col-md-9">
+                    <div class="udb">
+                        <div class="udb-sec udb-cour-stat">
+                            <h4><img src="{{asset('images/icon/db2.png')}}" alt="" />Observations</h4>
+                            
+                            <div class="pro-con-table">
+                                <table class="bordered responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Classe</th>
+                                            <th>Description</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for o in obs %}
+                                        <tr>
+                                            <td>{% for s in o.sections %}
+                                                    {{s.libelle}}<br>
+                                                {% endfor %}
+                                            </td>
+                                            <td>{{o.description}}</td>
+                                            <td>{{o.postedAt|date("d/m/Y ") }}</td>
+                                            <td><a href="{{path('teacher_obs_edit', {'id': o.id})}}" class="btn btn-warning fa fa-pencil"></a></td>
+                                            <td>   {{ include('Front/Teacher/Observation/_delete_form.html.twig') }}</td>
+                                        </tr>
+                                        
+                                    {% endfor %}  
+                                    </tbody>
+                                </table>
+                                <div class="sdb-bot-edit">
+                                    
+                                    <a href="{{path('teacher_obs_new', {'id': teacher.id})}}" ><i class="fa fa-plus-square-o"></i> Ajouter une observation</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pagination">
+                             {{ knp_pagination_render(obs) }}
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+
+
+{% endblock %} 

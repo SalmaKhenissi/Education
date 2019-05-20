@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
-use DateTimeInterface;
+use Serializable;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface ;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -18,7 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\DiscriminatorMap({"user" = "User", "admin" = "Admin" , "teacher" = "Teacher" , "student" = "Student" , "guardian" = "Guardian"})
  * @Vich\Uploadable
  */
-class User implements UserInterface 
+class User implements UserInterface , Serializable
 {
 
     const SEXE= [
@@ -83,7 +84,7 @@ class User implements UserInterface
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
-     * @Vich\UploadableField(mapping="pictures", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="photos", fileNameProperty="imageName")
      * 
      * @var File
      */
@@ -291,6 +292,27 @@ class User implements UserInterface
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    public function serialize()
+    {
+        
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        
+        list (
+            $this->id,
+            $this->username,
+            $this->password,   
+        ) = unserialize($serialized);
     }
    
 }

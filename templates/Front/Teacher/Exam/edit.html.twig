@@ -7,11 +7,19 @@
         {{ include('Front/Teacher/Exam/_menu.html.twig') }}
         <div class="stu-db">
             <div class="container pg-inn">
-                {{ include('Front/Teacher/_profile_photo.html.twig') }}
+                {{ include('Front/Teacher/Profile/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
                         <div class="udb-sec udb-cour-stat">
-                        <h4><img src="{{asset('images/icon/db5.png')}}" alt="" />Examens {{teacher.specialty}} : {{exam.type}}</h4>
+                        <h4><img src="{{asset('images/icon/db5.png')}}" alt="" />Examens {{teacher.specialty}} : 
+                            {% if exam.type == 0 %} Orale
+                            {% elseif exam.type == 1 %} TP
+                            {% elseif exam.type == 2 %} Controle1
+                            {% elseif exam.type == 3 %} Controle2
+                            {% elseif exam.type == 4 %} Synthése1
+                            {% elseif exam.type == 5 %} Synthése2
+                            {% endif %}
+                        </h4>
                            {{ include('Front/Teacher/Exam/_form.html.twig' , {'button_label': 'Modifier'}) }}
                             
                             

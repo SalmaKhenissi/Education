@@ -27,7 +27,7 @@ class SchoolYearController extends AbstractController
     {
         $schoolYears=$paginator->paginate( $schoolYearRepository->findAll(),
                                       $request->query->getInt('page', 1),
-                                      8
+                                      5
        );
         return $this->render('Admin/School_year/index.html.twig', [
             'school_years' => $schoolYears,
@@ -40,7 +40,13 @@ class SchoolYearController extends AbstractController
     public function new(Request $request ): Response
     {
         $schoolYear = new SchoolYear();
-        $choicesQuarter = Quarter::NUMBER ;
+        $quarter1 = new Quarter();$quarter1->setNumber(1);
+        $quarter2 = new Quarter();$quarter2->setNumber(2);
+        $quarter3 = new Quarter();$quarter3->setNumber(3);
+        $schoolYear->addQuarter($quarter1);
+        $schoolYear->addQuarter($quarter2);
+        $schoolYear->addQuarter($quarter3);
+
         $form = $this->createForm(SchoolYearType::class, $schoolYear);
         $form->handleRequest($request);
 
@@ -53,10 +59,17 @@ class SchoolYearController extends AbstractController
             foreach( $schoolYear->getQuarters() as $q)
              {
                 $number=$q->getNumber();
-                $q->setLibelle('Trimestre'.$number);
+                $q->setLibelle('Trimestre '.$number);
 
-                $number=$q->getNumber();
-                 $q->setNumber($choicesQuarter[$number]);
+                if($number==1)
+                {
+                    $q->setCoefficient(1);
+                }
+                else
+                {
+                    $q->setCoefficient(2);
+                }
+
              }
 
 
@@ -88,12 +101,7 @@ class SchoolYearController extends AbstractController
      */
     public function edit(Request $request, SchoolYear $schoolYear): Response
     {
-        $choicesQuarter = Quarter::NUMBER ;
-        $originalQuarter= new ArrayCollection();
-        foreach( $schoolYear->getQuarters() as $q)
-        {
-            $originalQuarter->add($q);
-        }
+        
 
         $form = $this->createForm(SchoolYearType::class, $schoolYear);
         $form->handleRequest($request);
@@ -104,22 +112,21 @@ class SchoolYearController extends AbstractController
             $finish=date('Y',strtotime($schoolYear->getFinishAt()->format('Y-m-d')));
             $schoolYear->setLibelle($start.'/'.$finish);
 
-            foreach($originalQuarter as $q)
-            {
-                if($schoolYear->getQuarters()->contains($q)==false)
-                {
-                    $this->getDoctrine()->getManager()->remove($q);             
-                }
-
-            }
+           
 
             foreach( $schoolYear->getQuarters() as $q)
              {
                 $number=$q->getNumber();
                 $q->setLibelle('Trimestre'.$number);
+                if($number==1)
+                {
+                    $q->setCoefficient(1);
+                }
+                else
+                {
+                    $q->setCoefficient(2);
+                }
 
-                $number=$q->getNumber();
-                 $q->setNumber($choicesQuarter[$number]);
              }
 
             $this->getDoctrine()->getManager()->flush();

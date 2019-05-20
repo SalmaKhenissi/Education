@@ -182,17 +182,13 @@ class ExamRepository extends ServiceEntityRepository
             $course= $e->getCourse()->getLibelle() ;
             if($course == $teacher->getSpecialty())
             {
-                $tab[]=$e;
+                $k=strtotime($e->getPassAt()->format('Y-m-d H:i:s')).strtotime($e->getStartAt()->format('H:i'));
+                $tab[$k]=$e;
             }
         }
 
-        $sorted=[];
-        foreach($tab as $e)
-        {
-            $k=date('n',strtotime($e->getPassAt()->format('Y-m-d'))).date('d',strtotime($e->getPassAt()->format('Y-m-d')));
-            $sorted[$k]=$e;
-        }
-        krsort($sorted);
+        
+        krsort($tab);
 
 
         $tab2=[];
@@ -200,7 +196,7 @@ class ExamRepository extends ServiceEntityRepository
 
          if( $quarter)
         {
-            foreach($sorted as $e)
+            foreach($tab as $e)
             {
                 if( $e->getQuarter()==$quarter)
                 { $tab2[]=$e;}
@@ -208,7 +204,7 @@ class ExamRepository extends ServiceEntityRepository
             return $tab2;
         }
         else {
-            return $sorted;
+            return $tab;
         }
 
     }
@@ -224,14 +220,14 @@ class ExamRepository extends ServiceEntityRepository
                         ->andWhere('e.type like :c1 Or e.type like :c2')
                         ->setParameter('s', $section->getId())
                         ->setParameter('q', $q)
-                        ->setParameter('c1', 'Controle1')
-                        ->setParameter('c2', 'Controle2')
+                        ->setParameter('c1', 2)
+                        ->setParameter('c2', 3)
                         ->getQuery()
                         ->getResult();
         $tab=[];
         foreach($query as $q)
         {
-            $k=date('n',strtotime($q->getPassAt()->format('Y-m-d'))).date('d',strtotime($q->getPassAt()->format('Y-m-d')));
+            $k=strtotime($q->getPassAt()->format('Y-m-d H:i:s')).strtotime($q->getStartAt()->format('H:i'));
             $tab[$k]=$q;
         }
         krsort($tab);

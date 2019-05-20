@@ -1,19 +1,26 @@
 {{ form_start(form) }}
+<div class="udb-sec udb-cour-stat">
+      <h4>Année scolaire {{form.vars.value.libelle}}</h4>
      <div class="row">
        <div class="col-md-4">{{ form_row(form.startAt)}}</div>
-     </div>
-     <div class="row">
        <div class="col-md-4">{{ form_row(form.finishAt)}}</div>
      </div>
-     <div class="col-sm-8 col-sm-offset-2" id="quarter_list" data-prototype="{{ form_widget(form.quarters.vars.prototype)|e('html_attr')}}">
+  </div>
+  
+     <div  class="udb-sec udb-cour-stat">
         {% for row in form.quarters %}
-            <div class="panel panel-warning">
-                <div class="panel-heading">Trimestre{{row.vars.value.number}}</div>
-                <div class="panel-body">
-                    {{ form_row(row)}}
+            <div >
+                <h4>Trimestre {{row.vars.value.number}}</h4>
+                <div class="row">
+                  <div class="col-md-4">{{ form_row(row.startAt)}}</div>
+                  <div class="col-md-4">{{ form_row(row.finishAt)}}</div>
+                  <div class="col-md-4">{{ form_row(row.councilDate)}}</div>
                 </div>
+                
             </div>
+            <br><br>
         {% endfor %} 
-        </div>
+     </div><br><br>
+     <button class="btn">{{ button_label|default('Enregistrer') }}</button>
     
 {{ form_end(form) }}

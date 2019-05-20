@@ -62,7 +62,12 @@ class ExamController extends AbstractController
     public function section(Teacher $teacher  ,SectionRepository $sectionRepository ,ParameterRepository $repoP ): Response
     {   
         $param=$repoP->find(1);
-        $sections=$sectionRepository->findbyTeacher($teacher);
+        $sections=[];
+        foreach($sectionRepository->findByTeacher($teacher) as $s)
+            {
+                if($s->getSchoolYear()->getLibelle()==$param->getSchoolYear())
+                { $sections[]=$s; }
+            }
         
         return $this->render('Front/Teacher/Exam/sections.html.twig', [
             'sections' => $sections,
@@ -77,8 +82,6 @@ class ExamController extends AbstractController
     public function new(Teacher $teacher ,Section $section ,Request $request ,ParameterRepository $repoP ,CourseRepository $courseRepository ,SectionRepository $sectionRepository , RoomRepository $roomRepository, QuarterRepository $quarterRepository , SeanceRepository $seanceRepository ): Response
     {   
         $param=$repoP->find(1);
-
-        $choicesType = Exam::TYPE ;
         $exam = new Exam();
 
 
@@ -91,8 +94,7 @@ class ExamController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $type=$exam->getType();
-            $exam->setType($choicesType[$type]);
-            if($type=='Synthése1' || $type=='Synthése2' )
+            if($type== 4 || $type== 5 )
             {$exam->setCoefficient(2); }
             else{$exam->setCoefficient(1);}
 
@@ -162,7 +164,6 @@ class ExamController extends AbstractController
      */
     public function edit(Teacher $teacher, Exam $exam,Request $request ,ParameterRepository $repoP ,SectionRepository $sectionRepository , RoomRepository $roomRepository, QuarterRepository $quarterRepository , SeanceRepository $seanceRepository): Response
     {  $param=$repoP->find(1);
-        $choicesType = Exam::TYPE ;
         $form = $this->createForm(ExamType3::class, $exam , [
             'section' => $exam->getSection(),
             'quarterRepository' => $quarterRepository 
@@ -172,8 +173,7 @@ class ExamController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             
             $type=$exam->getType();
-            $exam->setType($choicesType[$type]);
-            if($type=='Synthése1' || $type=='Synthése2' )
+            if($type== 4 || $type== 5 )
             {$exam->setCoefficient(2); }
             else{$exam->setCoefficient(1);}
 

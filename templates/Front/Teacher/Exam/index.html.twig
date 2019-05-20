@@ -7,7 +7,7 @@
         {{ include('Front/Teacher/Exam/_menu.html.twig') }}
         <div class="stu-db">
             <div class="container pg-inn">
-                {{ include('Front/Teacher/_profile_photo.html.twig') }}
+                {{ include('Front/Teacher/Profile/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
                         <div class="udb-sec udb-cour-stat">
@@ -42,7 +42,15 @@
                                     {% for e in exams %}
                                         <tr>
                                             <td>{{e.quarter.number}}</td>
-                                            <td>{{e.type}}</td>
+                                            <td>
+                                                {% if e.type == 0 %} Orale
+                                                {% elseif e.type == 1 %} TP
+                                                {% elseif e.type == 2 %} Controle1
+                                                {% elseif e.type == 3 %} Controle2
+                                                {% elseif e.type == 4 %} Synthése1
+                                                {% elseif e.type == 5 %} Synthése2
+                                                {% endif %}
+                                            </td>
                                             <td>{{e.passAt|date('d-m-Y')}} </td>
                                             <td><a href="{{path('teacher_exam_show', {'teacher':teacher.id ,'id': e.id})}}" class="btn btn-info fa fa-eye"></a></td>
                                             <td><a href="{{path('teacher_exam_note', {'teacher':teacher.id ,'id': e.id})}}" class="btn btn-success fa fa-star"></a></td>

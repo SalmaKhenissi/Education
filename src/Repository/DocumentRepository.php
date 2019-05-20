@@ -19,18 +19,7 @@ class DocumentRepository extends ServiceEntityRepository
         parent::__construct($registry, Document::class);
     }
 
-    public function findNotifications($section)
-    {
-        $nb=0;
-        foreach($section->getDocuments() as $d)
-        {
-            if($d->getType()!='Examen' && $d->getViewed()==0 )
-            {   
-                 $nb++;
-            }
-        }
-        return $nb;
-    }
+   
 
     // /**
     //  * @return Document[] Returns an array of Document objects

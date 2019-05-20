@@ -52,7 +52,7 @@ class SeanceController extends AbstractController
             $day=$seance->getDay();
             $seance->setDay($choicesDay[$day]);
 
-
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($seance);
             $entityManager->flush();
@@ -92,11 +92,11 @@ class SeanceController extends AbstractController
                 'id' => $seance->getsection()->getId(),
             ]);
         }
-       /* else {
+        else {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($seance);
             $entityManager->flush();
-        }*/
+        }
 
         return $this->render('Admin/Seance/new_2.html.twig', [
             'seance' => $seance,

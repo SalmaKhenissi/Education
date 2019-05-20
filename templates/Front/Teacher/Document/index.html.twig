@@ -7,7 +7,7 @@
         {{ include('Front/Teacher/Document/_menu.html.twig') }}
         <div class="stu-db">
             <div class="container pg-inn">
-                {{ include('Front/Teacher/_profile_photo.html.twig') }}
+                {{ include('Front/Teacher/Profile/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
                         <div class="udb-sec udb-cour-stat">
@@ -33,7 +33,17 @@
                                                     {{s.libelle}}<br>
                                                 {% endfor %}
                                             </td>
-                                            <td>{{d.type}}</td>
+                                            <td>
+                                                {% if d.type == 0 %}
+                                                   Cours
+                                                {% elseif d.type == 1 %}
+                                                    Exercies
+                                                {% elseif d.type == 2 %}
+                                                    TP
+                                                {% elseif d.type == 3 %}
+                                                    Examen
+                                                {% endif %}
+                                            </td>
                                             <td>{{d.description}}</td>
                                             <td>{{d.postedAt|date("d/m/Y ") }}</td>
                                             <td><a href="{{path('teacher_doc_show', {'id': d.id})}}" class="btn btn-info fa fa-file-text-o"></a></td>

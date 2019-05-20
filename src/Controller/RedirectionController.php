@@ -63,26 +63,10 @@ class RedirectionController extends AbstractController
         $sections=$student->getSections();
         $section =$repoS->findByYear($sections,$schoolYear);
 
-        $nb=0;
-        foreach($section->getDocuments() as $d)
-        {
-            if($d->getType()!='Examen' && $d->getViewed()==0 )
-            {   
-                 $nb++;
-            }
-        } 
-        $nb1=0;
-        foreach($section->getObservations() as $o)
-        {
-            if($o->getViewed()==0)
-            { $nb1++;}
-        }
-        return $this->render('Front/Student/profile.html.twig', [
+        return $this->render('Front/Student/Profile/profile.html.twig', [
             'student' => $student,
             'parameters' => $repoP->find(1) ,
             'section'=> $section,
-            'nb' =>$nb,
-            'nb1' => $nb1
         ]);
     }
 
@@ -91,7 +75,7 @@ class RedirectionController extends AbstractController
      */
     public function redirectTeacher(Teacher $teacher, ParameterRepository $repo)
     {
-        return $this->render('Front/Teacher/profile.html.twig', [
+        return $this->render('Front/Teacher/Profile/profile.html.twig', [
             'teacher' => $teacher,
             'parameters' => $repo->find(1)
         ]);
@@ -102,7 +86,7 @@ class RedirectionController extends AbstractController
      */
     public function redirectGuardian(Guardian $guardian, ParameterRepository $repo, StudentRepository $repoS)
     {
-        return $this->render('Front/Guardian/profile.html.twig', [
+        return $this->render('Front/Guardian/Profile/profile.html.twig', [
             'guardian' => $guardian,
             'parameters' => $repo->find(1)
         ]);

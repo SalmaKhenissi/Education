@@ -29,16 +29,11 @@ class SchoolYearType extends AbstractType
             ->add('quarters' , CollectionType::class,[
                 'entry_type' => QuarterType::class ,
                 'entry_options' => [
-                    'label' => 'Trimestres '
-                ],
+                    'label' => false                ],
                 'by_reference' => false,
                 'allow_add' => true ,
-                'allow_delete' => true
-            ])
-            ->add('Enregistrer',SubmitType::class ,[
-                'attr' => [
-                    'class' => 'btn btn-xs '
-                ]
+                'allow_delete' => true ,
+                'label' => false
             ])
         ;
     }

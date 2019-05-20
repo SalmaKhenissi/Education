@@ -30,10 +30,7 @@ class Observation
      */
     private $postedAt;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $viewed;
+   
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Teacher", inversedBy="observations")
@@ -47,8 +44,10 @@ class Observation
 
     public function __construct()
     {
-        $this->section = new ArrayCollection();
+        $this->sections = new ArrayCollection();
     }
+
+
 
     public function getId(): ?int
     {
@@ -80,17 +79,7 @@ class Observation
         return $this;
     }
 
-    public function getViewed(): ?bool
-    {
-        return $this->viewed;
-    }
-
-    public function setViewed(bool $viewed): self
-    {
-        $this->viewed = $viewed;
-
-        return $this;
-    }
+   
 
     public function getTeacher(): ?Teacher
     {
@@ -114,7 +103,7 @@ class Observation
 
     public function addSection(Section $section): self
     {
-        if (!$this->section->contains($section)) {
+        if (!$this->sections->contains($section)) {
             $this->sections[] = $section;
         }
 
@@ -129,4 +118,5 @@ class Observation
 
         return $this;
     }
+
 }

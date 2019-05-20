@@ -1,0 +1,7 @@
+
+<form method="post" action="{{ path('teacher_punishment_delete', {'id': p.id , 'section':section.id}) }}" onsubmit="return confirm('Est ce que t'es sùr de supprimer cette punition ?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ p.id) }}">
+    <button class="btn btn-danger fa fa-trash"></button>
+</form>
+

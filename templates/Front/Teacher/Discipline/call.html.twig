@@ -7,7 +7,7 @@
         {{ include('Front/Teacher/Discipline/_menu.html.twig') }}
         <div class="stu-db">
             <div class="container pg-inn">
-                {{ include('Front/Teacher/_profile_photo.html.twig') }}
+                {{ include('Front/Teacher/Profile/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
                         <div class="udb-sec udb-cour-stat">
@@ -27,7 +27,7 @@
                                                 {% for row in form.disciplines %}
                                                     <tr>
                                                         <td>{{row.vars.value.student}}</td>  
-                                                        <td>{{ form_row(row)}}</td>
+                                                        <td><div style="width=10%">{{ form_row(row)}}</div></td>
                                                     </tr>
                                                 {% endfor %}
                                             </tbody>

@@ -15,24 +15,8 @@
                         <li><a href="{{path('student_discipline', {'id': student.id})}}" >Discipline</a></li>
                         <li><a href="{{path('student_exams', {'id': student.id})}}">Examens</a></li>
                         <li><a href="{{path('student_notes', {'id': student.id})}}" class="pro-act">Résultats</a></li>
-                        {% if nb1 == 0 %}
                         <li><a href="{{path('student_obs', {'id': student.id})}}">Observations</a></li>
-                        {% else %}
-                        <li>
-                            <a href="{{path('student_obs', {'id': student.id})}}" >Observations
-                                <i class="fa fa-bell" style="color:red;"></i><span style="color:red;">({{nb1}})</span>
-                            </a>
-                        </li>
-                        {% endif %}
-                        {% if nb == 0 %}
                         <li><a href="{{path('student_doc_index', {'id': student.id})}}" >Documents</a></li>
-                        {% else %}
-                        <li>
-                            <a href="{{path('student_doc_index', {'id': student.id})}}" >Documents
-                                <i class="fa fa-bell" style="color:red;"></i><span style="color:red;">({{nb}})</span>
-                            </a>
-                        </li>
-                        {% endif %}
                         
                     </ul>
                 </div>
@@ -40,7 +24,7 @@
         </div>
         <div class="stu-db">
             <div class="container pg-inn">
-                {{ include('Front/Student/_profile_photo.html.twig') }}
+                {{ include('Front/Student/Profile/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
                         <div class="udb-sec udb-cour-stat">
@@ -105,7 +89,7 @@
                         <div class="udb-sec udb-cour-stat">
                             <h4><img src="{{asset('images/icon/cor1.png')}}" alt="" />Résultat  : </h4>
                             
-                            <div class="pro-con-table">
+                           {# <div class="pro-con-table">
                                 <table>
                                    <thead>
                                         <tr>
@@ -120,26 +104,26 @@
                                             <tr>
                                                 <td>1ére trimestre</td>
                                                 <td>{{tabA[0]}} </td>
-                                                <td>{{tabR[0]}} </td>
+                                                <td>{#{{tabR[0]}} </td>
                                             </tr>
                                         {% endif %}
                                         {% if tabA|length > 2 %}
                                             <tr>
                                                 <td>2éme trimestre</td>
                                                 <td>{{tabA[1]}} </td>
-                                                <td>1{{tabR[1]}}</td>
+                                                <td>{#{{tabR[1]}}</td>
                                             </tr>
                                         {% endif %}
                                         {% if  tabA|length == 4  %}
                                             <tr>
                                                 <td>3éme trimestre</td>
                                                 <td>{{tabA[2]}} </td>
-                                                <td>{{tabR[2]}}</td>
+                                                <td>{#{{tabR[2]}}</td>
                                             </tr>
                                             <tr>
                                                 <td>Générale</td>
                                                 <td>{{tabA[3]}} </td>
-                                                <td>{{tabR[3]}} </td>
+                                                <td>{#{{tabR[3]}} </td>
                                             </tr>
                                         {% endif %}
                                     <tbody>
@@ -153,7 +137,7 @@
                                     <h5>Décision : <span>Réfusé </span></h5>
                                 {% endif %}
                                 </div>
-                            {% endif %}
+                            {% endif %}#}
                         </div>
                         
                         

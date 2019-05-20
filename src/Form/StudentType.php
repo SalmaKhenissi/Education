@@ -21,13 +21,6 @@ class StudentType extends AbstractType
                 ->add('level', TextType::class ,[
                     'label' => ' Niveau '
                 ])
-            /*->add('section' ,
-                   EntityType::class , [
-                   'class' => Section::class,
-                   'multiple' => false  ,
-                
-                    'label' => 'Classe'
-            ])*/
             
         ;
             

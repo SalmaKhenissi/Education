@@ -11,12 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Quarter
 {
-    const NUMBER = [
-        0 => '1',
-        1 => '2' ,
-        2 => '3',
-        
-    ];
 
     /**
      * @ORM\Id()
@@ -43,6 +37,11 @@ class Quarter
     private $finishAt;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $councilDate;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $number;
@@ -64,15 +63,6 @@ class Quarter
 
     
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $resultDisplay;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $notesDisplay;
 
 
     public function __construct()
@@ -127,15 +117,24 @@ class Quarter
         return $this;
     }
 
+    public function getCouncilDate(): ?\DateTimeInterface
+    {
+        return $this->councilDate;
+    }
+
+    public function setCouncilDate(\DateTimeInterface $councilDate): self
+    {
+        $this->councilDate = $councilDate;
+
+        return $this;
+    }
+
     public function getNumber(): ?int
     {
         return $this->number;
     }
 
-    public function getNumberType(): string
-    {
-        return self::NUMBER[$this->number];
-    }
+    
     
     public function setNumber(int $number): self
     {
@@ -200,29 +199,5 @@ class Quarter
     }
 
     
-
-    public function getResultDisplay(): ?bool
-    {
-        return $this->resultDisplay;
-    }
-
-    public function setResultDisplay(bool $resultDisplay): self
-    {
-        $this->resultDisplay = $resultDisplay;
-
-        return $this;
-    }
-
-    public function getNotesDisplay(): ?bool
-    {
-        return $this->notesDisplay;
-    }
-
-    public function setNotesDisplay(bool $notesDisplay): self
-    {
-        $this->notesDisplay = $notesDisplay;
-
-        return $this;
-    }
 
 }

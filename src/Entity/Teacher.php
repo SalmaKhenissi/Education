@@ -95,6 +95,11 @@ class Teacher extends User
      */
     private $observations;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Punishment", mappedBy="teacher")
+     */
+    private $punishments;
+
     
 
     public function __construct()
@@ -103,6 +108,7 @@ class Teacher extends User
         $this->documents = new ArrayCollection();
         $this->exams = new ArrayCollection();
         $this->observations = new ArrayCollection();
+        $this->punishments = new ArrayCollection();
     }
 
     
@@ -327,6 +333,37 @@ class Teacher extends User
             // set the owning side to null (unless already changed)
             if ($observation->getTeacher() === $this) {
                 $observation->setTeacher(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Punishment[]
+     */
+    public function getPunishments(): Collection
+    {
+        return $this->punishments;
+    }
+
+    public function addPunishment(Punishment $punishment): self
+    {
+        if (!$this->punishments->contains($punishment)) {
+            $this->punishments[] = $punishment;
+            $punishment->setTeacher($this);
+        }
+
+        return $this;
+    }
+
+    public function removePunishment(Punishment $punishment): self
+    {
+        if ($this->punishments->contains($punishment)) {
+            $this->punishments->removeElement($punishment);
+            // set the owning side to null (unless already changed)
+            if ($punishment->getTeacher() === $this) {
+                $punishment->setTeacher(null);
             }
         }
 
