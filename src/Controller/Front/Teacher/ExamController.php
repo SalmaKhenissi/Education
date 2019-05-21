@@ -94,7 +94,7 @@ class ExamController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $type=$exam->getType();
-            if($type== 4 || $type== 5 )
+            if($type == 4 || $type == 5 )
             {$exam->setCoefficient(2); }
             else{$exam->setCoefficient(1);}
 

@@ -28,7 +28,7 @@
                 <div class="col-md-9">
                     <div class="udb">
                         <div class="udb-sec udb-cour-stat">
-                            <h4><img src="{{asset('images/icon/db5.png')}}" alt="" />Fiche des notes : Trimestre {{parameters.quarter}}</h4>
+                            <h4><img src="{{asset('images/icon/db5.png')}}" alt="" />Fiche des notes : Trimestre {{quarter}}</h4>
                             
                             <div class="pro-con-table">
                                 <table class="bordered responsive-table">
@@ -65,19 +65,19 @@
                                             </td>
                                            <td>
                                                 {% set s = 0 %}
-                                                {% set l = 0 %}
                                                 {% set SC = 0 %}
+                                                {% set l = 0 %}
                                                 {% for e in t %}
                                                     {% if   e.3 == true  %}
-                                                        {% set c = e.2 * e.0 %}
-                                                        {% set s = s + c %} 
-                                                        {% set l = l + 1 %} 
+                                                        {% set nc = e.2 * e.0 %}
+                                                        {% set s = s + nc %} 
+                                                        {% set l = l + 1 %}
                                                         {% set SC = SC + e.0 %} 
                                                     {% endif %}
                                                 {% endfor %}
-                                                {% if l == t|length %}
+                                                {% if tab.2 == l %}
                                                     {% set m = s / SC %}
-                                                    {{m}} 
+                                                    {{m|slice(0,5)}} 
                                                 {% endif %}
                                             </td>
                                         </tr>
@@ -86,59 +86,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="udb-sec udb-cour-stat">
-                            <h4><img src="{{asset('images/icon/cor1.png')}}" alt="" />Résultat  : </h4>
-                            
-                           {# <div class="pro-con-table">
-                                <table>
-                                   <thead>
-                                        <tr>
-                                            <th>Période</th>
-                                            <th>Moyenne</th>
-                                            <th>Rang</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        {% if tabA|length > 1 %}
-                                            <tr>
-                                                <td>1ére trimestre</td>
-                                                <td>{{tabA[0]}} </td>
-                                                <td>{#{{tabR[0]}} </td>
-                                            </tr>
-                                        {% endif %}
-                                        {% if tabA|length > 2 %}
-                                            <tr>
-                                                <td>2éme trimestre</td>
-                                                <td>{{tabA[1]}} </td>
-                                                <td>{#{{tabR[1]}}</td>
-                                            </tr>
-                                        {% endif %}
-                                        {% if  tabA|length == 4  %}
-                                            <tr>
-                                                <td>3éme trimestre</td>
-                                                <td>{{tabA[2]}} </td>
-                                                <td>{#{{tabR[2]}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Générale</td>
-                                                <td>{{tabA[3]}} </td>
-                                                <td>{#{{tabR[3]}} </td>
-                                            </tr>
-                                        {% endif %}
-                                    <tbody>
-                                </table>
-                            </div>
-                            {% if  tabA|length == 4  %}
-                                <div class="pro-con-table">
-                                {% if tabA[3] >=  10 %}
-                                <h5>Décision : <span>Admis </span></h5>
-                                {% else %}
-                                    <h5>Décision : <span>Réfusé </span></h5>
-                                {% endif %}
-                                </div>
-                            {% endif %}#}
-                        </div>
+                        
                         
                         
                     </div>

@@ -3,10 +3,11 @@ namespace App\Controller\Front\Guardian;
 
 use App\Entity\Student;
 use App\Entity\Guardian;
+use App\Repository\SeanceRepository;
 use App\Repository\SectionRepository;
 use App\Repository\StudentRepository;
-use App\Repository\TeacherRepository;
 
+use App\Repository\TeacherRepository;
 use App\Repository\ParameterRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,39 +23,72 @@ class RedirectionController extends AbstractController
 {
 
 
-     /**
-     * @Route("/children/{id}", name="guardian_children")
-     */
-    public function redirectChildren( Guardian $guardian ,ParameterRepository $repoP , StudentRepository $repoS)
-    { 
-        $schoolYear=$repoP->find(1)->getSchoolYear();
-        return $this->render('Front/Guardian/children.html.twig',[
-            'guardian' => $guardian ,
-            'parameters' => $repoP->find(1) ,
-            'children' =>$repoS->findByGuardian($guardian,$schoolYear)
-
-            ]);
-    }
+    
 
      /**
      * @Route("/teachers/{id}", name="guardian_teachers")
      */
-    public function redirectTeacherss( Guardian $guardian ,ParameterRepository $repoP ,StudentRepository $repoS , SectionRepository $repoSec , TeacherRepository $repoT)
+    public function redirectTeachers( Guardian $guardian ,ParameterRepository $repoP ,StudentRepository $repoS , SectionRepository $repoSec , TeacherRepository $repoT)
     { 
         $schoolYear=$repoP->find(1)->getSchoolYear();
         $children=$repoS->findByGuardian($guardian,$schoolYear);
-        $tabSection=[];$i=0;
+        $TabSea=[];
         foreach($children as $c)
-        {
-            $sections=$c->getSections();
-            $tabSection[$i] =$repoSec->findByYear($sections,$schoolYear);
-            $i++ ;
-        }
+        { 
+            foreach($c->getSections() as $s)
+            { 
+                if($s->getSchoolYear()->getLibelle()==$schoolYear) 
+                {   $seancesId=[];$seances=[];
+                    foreach($s->getSeances() as $sea)
+                    {   $id=$sea->getId();
+                        if(!in_array($id ,$seancesId  ))
+                        {   $seancesId[]=$id;
+                            $seances[]=$sea;
+                        }
+                    }
 
+                }
+            }
+            $TabSea[$s->getLibelle()]=$seances;
+        }
+        $teachers=[];
+        foreach($TabSea as $k => $t)
+        {
+            $teachers[$k]=$repoT->findBySection($t, $repoT);
+        }
+        
         return $this->render('Front/Guardian/teachers.html.twig',[
             'guardian' => $guardian ,
             'parameters' => $repoP->find(1) ,
-            'teachers' =>$repoT->findBySection($tabSection)
+            'teachers' =>$teachers
+            ]);
+    }
+
+    
+    /**
+     * @Route("/timetables/{id}", name="guardian_timetable" , methods={"GET"})
+     */
+    public function redirectTimetable(Guardian $guardian ,StudentRepository $studentRepository ,ParameterRepository $repoP ,SeanceRepository $seanceRepository ,SectionRepository $repoS )
+    {   
+
+        $schoolYear=$repoP->find(1)->getSchoolYear();
+        $children=$studentRepository->findByGuardian($guardian,$schoolYear);
+        $tab=[];
+        foreach($children as $c)
+        {
+            $sections=$c->getSections();
+            $section =$repoS->findByYear($sections,$schoolYear);
+
+            $seances=$seanceRepository->findBySection($section);
+            $timetable=$seanceRepository->findTimeTable($seances);
+            $tab[$c->getFirstName().' '.$c->getLastName()]=$timetable;
+        }
+
+
+        return$this->render('Front/Guardian/timetable.html.twig' , [
+            'parameters' => $repoP->find(1) ,
+            'tab' => $tab,
+            'guardian' => $guardian
             ]);
     }
     

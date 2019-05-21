@@ -1,0 +1,66 @@
+{% extends 'front-base.html.twig  ' %}
+{% set jours = ['Lundi', 'Mardi' , 'Mercredi' , 'Jeudi' , 'Vendredi' ,'Samedi'] %}
+{% set i = 0 %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        {{ include('Front/Guardian/Exam/_menu.html.twig') }}
+        <div class="stu-db">
+            <div class="container pg-inn">
+                {{ include('Front/Guardian/Profile/_profile_photo.html.twig') }}
+                <div class="col-md-8">
+                    <div class="udb">
+
+                        <div class="udb-sec udb-time">
+                            <h4><img src="{{asset('images/icon/cor4.png')}}" alt="" /> Cahier des devoirs : Trimestre {{parameters.quarter}}</h4>
+                            
+                             <div class="pro-con-table">
+                                 
+                                <table class="bordered responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Matiére</th>
+                                            <th>Type</th>
+                                            <th>Date</th>
+                                            <th>Début</th>
+                                            <th>Fin</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for e in tabC %}
+                                        <tr>
+                                            <td>{{e.course}}</td>
+                                            <td>
+                                                {% if e.type == 0 %} Orale
+                                                {% elseif e.type == 1 %} TP
+                                                {% elseif e.type == 2 %} Controle1
+                                                {% elseif e.type == 3 %} Controle2
+                                                {% elseif e.type == 4 %} Synthése1
+                                                {% elseif e.type == 5 %} Synthése2
+                                                {% endif %}
+                                            </td>
+                                            <td>{{e.passAt|date('d-m-Y')}} </td>
+                                            <td>{{e.startAt|date('h:m')}}</td>
+                                            <td>{{e.finishAt|date('h:m')}}</td>
+                                           
+                                        </tr>
+                                        
+                                    {% endfor %}  
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+
+
+{% endblock %} 

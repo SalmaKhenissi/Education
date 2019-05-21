@@ -64,9 +64,9 @@ class RedirectionController extends AbstractController
         $tabC=[];
         foreach($exams as $e)
         {
-            if($e->getQuarter()->getNumber()==$quarter && ($e->getType()=='Controle1' || $e->getType()=='Controle2'))
+            if($e->getQuarter()->getNumber()==$quarter && ($e->getType()== 2 || $e->getType()== 3 ))
             {
-                $k=strtotime($e->getPassAt()->format('Y-m-d H:i:s'));
+                $k=strtotime($e->getPassAt()->format('Y-m-d H:i:s')).strtotime($e->getStartAt()->format('H:i'));
                 $tabC[$k]=$e;
             }
 
@@ -77,7 +77,7 @@ class RedirectionController extends AbstractController
         $tabE=[];
         foreach($exams as $e)
         {
-            if($e->getQuarter()->getNumber()==$quarter && ($e->getType()=='Synthése1' || $e->getType()=='Synthése2'))
+            if($e->getQuarter()->getNumber()==$quarter && ($e->getType()== 4 || $e->getType()== 5))
             {
                 $tabE[]=$e;
             }
@@ -148,41 +148,53 @@ class RedirectionController extends AbstractController
     public function redirectNotes(Student $student,QuarterRepository $repoQ ,SchoolYearRepository $repoSY ,CourseRepository $repoC ,ExamRepository $repoE ,StudentExamRepository $repoSE  ,ParameterRepository $repoP ,SectionRepository $repoS )
     { 
         $schoolYear=$repoP->find(1)->getSchoolYear();
-        $quarter=$repoP->find(1)->getQuarter();
+        $quarterNumber=$repoP->find(1)->getQuarter();
+        $quarter1=$repoQ->findQuarter($schoolYear ,1);
+        $quarter2=$repoQ->findQuarter($schoolYear ,2);
+        $quarter3=$repoQ->findQuarter($schoolYear ,3);
+        $quarter=$repoQ->findQuarter($schoolYear ,$quarterNumber);
+
         $sections=$student->getSections();
         $section =$repoS->findByYear($sections,$schoolYear);
 
         $exams=$repoE->findBySection($section);
         $courses=$repoC->findBySection($section);
         
-       
 
-        /*$tabA=[];
-        $average1=$repoSE->countAverage($noteTable1 ,$courses);
-        $average2=$repoSE->countAverage($noteTable2,$courses);
-          $average3=$repoSE->countAverage($noteTable3,$courses);
+            $today= new \DateTime('now'); 
         
-        $averageG=($average1+$average2*2+$average3*2 )/5;
+            if($today >= $quarter1->getStartAt() && $today <= $quarter1->getCouncilDate() ) 
+            { 
+                $noteTable1=$repoSE->findNoteTable($exams,$student, 1);
+                $noteTable=$noteTable1;
+            }
+            else if($today >= $quarter2->getStartAt() && $today <= $quarter2->getCouncilDate() ) 
+            { 
+                $noteTable1=$repoSE->findNoteTable($exams,$student, 1);
+                $noteTable2=$repoSE->findNoteTable($exams,$student, 2);
+                $noteTable=$noteTable2;
+            }
+            else if($today >= $quarter3->getStartAt()  ) 
+            {   $noteTable1=$repoSE->findNoteTable($exams,$student, 1);
+                $noteTable2=$repoSE->findNoteTable($exams,$student, 2);
+                $noteTable3=$repoSE->findNoteTable($exams,$student, 3);
 
-        $tabR=[];
+                $noteTable=$noteTable3; 
+            }
+            
+        $tabA=[];
+        $average1=$repoSE->countAverage($noteTable1,$courses);$tabA[]=$average1;  
+        $average2=$repoSE->countAverage($noteTable2,$courses);$tabA[]=$average2;
+        $average3=$repoSE->countAverage($noteTable3,$courses);$tabA[]=$average3;
+        
+        $averageG=($average1+$average2*2+$average3*2 )/5;$tabA[]=$averageG;
+
+        /*$tabR=[];
         $rank1=$repoSE->findRank($student,$section ,$exams,$courses ,1);
         $rank2=$repoSE->findRank($student,$section ,$exams,$courses ,2);
         $rank3=$repoSE->findRank($student,$section ,$exams,$courses ,3);
         $rankG=$repoSE->findRank($student,$section ,$exams,$courses );*/
-
         
-            if($quarter == 1 ) 
-            { 
-                $noteTable=$repoSE->findNoteTable($exams,$student, 1);
-            }
-            else if($quarter == 2 ) 
-            {
-                $noteTable=$repoSE->findNoteTable($exams,$student, 2);
-            }
-            else 
-            {
-                $noteTable=$repoSE->findNoteTable($exams,$student, 3);
-            }
             
             
           /*  
@@ -212,8 +224,6 @@ class RedirectionController extends AbstractController
             'parameters' => $repoP->find(1),
             'section' => $section,
             'noteTable' => $noteTable,
-           // 'tabA' => $tabA ,
-          //  'tabR' => $tabR
             ]);
     }
 

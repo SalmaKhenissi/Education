@@ -7,9 +7,12 @@
             <div class="container">
                 <div class="col-md-9 col-md-offset-3">
                     <ul>
-                       <li><a href="{{path('guardian_profile', {'id': guardian.id})}}" >Profile</a></li>
-                        <li><a href="{{path('guardian_children', {'id': guardian.id})}}" >Enfants</a></li>
-                        <li><a href="{{path('guardian_teachers', {'id': guardian.id})}}" class="pro-act" >Enseignants</a></li>
+                      <li><a href="{{path('guardian_profile', {'id': guardian.id})}}">Profile</a></li>
+                        <li><a href="{{path('guardian_timetable', {'id': guardian.id})}}" >Emploi du temps</a></li>
+                        <li><a href="{{path('guardian_discipline_children', {'id': guardian.id})}}" >Discipline</a></li>
+                        <li><a href="" >Examens</a></li>
+                        <li><a href="" >Résultats</a></li>
+                        <li><a href="{{path('guardian_teachers', {'id': guardian.id})}} "  class="pro-act" >Enseignants</a></li>
                     </ul>
                 </div>
             </div>
@@ -26,6 +29,7 @@
                                 <table class="bordered responsive-table">
                                     <thead>
                                         <tr>
+                                            <th>Classe</th>
                                             <th>Matiére</th>
                                             <th>Nom & Prénom</th>
                                             <th>Téléphone</th>
@@ -34,13 +38,35 @@
                                     </thead>
 
                                     <tbody>
-                                        <tr>
-                                            <td>Français</td>
-                                            <td>Fouleni foulen</td>
-                                            <td>1345678</td>
-                                            <td>mail@mail</td>
-                                        </tr>
+                                    
+                                    {% for section ,tab in teachers %}
                                         
+                                            <tr>
+                                                <td>{{section}}</td>
+                                                <td>
+                                                    {% for t in tab %}
+                                                      {{t.specialty}}<br>
+                                                    {% endfor %} 
+                                                    
+                                                </td>
+                                                <td>
+                                                    {% for t in tab %}
+                                                      {{t}}<br>
+                                                    {% endfor %} 
+                                                </td>
+                                                <td>
+                                                     {% for t in tab %}
+                                                      {{t.tel|slice(0,2)}} {{t.tel|slice(2,3)}} {{t.tel|slice(5,3)}}<br>
+                                                    {% endfor %} 
+                                                </td>
+                                                <td>
+                                                    {% for t in tab %}
+                                                      {{t.email}}<br>
+                                                    {% endfor %} 
+                                                </td>
+                                            </tr>
+                                        
+                                     {% endfor %}   
                                     </tbody>
                                 </table>
                             </div>

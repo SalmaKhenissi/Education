@@ -1,0 +1,62 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+    <section>
+        <div class="pro-cover">
+        </div>
+        {{ include('Front/Guardian/Discipline/_menu.html.twig') }}
+        <div class="stu-db">
+            <div class="container pg-inn">
+                {{ include('Front/Guardian/Profile/_profile_photo.html.twig') }}
+                <div class="col-md-9">
+                    <div class="udb">
+                        <div class="udb-sec udb-cour-stat">
+                            <h4><img src="{{asset('images/icon/db3.png')}}" alt="" />Assiduité ({{disciplines|length}}) : Trimestre {{parameters.quarter}}</h4>
+                            
+                            <div class="pro-con-table">
+                                <table class="bordered responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Type</th>
+                                            <th>Date</th>
+                                            <th>Séance</th>
+                                            <th>Matiére</th>
+                                            <th>Enseignant</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for d in disciplines %}
+                                        <tr>
+                                            <td>
+                                            {% if d.type == 0 %}
+                                                    Présent
+                                            {% elseif d.type == 1  %}
+                                                        Absent
+                                            {% else %}
+                                                    En retard
+                                            {% endif %}
+                                            </td>
+                                            <td>{{d.date|date("d/m/Y ")}}</td>
+                                            <td>{{d.seance.day}}</td>
+                                            <td>{{d.seance.course}}</td>
+                                            <td>{{d.seance.teacher}}</td>
+                                         </tr>
+                                        
+                                    {% endfor %}  
+                                        
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  
+
+
+{% endblock %} 

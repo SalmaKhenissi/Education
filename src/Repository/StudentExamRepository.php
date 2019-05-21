@@ -32,12 +32,25 @@ class StudentExamRepository extends ServiceEntityRepository
 
         $tab=[];
         foreach($tabC as $c)
-        {   $tabN=[];
+        {   $tabN=[];$eq=[];
             foreach($c->getExams() as $e)
-            {  if($e->getQuarter()->getNumber()== $quarter)
+            {
+                if($e->getQuarter()->getNumber()== $quarter)
+                {
+                    $eq[]=$e;
+                }
+            }
+            foreach($eq as $e)
+            {   
+                if($e->getQuarter()->getNumber()== $quarter)
                 {   $t=[];
                     $t[]=$e->getCoefficient();
-                    $t[]=$e->getType();
+                    if($e->getType()== 0){$t[]='Orale';}
+                    else if ($e->getType()== 1){$t[]='TP';}
+                    else if ($e->getType()== 2){$t[]='Controle1';}
+                    else if ($e->getType()== 3){$t[]='Controle2';}
+                    else if ($e->getType()== 4){$t[]='Synthése1';}
+                    else {$t[]='Synthése2';}
                     if(count($e->getStudentExams())!=0)
                     {
                         foreach($e->getStudentExams() as $se)
@@ -60,9 +73,9 @@ class StudentExamRepository extends ServiceEntityRepository
                     }
                     
                 }
-                $tabN[]=$t;
+                $tabN[$t[1]]=$t;
             }
-            $tab[$c->getLibelle().','.$c->getCoefficient()]=$tabN;
+            $tab[$c->getLibelle().','.$c->getCoefficient().','.$c->getNbrExams()]=$tabN;
             
         }
 
@@ -72,42 +85,44 @@ class StudentExamRepository extends ServiceEntityRepository
 
     public function countAverage($noteTable , $courses)
     {   $SM=0;
-        $SC=0;
+        $SCourseCoeff=0;
         $M=0;
-        $coef=0;
+        $SommeCoef=0;
         
         foreach($courses as $c)
         {
-            $coef=$coef+$c->getCoefficient();
+            $SommeCoef=$SommeCoef+$c->getCoefficient();
         }
-        foreach($noteTable as $k => $t)
-        { $c=substr($k , -1 );
+        foreach($noteTable as $k => $examsByCourses)
+        {   $coeff=substr($k , -3 ,1);
+            $ne=substr($k , -1 );
             $s=0;
             $l=0;
             $sub=0;
-            foreach($t as $e)
+            foreach($examsByCourses as $e)
             {
                 if($e[3] == 1 )
                 {
-                    $f=$e[2]*$e[0];
-                    $s=$s+$f;
+                    $cn=$e[2]*$e[0];
+                    $s=$s+$cn;
                     $l=$l + 1 ;
                     $sub=$sub+$e[0];
                     
                 }
             }
             
-            if( $l == count($t))
+            if( $l == $ne)
             {
                 $m=$s/$sub;
-                $SM=$m*$c+$SM;
-                $SC=$c+$SC;
+                $SM=$m*$coeff+$SM; 
+                $SCourseCoeff=$coeff+$SCourseCoeff;
             }
         }
-        if( $SC == $coef)
+        if( $SCourseCoeff == 8 /* $SommeCoef*/)
         {
-            $M= $SM / $SC ;
+            $M= $SM / $SCourseCoeff ;
         }
+        else{$M=" ";}
     
         return $M;
     }

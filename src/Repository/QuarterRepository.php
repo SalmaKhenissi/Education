@@ -19,6 +19,20 @@ class QuarterRepository extends ServiceEntityRepository
         parent::__construct($registry, Quarter::class);
     }
 
+    public function findQuarter($year ,$number)
+    {
+        return $this->createQueryBuilder('q')
+                    ->Join('q.schoolYear', 's')
+                    ->Where('s.libelle like :y')
+                    ->andWhere('q.number = :n')
+                    ->setParameter('y', $year)
+                    ->setParameter('n', $number)
+                    ->getQuery()
+                    ->getOneOrNullResult()
+    ;
+
+    }
+
     // /**
     //  * @return Quarter[] Returns an array of Quarter objects
     //  */
