@@ -67,9 +67,17 @@ class RoomRepository extends ServiceEntityRepository
     {
         $week=['Dimanche','Lundi','Mardi' ,'Mercredi' , 'Jeudi' ,'Vendredi','Samedi'];
         foreach($seances as $s)
-            {   
+            {   $Day=$s->getDay();
+
+                if($Day==0){$day='Lundi';}
+                else if($Day==1){$day='Mardi';}
+                else if($Day==2){$day='Mercredi';}
+                else if($Day==3){$day='Jeudi';}
+                else if($Day==4){$day='Vendredi';}
+                else if($Day==5){$day='Samedi';}
+
                 $d=date('N',strtotime($exam->getPassAt()->format('Y-m-d')));
-                if($s->getDay()==$week[$d])
+                if($day==$week[$d])
                 {
                     $room=$s->getRoom();
                 }

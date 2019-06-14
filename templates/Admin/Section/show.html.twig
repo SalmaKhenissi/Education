@@ -1,7 +1,20 @@
 {% extends 'admin-base.html.twig' %}
 {% set jours = ['Lundi', 'Mardi' , 'Mercredi' , 'Jeudi' , 'Vendredi' ,'Samedi'] %}
+{% set course = ['Sc.Naturelles', 'Physique' , 'Technique' , 'Informatique' ] %}
 {% set i = 0 %}
+{% set exist = false %}
+{% set duration = 0 %}
+{% block stylesheets %}
+    <style>
+    .timetable {
+        border: 2px solid Navy;
+    
+        padding: 10px;
+        text-align: center;
+    }
 
+    </style>    
+{% endblock %}
 {% block body %}
     <!--== BODY INNER CONTAINER ==-->
     <div
@@ -19,7 +32,7 @@
                 <div class="col-md-12">
                     <div class="box-inn-sp admin-form">
                         <div class="sb2-2-add-blog sb2-2-1">
-                            <h2>Classe : {{section.libelle}}</h2>
+                            <h2 style="color:#00006B">Détails Classe : {{section.libelle}}</h2>
                             
                             <ul class="nav nav-tabs tab-list">
                                 <li class="active"><a data-toggle="tab" href="#home" aria-expanded="true"><i class="fa fa-calendar" aria-hidden="true"></i> <span>Emploi du temps</span></a>
@@ -28,10 +41,13 @@
                                 </li>
                                 <li class=""><a data-toggle="tab" href="#menu3" aria-expanded="false"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span>Liste des enseignants</span></a>
                                 </li>
-                                <li class=""><a data-toggle="tab" href="#menu4" aria-expanded="false"><i class="fa fa-calendar" aria-hidden="true"></i> <span>Emploi des examens</span></a>
+                                <li class=""><a data-toggle="tab" href="#menu4" aria-expanded="false"><i class="fa fa-calendar" aria-hidden="true"></i> <span>Semaine bloquée</span></a>
                                 </li>
                             </ul>
                             <div class="tab-content">
+                            {% for message in app.flashes('success') %}
+                                            <div class="alert alert-success" >{{ message }}</div>
+                                        {% endfor %}
                                 <div id="home" class="tab-pane fade active in">
                                     <div class="box-inn-sp">
                                         <div class="inn-title">
@@ -39,56 +55,160 @@
 
                                         </div>
                                         <div class="tab-inn">
-                                            <div class="udb-sec udb-time ">
-                                                <div class="tour_head1 udb-time-line days">
-                                                    <ul>
-                                                    {% for tab in timetable %}
-                                                        <li class="l-info-pack-plac"><a href="{{path('admin_seance_index',{'id':section.id , 'day':jours[i]  })}}"> <i class="fa fa-clock-o" aria-hidden="true"></i></a>
-                                                            <div class="sdb-cl-tim">
-                                                                <div class="sdb-cl-day">
-                                                                    <h5>{{ jours[ i ] }}</h5>
-                                                                </div>
-                                                                <div class="sdb-cl-class">
-                                                                    <ul>
-                                                                    {% for s in tab %}
-                                                                        <li>
-                                                                            <div class="sdb-cl-class-tim tooltipped" data-position="top" data-delay="50" data-tooltip="Class timing">
-                                                                                <span>
-                                                                                    {% set start = s.startAt|date("h") %}
-                                                                                    {% if start < 8 %}
-                                                                                       {{start}}:00 PM
-                                                                                    {% else %}
-                                                                                        {{start}}:00 AM
-                                                                                    {% endif %}
-                                                                                </span>
-                                                                                <span>
-                                                                                    {% set finish = s.finishAt|date("h") %}
-                                                                                    {% if finish < 8 %}
-                                                                                       {{finish}}:00 PM
-                                                                                    {% else %}
-                                                                                        {{finish}}:00 AM
-                                                                                    {% endif %}
-                                                                                </span>
-                                                                            </div>
-                                                                            <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
-                                                                                <h5>{{s.course.libelle}}<span style="color:DarkGreen;">{{s.teacher}}</span></h5>
-                                                                                <span class="sdn-hall-na">{{s.room}}</span>
-                                                                            </div>
-                                                                        </li>
-                                                                    {% endfor %} 
-                                                                    </ul>
-                                                                {% set i = i + 1 %}
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    {% endfor %} 
-                                                    {% set i = 0 %}
-                                                    </ul>
-                                                </div>
+                                        
+                                            <div>
+                                            <table class="timetable">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="timetable">#</th>
+                                                        <th scope="col" class="timetable">08:00-09:00</th>
+                                                        <th scope="col" class="timetable">09:00-10:00</th>
+                                                        <th scope="col" class="timetable">10:00-11:00</th>
+                                                        <th scope="col" class="timetable">11:00-12:00</th>
+                                                        <th scope="col" class="timetable">14:00-15:00</th>
+                                                        <th scope="col" class="timetable">15:00-16:00</th>
+                                                        <th scope="col" class="timetable">16:00-17:00</th>
+                                                        <th scope="col" class="timetable">17:00-18:00</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for tab in timetable %}
+                                                    
+                                                    <tr>
+                                                        <th scope="row" class="timetable"><a href="{{path('admin_seance_index',{'id':section.id , 'day':jours[i]  })}}">{{ jours[ i ] }}</a></th>
+                                                        
+                                                        {% for k in range(8,11)  %}
+                                                                
+                                                                {% for s in tab %}
+                                                                    {% set start = s.startAt|date("h") %}
+                                                                    
+                                                                    {% if (start == k ) %}
+                                                                        
+                                                                            {% set finish = s.finishAt|date("h") %} 
+                                                                            {% set duration = finish - start %}
+                                                                            {% if duration == 2 %}
+                                                                                {% if s.course.libelle in course %}
+                                                                                    <td colspan="2" class="timetable" > 
+                                                                                        {{s.course}} S{{s.room.number}}
+                                                                                        {% for s2 in tab %}
+                                                                                            {% set start = s2.startAt|date("h") %}
+                                                                                            {% if (start == k ) %}
+                                                                                                {% if not (s2.course == s.course ) %}
+                                                                                                    <br> {{s2.course}} S{{s2.room.number}}
+                                                                                                    {% set k = k + 1  %}
+                                                                                                {% endif %}
+                                                                                            {% endif %}
+                                                                                        {% endfor %}
+                                                                                    </td>
+                                                                                {% else %}
+                                                                                    <td colspan="2" class="timetable" >
+                                                                                        {{s.course}}
+                                                                                        {% if not  s.room == null %}
+                                                                                         S{{s.room.number}}
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                {% endif %}
+                                                                            {% else %}
+                                                                                <td class="timetable" > {{s.course}} S{{s.room.number}} </td>
+                                                                            {% endif %}
+                                                                            {% set exist = true %}
+
+                                                                    {% endif %}
+
+                                                                {% endfor %}
+
+                                                                {% if exist == false %}
+                                                                    {% if k > 8 %}
+                                                                        {% if lastExist == false %}
+                                                                            <td class="timetable"></td>
+                                                                        {% elseif lastExist == true and lastDuration == 1 %}
+                                                                            <td class="timetable"></td>
+                                                                        {% endif %}
+
+                                                                    {% else %}
+                                                                        <td class="timetable"></td>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                                
+                                                                {% set lastExist = exist %}
+                                                                {% set lastDuration = duration %}
+                                                                {% set exist = false %}
+                                                        {% endfor %}
+                                                        
+                                                        {% for k in range(2,5)  %}
+                                                                
+                                                                {% for s in tab %}
+                                                                    {% set start = s.startAt|date("h") %}
+                                                                    
+                                                                    {% if (start == k ) %}
+                                                                        
+                                                                            {% set finish = s.finishAt|date("h") %} 
+                                                                            {% set duration = finish - start %}
+                                                                            {% if duration == 2 %}
+                                                                                {% if s.course.libelle in course %}
+                                                                                    <td colspan="2" class="timetable" >
+                                                                                        {{s.course}} S{{s.room.number}}
+                                                                                        {% for s2 in tab %}
+                                                                                            {% set start = s2.startAt|date("h") %}
+                                                                                            {% if (start == k ) %}
+                                                                                                {% if not (s2.course == s.course ) %}
+                                                                                                    <br> {{s2.course}}  S{{s2.room.number}}
+                                                                                                    {% set k = k + 1  %}
+                                                                                                {% endif %}
+                                                                                            {% endif %}
+                                                                                        {% endfor %}
+                                                                                    </td>
+                                                                                {% else %}
+                                                                                    <td colspan="2" class="timetable" >{{s.course}}
+                                                                                        {% if not  s.room == null %}
+                                                                                         S{{s.room.number}}
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                {% endif %}
+                                                                            {% else %}
+                                                                                <td class="timetable" >{{s.course}} S{{s.room.number}}</td>
+                                                                            {% endif %}
+                                                                            {% set exist = true %}
+
+                                                                    {% endif %}
+
+                                                                {% endfor %}
+
+                                                                {% if exist == false %}
+                                                                    {% if k > 2 %}
+                                                                        {% if lastExist == false %}
+                                                                            <td class="timetable"></td>
+                                                                        {% elseif lastExist == true and lastDuration == 1 %}
+                                                                            <td class="timetable"></td>
+                                                                        {% endif %}
+
+                                                                    {% else %}
+                                                                        <td class="timetable"></td>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                                
+                                                                {% set lastExist = exist %}
+                                                                {% set lastDuration = duration %}
+                                                                {% set exist = false %}
+                                                        {% endfor %}
+ 
+                                                       
+                                                    </tr>
+                                                    {% set i = i + 1 %}
+                                                {% endfor %}  
+                                                {% set i = 0 %}   
+                                                    
+                                                </tbody>
+                                            </table>
+                                                     
                                             </div>
+                                            <br>
                                             <div class="text-left">
                                                <h4> <a href="{{ path('admin_seance_new' , {'id':section.id} ) }}" class="fa fa-plus-square-o "> Ajouter une séance</a></h4>
+                                                <br>
+                                                <h4> <a href="{{ path('admin_section_timetable' , {'id':section.id} ) }}" class="fa fa-download "> Télécharger</a></h4>
                                             </div>
+                                            
                                             
                                         </div>
 
@@ -151,8 +271,8 @@
                                                        <tbody>
                                                         {% for t in teachers %}
                                                             <tr>
-                                                                <td>{{ t.firstName }}</td>
                                                                 <td>{{ t.lastName }}</td>
+                                                                <td>{{ t.firstName }}</td>
                                                                 <td>{{ t.specialty }}</td>
                                                                 <td> <a href="{{ path('admin_teacher_show' , {'id': t.id})}}" class="btn btn-info fa fa-eye"></a></td>
                                                             </tr>
@@ -167,7 +287,7 @@
                                 <div id="menu4" class="tab-pane fade">
                                     <div class="box-inn-sp">
                                         <div class="inn-title">
-                                            <h4>Emploi des examens (Devoirs de Synthése)</h4>
+                                            <h4>Semaine bloquée : Trimestre {{parameters.quarter}}</h4>
 
                                         </div>
                                         <div class="tab-inn">
@@ -210,13 +330,23 @@
                                                                             </div>
                                                                             <div class="sdb-cl-class-name tooltipped" data-position="top" data-delay="50" data-tooltip="Class Details">
                                                                                 <h5> {{e.course.libelle}}
+                                                                                        {% if (e.course.libelle == 'Arabe' and e.type == 5 )  %} 
+                                                                                            : Production
+                                                                                        {% elseif (e.course.libelle == 'Arabe' and e.type == 4 ) %}
+                                                                                            : Compréhension
+                                                                                        {% endif %}
                                                                                      <span style="color:DarkGreen;">
                                                                                      {% for t in e.teachers %}
-                                                                                        {{t}}</br>
+                                                                                            {% if t.sexe == 0 %}
+                                                                                                M.{{t}}</br>
+                                                                                            {% elseif t.sexe == 1 %}
+                                                                                                Mme.{{t}}</br>
+                                                                                            {% endif %}
+                                                                                        
                                                                                     {% endfor %}
                                                                                      </span>
                                                                                 </h5>
-                                                                                <span class="sdn-hall-na">Salle {{e.room.number}}</span>
+                                                                                <span class="sdn-hall-na">{{e.room}}</span>
                                                                             </div>
                                                                         </li>
                                                                     {% endfor %} 

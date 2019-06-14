@@ -11,9 +11,9 @@
                         </li>
                         <li class="active-bre"><a href="#">Paramètres du site</a>
                         </li>
-                        <li class="active-bre"><a href="{{ path('admin_parameters_desc')}}">Paramétres description</a>
+                        <li class="active-bre"><a href="{{ path('admin_parameters_desc')}}">Liste des services</a>
                         </li>
-                        <li class="active-bre"><a href="#">Modifier une description</a>
+                        <li class="active-bre"><a href="#">Modifier un service</a>
                         </li>
                     </ul>
                 </div>
@@ -22,10 +22,13 @@
                         <div class="col-md-12">
 						    <div class="box-inn-sp admin-form">
                                 <div class="inn-title">
-                                    <h4>Modifier une description</h4>
+                                    <h4>Modifier un service</h4>
                                     
                                 </div>
                                 <div class="tab-inn">
+                                {% for message in app.flashes('fail') %}
+                                            <div class="alert alert-danger" >{{ message }}</div>
+                                        {% endfor %}
                                    {{ form_start(form) }}
                                     
                                     <div class="row">
@@ -33,7 +36,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">{{ form_row(form.content)}}</div>
-                                    </div>
+                                    </div><br><br>&nbsp; &nbsp;&nbsp; &nbsp;
                                     <button class="btn">{{ button_label|default('Modifier') }}</button>
                                 {{ form_end(form) }}
 

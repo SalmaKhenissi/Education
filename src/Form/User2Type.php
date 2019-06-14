@@ -24,7 +24,7 @@ class User2Type extends AbstractType
                 'label' => ' Nom'
             ])
             ->add('username' , TextType::class ,[
-                'label' => ' Prénom'
+                'label' => ' Nom d\'utilisateur'
                 ])
             ->add('birthDate',BirthdayType::class, [
                 'label' => ' Date de naissance ', 'widget' => 'single_text'

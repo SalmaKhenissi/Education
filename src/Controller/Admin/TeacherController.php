@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @IsGranted("ROLE_ADMIN" , statusCode=404)
+ * @IsGranted("ROLE_ADMIN" )
  * @Route("/admin/teacher")
  */
 class TeacherController extends AbstractController
@@ -32,9 +32,10 @@ class TeacherController extends AbstractController
         $firstName = $request->get('first');
         $lastName = $request->get('last');
         $specialty = $request->get('specialty');
+
         $teachers=$paginator->paginate($teacherRepository->findByPram($firstName , $lastName , $specialty) , 
                                        $request->query->getInt('page', 1),
-                                       12
+                                       6
         );
         return $this->render('Admin/Teacher/index.html.twig', [
             'teachers' => $teachers ,
@@ -47,8 +48,6 @@ class TeacherController extends AbstractController
     public function new(Request $request ,UserRepository $userRepository): Response
     {
         $teacher = new Teacher();
-        $choicesSexe = Teacher::SEXE ;
-        $choicesType = Teacher::TYPE ;
 
         $form = $this->createForm(TeacherType::class, $teacher);
         $form->handleRequest($request);
@@ -56,11 +55,7 @@ class TeacherController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $teacher->setRoles('ROLE_TEACHER');
 
-            $sexe=$teacher->getSexe();
-            $teacher->setSexe($choicesSexe[$sexe]);
 
-            $type=$teacher->getType();
-            $teacher->setType($choicesType[$type]);
             $teacher->setUpdatedAt(new \DateTime('now'));
 
             $teacher->setImageName("inconnu");
@@ -72,8 +67,13 @@ class TeacherController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($teacher);
             $entityManager->flush();
-            
+
+            $this->addFlash('success' , 'Ajouté  avec succés!');
             return $this->redirectToRoute('admin_teacher_index');
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Teacher/new.html.twig', [
@@ -99,8 +99,6 @@ class TeacherController extends AbstractController
      */
     public function edit(Request $request, Teacher $teacher): Response
     {   
-        $choicesSexe = Teacher::SEXE ;
-        $choicesType = Teacher::TYPE ;
 
         $form = $this->createForm(TeacherType::class, $teacher);
         
@@ -108,17 +106,17 @@ class TeacherController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            $sexe=$teacher->getSexe();
-            $teacher->setSexe($choicesSexe[$sexe]);
-
-            $type=$teacher->getType();
-            $teacher->setType($choicesType[$type]);
 
             $teacher->setUpdatedAt(new \DateTime('now'));
             
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
 
             return $this->redirectToRoute('admin_teacher_index');
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         
@@ -137,6 +135,7 @@ class TeacherController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($teacher);
             $entityManager->flush();
+            $this->addFlash('success' , 'Supprimé  avec succés!');
         
         return $this->redirectToRoute('admin_teacher_index');
     }

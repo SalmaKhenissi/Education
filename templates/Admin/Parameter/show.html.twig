@@ -21,15 +21,21 @@
                         <div class="col-md-12">
                             <div class="box-inn-sp">
                                 <div class="inn-title">
+                                
                                     <h4>Détails Description  </h4>
                                     
                                 </div>
                                 <div class="tab-inn">
+                                {% for message in app.flashes('success') %}
+                                            <div class="alert alert-success" >{{ message }}</div>
+                                        {% endfor %}
                                     <div class="udb-sec udb-prof">
                                         <h4>{{ description.title}}</h4>
                                         
                                         <div class="sdb-tabl-com sdb-pro-table">
+                                        {% autoescape false %}
                                             {{description.content}}
+                                        {% endautoescape %}
                                         </div>
                                     </div>
                                 </div>

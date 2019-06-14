@@ -47,19 +47,22 @@ class ParameterController extends AbstractController
     public function editGeneral(Request $request ,ParameterRepository $repo ): Response
     {
         $parameter=$repo->find(1);
-        $choicesQuarter = Parameter::NUMBER ;
         $form = $this->createForm(ParameterType::class, $parameter);
         
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $quarter=$parameter->getQuarter();
-            $parameter->setQuarter($choicesQuarter[$quarter]);
+            
             $parameter->setUpdatedAt(new \DateTime('now'));
             
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
             return $this->redirectToRoute('admin_parameters' );
        }
+       else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
+        }
 
     
        return $this->render('Admin/Parameter/edit_general.html.twig', [
@@ -70,10 +73,26 @@ class ParameterController extends AbstractController
     /**
      * @Route("/index/desc", name="admin_parameters_desc", methods={"GET"})
      */
-    public function indexDesc(DescriptionRepository $repoD ): Response
+    public function indexDesc(DescriptionRepository $repoD , Request $request,PaginatorInterface $paginator ): Response
     {
+        $tab=[];
+        foreach($repoD->findAll() as $d)
+        {
+            $tab[$d->getId()]=$d->getTitle();
+        }
+        asort($tab);
+        $sorted=[];
+        foreach($tab as $k => $v )
+        {
+            $sorted[]=$repoD->findById($k)[0];
+        }
+
+        $desc=$paginator->paginate($sorted, 
+                                   $request->query->getInt('page', 1),
+                                   7
+        );
         return $this->render('Admin/Parameter/index_desc.html.twig', [
-            'descriptions' => $repoD->findAll()
+            'descriptions' => $desc
         ]);
     }
     /**
@@ -101,8 +120,13 @@ class ParameterController extends AbstractController
             $desc->setUpdatedAt(new \DateTime('now'));
             
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('admin_parameters' );
+            $this->addFlash('success' , 'Modifié  avec succés!');
+            return $this->redirectToRoute('admin_parameters_desc' );
        }
+       else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
+        }
 
     
        return $this->render('Admin/Parameter/edit_desc.html.twig', [
@@ -144,8 +168,13 @@ class ParameterController extends AbstractController
             $image->setUpdatedAt(new \DateTime('now'));
             
             $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('admin_parameters' );
+            $this->addFlash('success' , 'Modifié  avec succés!');
+            return $this->redirectToRoute('admin_parameters_image' );
        }
+       else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
+        }
 
     
        return $this->render('Admin/Parameter/edit_image.html.twig', [

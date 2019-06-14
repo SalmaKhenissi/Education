@@ -25,18 +25,22 @@
                                     
                                 </div>
                                 <div class="tab-inn">
+                                    {% for message in app.flashes('success') %}
+                                            <div class="alert alert-success" >{{ message }}</div>
+                                        {% endfor %}
                                     <div class="udb-sec udb-prof">
                                         <h4>
-                                        {% if guardian.imageName == 'inconnu' and guardian.sexe == 'Homme' %}
-                                            <img  class="list-img" src="{{asset('images/inconnu.png')}}" alt="admin_photo">
-                                        {% elseif guardian.imageName == 'inconnu' and guardian.sexe == 'Femme'  %}
-                                            <img class="list-img" src="{{asset('images/inconnue.png')}}" alt="admin_photo">
+                                        {% if guardian.imageName == 'inconnu' and guardian.sexe == 0 %}
+                                            <img  class="list-img" src="{{asset('images/inconnu.png')}}" alt="photo">
+                                        {% elseif guardian.imageName == 'inconnu' and guardian.sexe == 1  %}
+                                            <img class="list-img" src="{{asset('images/inconnue.png')}}" alt="photo">
                                         {% else %}
-                                            <img class="list-img" src="" alt="admin_photo">
+                                            <img class="list-img" src="{{ '/Pro-Education/public' ~ vich_uploader_asset( guardian ,'imageFile') }} " alt="photo">
                                         {% endif %}
                                         {{ guardian.firstName}} {{ guardian.lastName}}</h4>
                                         
                                         <div class="sdb-tabl-com sdb-pro-table">
+                                        
                                             <table class="responsive-table bordered">
                                                 <tbody>
                                                     <tr>
@@ -57,7 +61,11 @@
                                                     <tr>
                                                         <td><strong>Sexe</strong></td>
                                                         <td>:</td>
-                                                        <td>{{ guardian.sexe}}</td>
+                                                        <td>
+                                                         {% if guardian.sexe == 0 %} Homme
+                                                         {% elseif guardian.sexe == 1 %} Femme
+                                                         {% endif %}
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td><strong>E-mail</strong></td>

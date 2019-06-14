@@ -1,0 +1,73 @@
+{% extends 'admin-base.html.twig' %}
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+                <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#">Années scolaires</a>
+                        </li>
+                        <li class="active-bre"><a href="{{path('admin_school_year_index')}}"> Liste des années scolaires</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Détails Année scolaire</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!--== User Details ==-->
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                             <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <h4>Détails Année scolaire</h4>
+                                </div>
+                                <div class="tab-inn">
+
+                                         <div class="udb-sec udb-prof">
+                                            <div class="row">
+                                                    <div class="col-md-4"><h4>Année Scolaire : </h4>{{schoolYear.libelle}}</div>
+                                            
+                                                    <div class="col-md-4"><h4>Début : </h4>{{ schoolYear.startAt|date('d-m-Y')}}</div>
+                                                    <div class="col-md-4"><h4>Fin : </h4>{{ schoolYear.finishAt|date('d-m-Y')}}</div>
+                                            </div>
+                                            
+                                         </div>
+                                         <div class="udb-sec udb-prof">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th><strong>Trimestre</strong></th>
+                                                        <th><strong>Début</strong></th>
+                                                        <th><strong>Fin</strong></th>
+                                                        <th><strong>Date du conseil</strong></th>
+                                                        <th><strong>Coefficient</strong></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                
+                                                {% for q in schoolYear.quarters %}
+                                                    <tr>
+                                                        <td>{{ q.number }}</td>
+                                                        <td>{{ q.startAt|date('d-m-Y') }}</td>
+                                                        <td>{{ q.finishAt|date('d-m-Y') }}</td>
+                                                        <td>{{ q.councilDate|date('d-m-Y') }}</td>
+                                                        <td>{{q.coefficient}}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                         </div>
+                                           
+                                </div>
+                            </div>
+                                                            
+                        </div>                     
+                    </div>                            
+                </div>
+            </div>
+
+{% endblock %}

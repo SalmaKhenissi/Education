@@ -11,6 +11,9 @@
                 <div class="col-md-9">
                     <div class="udb">
                         <div class="udb-sec udb-cour-stat">
+                        {% for message in app.flashes('fail') %}
+                            <div class="alert alert-danger" >{{ message }}</div>
+                        {% endfor %}
                         <h4><img src="{{asset('images/icon/db5.png')}}" alt="" />Examens {{teacher.specialty}}:
                             {% if exam.type == 0 %} Orale
                             {% elseif exam.type == 1 %} TP

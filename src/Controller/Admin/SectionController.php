@@ -1,6 +1,8 @@
 <?php
 namespace App\Controller\Admin;
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\Section;
 use App\Entity\Student;
 use App\Form\SectionType;
@@ -65,7 +67,12 @@ class SectionController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($section);
             $entityManager->flush();
+            $this->addFlash('success' , 'Ajouté  avec succés!');
             return $this->redirectToRoute('admin_section_index');
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Section/new.html.twig', [
@@ -75,24 +82,90 @@ class SectionController extends AbstractController
     }
 
     /**
-     * @Route("/show/{id}", name="admin_section_show", methods={"GET"})
+     * @Route("/{id}/show", name="admin_section_show", methods={"GET"})
      */
-    public function show(Section $section, TeacherRepository $repoT  , SeanceRepository $seanceRepository , ExamRepository $examRepository): Response
-    {  
+    public function show(Section $section, TeacherRepository $repoT,ParameterRepository $repoP  , SeanceRepository $seanceRepository , ExamRepository $examRepository): Response
+    {   $param=$repoP->find(1);
+        $quarter=$param->getQuarter();
+
         $seances=$seanceRepository->findBySection($section);
         $timetable=$seanceRepository->findTimeTable($seances);
 
-        $exams=$examRepository->findBySection($section);
+        $exams=$examRepository->findBySynthese( $quarter ,$section);
         $timetableExam=$examRepository->findTimeTable($exams);
         
-        $teachers=$repoT->findBySection($seances,$repoT);
+        $teachers=$repoT->findBySection($seances);
          
 
         return $this->render('Admin/Section/show.html.twig', [
             'section' => $section,
             'timetable' => $timetable ,
             'timetableExam' => $timetableExam ,
-            'teachers' =>$teachers
+            'teachers' =>$teachers,
+            'parameters' =>$param
+        ]);
+    }
+    /**
+     * @Route("/{id}/timetable", name="admin_section_timetable" , methods={"GET"} )
+     */
+    public function timetable(Section $section  , SeanceRepository $seanceRepository )
+    {
+
+        //configure Dompdf
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont' , 'Arial');
+
+        //instantiate Dompdf
+        $dompdf = new Dompdf($pdfOptions);
+        
+        
+        $seances=$seanceRepository->findBySection($section);
+        $timetable=$seanceRepository->findTimeTable($seances);
+
+        //Retrieve the HTML generated in our twig
+        $html= $this->renderView('Admin/Section/timetable.html.twig', [
+            'section' => $section,
+            'timetable' => $timetable ,
+            ]);
+
+        //load HTML to DOMPpdf
+        $dompdf->loadHtml($html);
+
+        //options:Setup the paper size
+        $dompdf->setPaper('A3' , 'portrait');
+
+        //Render the html as PDF
+        $dompdf->render();
+
+        //ouput the generated PDF to browser
+        $dompdf->stream("timetable.pdf",[
+            "Attachment" => true
+        ]);
+
+
+
+
+        
+       return $this->render();
+    }
+
+    /**
+     * @Route("/{id}/show2", name="admin_section_show2", methods={"GET"})
+     */
+    public function show2(Section $section, TeacherRepository $repoT,ParameterRepository $repoP  , SeanceRepository $seanceRepository , ExamRepository $examRepository): Response
+    {   
+        $param=$repoP->find(1);
+
+        $seances=$seanceRepository->findBySection($section);
+        $timetable=$seanceRepository->findTimeTable($seances);
+
+        
+        
+
+        return $this->render('Admin/Section/show2.html.twig', [
+            'section' => $section,
+            'timetable' => $timetable ,
+            'parameters' =>$param
         ]);
     }
 
@@ -106,9 +179,14 @@ class SectionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
             return $this->redirectToRoute('admin_section_index', [
                 'id' => $section->getId(),
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Section/edit.html.twig', [
@@ -126,6 +204,7 @@ class SectionController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($section);
             $entityManager->flush();
+            $this->addFlash('success' , 'Supprimé  avec succés!');
         
         return $this->redirectToRoute('admin_section_index');
     }
@@ -133,7 +212,7 @@ class SectionController extends AbstractController
     /**
      * @Route("/affect/{id}", name="admin_section_affect", methods={"GET","POST"})
      */
-    public function affect(Section $section, StudentRepository $repoS ,SeanceRepository $seanceRepository ,Request $request ,ParameterRepository $repoP ): Response
+    public function affect(Section $section, ExamRepository $examRepository,ParameterRepository $parameterRepository,StudentRepository $repoS ,SeanceRepository $seanceRepository ,Request $request ,ParameterRepository $repoP ): Response
     {  $schoolYear=$repoP->find(1)->getSchoolYear();
         $seances=$seanceRepository->findBySection($section);
         $teachers=[];
@@ -142,6 +221,9 @@ class SectionController extends AbstractController
             $teachers[$i]=$seances[$i]->getTeacher();
          }
         $timetable=$seanceRepository->findTimeTable($seances);
+        
+
+
         $form = $this->createFormBuilder($section)
                     ->add('students' , EntityType::class , [
                             'class' => 'App\Entity\Student' ,
@@ -162,12 +244,15 @@ class SectionController extends AbstractController
             }
             $this->getDoctrine()->getManager()->persist($section);
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Affecté  avec succés!');
 
-            return $this->render('Admin/Section/show.html.twig', [
-            'section' => $section,
-            'timetable' => $timetable,
-            'teachers' => $teachers
+            $this->redirectToRoute('admin_section_show', [
+            'id' => $section->getId()
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
          
         return $this->render('Admin/Section/affect.html.twig', [
@@ -179,7 +264,7 @@ class SectionController extends AbstractController
     /**
      * @Route("/eliminate/{id}", name="admin_section_eliminate", methods={"GET","POST"})
      */
-    public function eliminate(Section $section, StudentRepository $repoS ,SeanceRepository $seanceRepository ,Request $request ,ParameterRepository $repoP ): Response
+    public function eliminate(Section $section, ExamRepository $examRepository,ParameterRepository $parameterRepository,StudentRepository $repoS ,SeanceRepository $seanceRepository ,Request $request ,ParameterRepository $repoP ): Response
     {   $schoolYear=$repoP->find(1)->getSchoolYear();
 
         $seances=$seanceRepository->findBySection($section);
@@ -189,6 +274,8 @@ class SectionController extends AbstractController
             $teachers[$i]=$seances[$i]->getTeacher();
          }
         $timetable=$seanceRepository->findTimeTable($seances);
+
+      
 
         $studentsAffected=$section->getStudents();
         $tabA=[]; $i=0;
@@ -207,7 +294,7 @@ class SectionController extends AbstractController
                          ])
                     
                     ->getForm();
-        $form->handleRequest($request);
+        $form->handleRequest($request); 
         if ($form->isSubmitted() && $form->isValid()) {
             
             $students=$section->getStudents(); 
@@ -240,11 +327,15 @@ class SectionController extends AbstractController
             $this->getDoctrine()->getManager()->persist($section);
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->render('Admin/Section/show.html.twig', [
-            'section' => $section,
-            'timetable' => $timetable,
-            'teachers' => $teachers
+            $this->addFlash('success' , 'Eliminé  avec succés!');
+
+            return $this->redirectToRoute('admin_section_show', [
+            'id' => $section->getId()
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
          
         return $this->render('Admin/Section/eliminate.html.twig', [

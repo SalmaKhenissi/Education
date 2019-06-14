@@ -90,11 +90,16 @@ class PunishmentController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($p);
             $entityManager->flush();
+            $this->addFlash('success' , 'Ajouté  avec succés!');
 
             return $this->redirectToRoute('teacher_punishment_index', [
                 'teacher' => $teacher->getId(),
                 'section' => $section->getId()
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Front/Teacher/Punishment/new.html.twig', [
@@ -123,11 +128,16 @@ class PunishmentController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($p);
             $entityManager->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
 
             return $this->redirectToRoute('teacher_punishment_index', [
                 'teacher' => $p->getTeacher()->getId(),
                 'section' => $section->getId()
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Front/Teacher/Punishment/new.html.twig', [
@@ -149,7 +159,7 @@ class PunishmentController extends AbstractController
             $entityManager->remove($p);
             $entityManager->flush();
         
-
+            $this->addFlash('success' , 'Supprimé  avec succés!');
         return $this->redirectToRoute('teacher_punishment_index' , [
             'teacher' => $teacher->getId(),
             'section' => $section->getId()

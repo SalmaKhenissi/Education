@@ -18,6 +18,7 @@ use App\Repository\SeanceRepository;
 use App\Repository\QuarterRepository;
 use App\Repository\SectionRepository;
 use App\Repository\ParameterRepository;
+use App\Repository\StudentExamRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -122,7 +123,7 @@ class ExamController extends AbstractController
             foreach($exam->getSection()->getStudents() as $s)
             {
                 $StudentExam = new StudentExam($exam,$s);
-                $StudentExam->setNote(0);
+               
                 $StudentExam->setExam($exam);
                 $entityManager->persist($StudentExam);
                 $entityManager->flush();
@@ -131,10 +132,15 @@ class ExamController extends AbstractController
             
 
             $id=$teacher->getId();
+            $this->addFlash('success' , 'Ajoute  avec succés!');
             return $this->redirectToRoute('teacher_exam_index', [
                 'teacher' => $id,
                 'section' => $section->getId()
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Front/Teacher/Exam/new.html.twig', [
@@ -184,10 +190,15 @@ class ExamController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             $id=$teacher->getId();
+            $this->addFlash('success' , 'Modifié  avec succés!');
             return $this->redirectToRoute('teacher_exam_index', [
                 'teacher' => $id,
                 'section' => $exam->getSection()->getId()
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Front/Teacher/Exam/edit.html.twig', [
@@ -208,7 +219,7 @@ class ExamController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($exam);
             $entityManager->flush();
-        
+            $this->addFlash('success' , 'Supprimé  avec succés!');
 
         return $this->redirectToRoute('teacher_exam_index' , [
             'teacher' => $teacher->getId(),
@@ -219,11 +230,24 @@ class ExamController extends AbstractController
      /**
      * @Route("{teacher}/note/{id}", name="teacher_exam_note", methods={"GET" ,"POST"})
      */
-    public function note(Teacher $teacher ,Exam $exam ,ParameterRepository $repoP,Request $request ): Response
+    public function note(Teacher $teacher ,Exam $exam ,StudentExamRepository  $repoSt ,ParameterRepository $repoP,Request $request ): Response
     {   
         $param=$repoP->find(1);
+        $Stexam=$exam->getStudentExams() ;
 
-        $data["studentExams"]=$exam->getStudentExams() ;
+        $tab=[];
+        foreach($Stexam as $st)
+        {
+            $tab[$st->getId()]=$st->getStudent()->getLastName();
+        }
+        asort($tab);
+        $sorted=[];
+        foreach($tab as $k => $v )
+        {
+            $sorted[]=$repoSt->findById($k)[0];
+        }
+
+        $data["studentExams"]=$sorted;
         
         $form = $this->createForm(NoteType::class, $data);
         
@@ -236,12 +260,16 @@ class ExamController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             $id=$teacher->getId();
+            $this->addFlash('success' , 'Noté  avec succés!');
             return $this->redirectToRoute('teacher_exam_index', [
                 'teacher' => $id,
                 'section' => $exam->getSection()->getId()
             ]);
         }
-        
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
+        }
        
         return $this->render('Front/Teacher/Exam/note.html.twig', [
             'exam' => $exam,

@@ -34,9 +34,14 @@ class ProfileController extends AbstractController
 
             $teacher->setUpdatedAt(new \DateTime('now')); 
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
             return $this->redirectToRoute('teacher_profile' , [
                 'id' => $teacher->getId()
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Front/Teacher/Profile/editPassword.html.twig', [
@@ -69,9 +74,14 @@ class ProfileController extends AbstractController
 
             $teacher->setUpdatedAt(new \DateTime('now')); 
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
             return $this->redirectToRoute('teacher_profile' , [
                 'id' => $teacher->getId()
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Front/Teacher/Profile/editData.html.twig', [

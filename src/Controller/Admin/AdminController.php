@@ -43,7 +43,12 @@ class AdminController extends AbstractController
 
             $admin->setUpdatedAt(new \DateTime('now')); 
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
             return $this->redirectToRoute('admin_dashbord' );
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/editAdmin.html.twig', [

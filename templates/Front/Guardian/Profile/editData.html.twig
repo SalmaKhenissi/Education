@@ -10,34 +10,31 @@
                 {{ include('Front/Guardian/Profile/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
-
                         <div class="udb-sec udb-prof">
+                            {% for message in app.flashes('fail') %}
+                                <div class="alert alert-danger" >{{ message }}</div>
+                            {% endfor %}
                             <h4><img src="{{asset('images/icon/db1.png')}}" alt="" />Profile </h4>
                             {{ form_start(form)}}
                             
-                                <div class="row">
-                                    <div class="col-md-4">{{ form_row(form.cin)}}</div>
-                                    <div class="col-md-4">{{ form_row(form.username)}}</div>
-                                </div>
+                                
                                 <div class="row">
                                     <div class="col-md-4">{{ form_row(form.firstName)}}</div>
                                     <div class="col-md-4">{{ form_row(form.lastName)}}</div>
+                                    <div class="col-md-4">{{ form_row(form.username)}}</div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-md-4">{{ form_row(form.cin)}}</div>
                                     <div class="col-md-4">{{ form_row(form.birthDate)}}</div>
                                     <div class="col-md-4">{{ form_row(form.birthplace)}}</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">{{ form_row(form.tel)}}</div>
                                     <div class="col-md-4">{{ form_row(form.email)}}</div>   
-                                </div>
-                                <div class="row">
                                     <div class="col-md-4">{{ form_row(form.address)}}</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">{{ form_row(form.job)}}</div>
-                                </div>
-                                <div class="row">
                                     <div class="col-md-4">{{ form_row(form.imageFile)}}</div>
                                 </div>
                                 <button class="btn">{{ button_label|default('Enregistrer') }}</button>

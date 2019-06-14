@@ -74,10 +74,15 @@ class ObservationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($obs);
             $entityManager->flush();
+            $this->addFlash('success' , 'Ajouté  avec succés!');
 
             return $this->redirectToRoute('teacher_obs_index', [
                 'id' => $teacher->getId(),
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Front/Teacher/Observation/new.html.twig', [
@@ -112,10 +117,15 @@ class ObservationController extends AbstractController
             
             $obs->setPostedAt(new \DateTime('now'));
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
 
             return $this->redirectToRoute('teacher_obs_index', [
                 'id' =>$obs->getTeacher()->getId()
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Front/Teacher/Observation/edit.html.twig', [
@@ -137,7 +147,7 @@ class ObservationController extends AbstractController
             $entityManager->remove($obs);
             $entityManager->flush();
         
-
+            $this->addFlash('success' , 'Supprimé  avec succés!');
         return $this->redirectToRoute('teacher_obs_index' , [
             'id' => $teacher->getId(),
         ]);

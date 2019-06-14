@@ -22,16 +22,16 @@
                             <div class="box-inn-sp">
                                 <div class="inn-title">
                                     <div class="container">
-                                        <h4>Liste des examens</h4>
+                                        <h4>Liste des examens : Trimestre {{parameters.quarter}}</h4>
                                         
                                     </div>
                                 </div>
                                 <div class="tab-inn">
                                     <div class="table-responsive table-desi">
+                                    {% for message in app.flashes('success') %}
+                                            <div class="alert alert-success" >{{ message }}</div>
+                                        {% endfor %}
                                          <form class=" form-row">
-                                                <div class="col">
-                                                     <input type="text" class="form-control" placeholder=" Trimestre" name="quarter" style="border-style: ridge;" >
-                                                </div>
                                                 <div class="col" >
                                                     <input type="text" class="form-control" placeholder=" Cours" name="course" style="border-style: ridge;" >
                                                 </div>
@@ -77,7 +77,15 @@
                                                             {{finish}}:00 AM
                                                          {% endif %}
                                                     </td>
-                                                    <td>{{e.type}}</td>
+                                                    <td>
+                                                        {% if e.type == 0 %} Orale
+                                                        {% elseif e.type == 1 %} TP
+                                                        {% elseif e.type == 2 %} Controle1
+                                                        {% elseif e.type == 3 %} Controle2
+                                                        {% elseif e.type == 4 %} Synthése1
+                                                        {% elseif e.type == 5 %} Synthése2
+                                                        {% endif %}
+                                                    </td>
                                                     <td>
                                                         {% for t in e.teachers %}
                                                             {{t}}</br>

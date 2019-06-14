@@ -13,6 +13,7 @@ use App\Repository\RoomRepository;
 use App\Repository\CourseRepository;
 use App\Repository\QuarterRepository;
 use App\Repository\TeacherRepository;
+use App\Repository\ParameterRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,19 +29,20 @@ class ExamController extends AbstractController
     /**
      * @Route("/index/{id}", name="admin_exam_index", methods={"GET"})
      */
-    public function index(Section $section ,ExamRepository $examRepository , Request $request): Response
-    {
+    public function index(Section $section ,ExamRepository $examRepository , ParameterRepository $repoP ,Request $request): Response
+    {   $param=$repoP->find(1);
         $exams=$examRepository->findBySection($section);
 
         $course = $request->get('course');
         $type = $request->get('type');
-        $quarter = $request->get('quarter');
+        $quarter = $param->getQuarter();
 
         $examsFiltred=$examRepository->findByOptions($course ,$type , $quarter ,$section);
         
         return $this->render('Admin/Exam/index.html.twig', [
             'exams' => $examsFiltred  ,
             'id' => $section->getId() ,
+            'parameters' => $param
         ]);
     }
 
@@ -50,7 +52,6 @@ class ExamController extends AbstractController
     public function new(Section $section ,Request $request ,CourseRepository $courseRepository ,QuarterRepository $quarterRepository): Response
     {
         $exam = new Exam();
-        $choicesType = Exam::TYPE ;
         $exam->setSection($section); 
         $form = $this->createForm(ExamType::class, $exam, [
             'section' => $section,
@@ -62,8 +63,7 @@ class ExamController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             
             $type=$exam->getType();
-            $exam->setType($choicesType[$type]);
-            if($type=='Synthése1' || $type=='Synthése2' )
+            if($type== 4 || $type== 5 )
             {$exam->setCoefficient(2); }
             else{$exam->setCoefficient(1);}
 
@@ -74,6 +74,10 @@ class ExamController extends AbstractController
             return $this->redirectToRoute('admin_exam_new2', [
                 'id' => $exam->getId(),
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Exam/new.html.twig', [
@@ -105,7 +109,7 @@ class ExamController extends AbstractController
             foreach($exam->getSection()->getStudents() as $s)
             {
                 $StudentExam = new StudentExam($exam,$s);
-                $StudentExam->setNote(0);
+                
                 $StudentExam->setExam($exam);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($StudentExam);
@@ -115,6 +119,10 @@ class ExamController extends AbstractController
             return $this->redirectToRoute('admin_section_show', [
                 'id' => $exam->getSection()->getId(),
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
         /*else {
             $entityManager = $this->getDoctrine()->getManager();
@@ -143,7 +151,7 @@ class ExamController extends AbstractController
      */
     public function edit(Request $request, Exam $exam ,CourseRepository $courseRepository ,QuarterRepository $quarterRepository): Response
     {
-        $choicesType = Exam::TYPE ;
+       
         $form = $this->createForm(ExamType::class, $exam, [
             'section' => $exam->getSection(),
             'courseRepository' => $courseRepository ,
@@ -154,8 +162,7 @@ class ExamController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $type=$exam->getType();
-            $exam->setType($choicesType[$type]);
-            if($type=='Synthése1' || $type=='Synthése2' )
+            if($type== 4 || $type== 5 )
             {$exam->setCoefficient(2); }
             else{$exam->setCoefficient(1);}
 
@@ -164,6 +171,10 @@ class ExamController extends AbstractController
             return $this->redirectToRoute('admin_exam_edit2', [
                 'id' => $exam->getId(),
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Exam/edit.html.twig', [
@@ -195,6 +206,10 @@ class ExamController extends AbstractController
                 'id' => $exam->getSection()->getId(),
             ]);
         }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
+        }
         /*else {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($exam);
@@ -217,7 +232,7 @@ class ExamController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($exam);
             $entityManager->flush();
-        
+            $this->addFlash('success' , 'Supprimé  avec succés!');
 
         return $this->redirectToRoute('admin_exam_index', [
             'id' => $id,

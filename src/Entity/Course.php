@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Type;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CourseRepository")
@@ -25,7 +27,7 @@ class Course
 
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
     private $coefficient;
 
@@ -52,6 +54,7 @@ class Course
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range( min = 1, max = 5)
      */
     private $nbrExams;
 
@@ -89,12 +92,12 @@ class Course
         return $this;
     }
 
-   public function getCoefficient(): ?int
+   public function getCoefficient()
     {
         return $this->coefficient;
     }
 
-    public function setCoefficient(int $coefficient): self
+    public function setCoefficient(float $coefficient)
     {
         $this->coefficient = $coefficient;
 

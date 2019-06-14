@@ -36,7 +36,6 @@ class SeanceController extends AbstractController
     public function new(Request $request , Section $section ,CourseRepository  $courseRepository  ): Response
     {
         $seance = new Seance();
-        $choicesDay = Seance::DAY ;
         $seance->setSection($section);
         
         $form = $this->createForm(SeanceType::class, $seance , [
@@ -49,17 +48,20 @@ class SeanceController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $day=$seance->getDay();
-            $seance->setDay($choicesDay[$day]);
-
+            
             
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($seance);
             $entityManager->flush();
             
+            
             return $this->redirectToRoute('admin_seance_new2', [
                 'id' => $seance->getId(),
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Seance/new.html.twig', [
@@ -85,18 +87,19 @@ class SeanceController extends AbstractController
       
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
+            if($seance->getCourse()=="Sport"){$seance->setRoom(null);}
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Ajouté  avec succés!');
             
             return $this->redirectToRoute('admin_section_show', [
                 'id' => $seance->getsection()->getId(),
             ]);
         }
-        else {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($seance);
-            $entityManager->flush();
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
+       
 
         return $this->render('Admin/Seance/new_2.html.twig', [
             'seance' => $seance,
@@ -111,7 +114,6 @@ class SeanceController extends AbstractController
      */
     public function edit(Request $request, Seance $seance , CourseRepository  $courseRepository): Response
     {   
-        $choicesDay = Seance::DAY ;
         $form = $this->createForm(SeanceType::class, $seance , [
             'section' => $seance->getsection(),
             'courseRepository' => $courseRepository
@@ -120,13 +122,15 @@ class SeanceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $day=$seance->getDay();
-            $seance->setDay($choicesDay[$day]);
 
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('admin_seance_edit2', [
                 'id' => $seance->getId(),
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Seance/edit.html.twig', [
@@ -150,20 +154,28 @@ class SeanceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+      
+            $d=$seance->getDay();
+            if($d==0){$day='Lundi';}
+            else if($d==1){$day='Mardi';}
+            else if($d==2){$day='Mercredi';}
+            else if($d==3){$day='Jeudi';}
+            else if($d==4){$day='Vendredi';}
+            else if($d==5){$day='Samedi';}
             
 
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
             return $this->redirectToRoute('admin_seance_index', [
                 'id' => $seance->getSection()->getId(),
-                'day' => $seance->getDay()
+                'day' => $day
             ]);
         }
-       /* else {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($seance);
-            $entityManager->flush();
-        }*/
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
+        }
+       
 
         return $this->render('Admin/Seance/edit_2.html.twig', [
             'seance' => $seance,
@@ -190,14 +202,24 @@ class SeanceController extends AbstractController
      */
     public function delete(Request $request, Seance $seance ,SeanceRepository $seanceRepository ) : Response
     {
-        
+        $id=$seance->getSection()->getId();
+
+        $d=$seance->getDay();
+        if($d==0){$day='Lundi';}
+        else if($d==1){$day='Mardi';}
+        else if($d==2){$day='Mercredi';}
+        else if($d==3){$day='Jeudi';}
+        else if($d==4){$day='Vendredi';}
+        else if($d==5){$day='Samedi';}
        
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($seance);
             $entityManager->flush();
-        
-        return $this->redirectToRoute('admin_section_show', [
-            'id' => $seance->getSection()->getId(),
+            $this->addFlash('success' , 'Supprimé  avec succés!');
+
+        return $this->redirectToRoute('admin_seance_index', [
+            'id' => $id ,
+            'day' => $day
         ]);
     }
 

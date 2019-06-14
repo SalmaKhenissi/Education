@@ -73,10 +73,15 @@ class DocumentController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($doc);
             $entityManager->flush();
+            $this->addFlash('success' , 'Ajouté  avec succés!');
 
             return $this->redirectToRoute('teacher_doc_index', [
                 'id' => $teacher->getId(),
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Front/Teacher/Document/new.html.twig', [
@@ -127,10 +132,15 @@ class DocumentController extends AbstractController
             }
             $doc->setPostedAt(new \DateTime('now'));
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
 
             return $this->redirectToRoute('teacher_doc_index', [
                 'id' =>$doc->getTeacher()->getId()
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Front/Teacher/Document/edit.html.twig', [
@@ -151,7 +161,7 @@ class DocumentController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($doc);
             $entityManager->flush();
-        
+            $this->addFlash('success' , 'Supprimé  avec succés!');
 
         return $this->redirectToRoute('teacher_doc_index' , [
             'id' => $teacher->getId(),

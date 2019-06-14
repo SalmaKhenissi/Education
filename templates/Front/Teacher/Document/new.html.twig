@@ -10,7 +10,11 @@
                 {{ include('Front/Teacher/Profile/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
+                        
                         <div class="udb-sec udb-cour-stat">
+                        {% for message in app.flashes('fail') %}
+                            <div class="alert alert-danger" >{{ message }}</div>
+                        {% endfor %}
                         <h4><img src="{{asset('images/icon/db2.png')}}" alt="" />Documents</h4>
                            {{ include('Front/Teacher/Document/_form.html.twig' , {'button_label': 'Ajouter'}) }}
                             

@@ -34,9 +34,14 @@ class ProfileController extends AbstractController
 
             $guardian->setUpdatedAt(new \DateTime('now')); 
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
             return $this->redirectToRoute('guardian_profile' , [
                 'id' => $guardian->getId()
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Front/Guardian/Profile/editPassword.html.twig', [
@@ -71,9 +76,14 @@ class ProfileController extends AbstractController
 
             $guardian->setUpdatedAt(new \DateTime('now')); 
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
             return $this->redirectToRoute('guardian_profile' , [
                 'id' => $guardian->getId()
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Front/Guardian/Profile/editData.html.twig', [

@@ -41,8 +41,13 @@ class ClubController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($club);
             $entityManager->flush();
+            $this->addFlash('success' , 'Ajouté  avec succés!');
 
             return $this->redirectToRoute('admin_club_index');
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Club/new.html.twig', [
@@ -72,10 +77,15 @@ class ClubController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $club->setUpdatedAt(new \DateTime('now'));
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
 
             return $this->redirectToRoute('admin_club_index', [
                 'id' => $club->getId(),
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Club/edit.html.twig', [
@@ -93,7 +103,7 @@ class ClubController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($club);
             $entityManager->flush();
-        
+            $this->addFlash('success' , 'Supprimé  avec succés!');
 
         return $this->redirectToRoute('admin_club_index');
     }

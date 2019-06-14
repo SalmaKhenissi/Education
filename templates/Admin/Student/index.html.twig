@@ -9,7 +9,7 @@
                     <ul>
                         <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
                         </li>
-                        <li class="active-bre"><a href="#"> Elèves</a>
+                        <li class="active-bre"><a href="{{path('admin_student_index')}}"> Elèves</a>
                         </li>
                     </ul>
                 </div>
@@ -26,16 +26,23 @@
                                 </div>
                                 <div class="tab-inn">
                                     <div class="table-responsive table-desi">
+                                    {% for message in app.flashes('success') %}
+                                            <div class="alert alert-success" >{{ message }}</div>
+                                        {% endfor %}
                                         <div>
                                             <form class=" form-row">
+                                                
+                                                <div class="col">
+                                                     <input type="text" class="form-control" placeholder=" Nom" name="last" style="border-style: ridge;" >
+                                                </div>
                                                 <div class="col" >
                                                     <input type="text" class="form-control" placeholder=" Prénom" name="first" style="border-style: ridge;">
                                                 </div>
                                                 <div class="col">
-                                                     <input type="text" class="form-control" placeholder=" Nom" name="last" style="border-style: ridge;" >
+                                                     <input type="text" class="form-control" placeholder=" Classe" name="section" style="border-style: ridge;" >
                                                 </div>
                                                 <div class="col">
-                                                     <input type="text" class="form-control" placeholder=" Classe" name="section" style="border-style: ridge;" >
+                                                     <input type="text" class="form-control" placeholder=" Année Scolaire" name="schoolYear" style="border-style: ridge;" >
                                                 </div>
                                                 <div class="col">
                                                      <input type="submit"  value="Rechercher" class="btn btn-primary btn-xs">
@@ -55,8 +62,8 @@
                                             
                                             {% for s in students %}
                                                 <tr>
-                                                    <td>{{ s.firstName}}</td>
                                                     <td>{{ s.LastName}}</td>
+                                                    <td>{{ s.firstName}}</td>
                                                     <td><a href="{{ path('admin_student_show', {'id': s.id}) }}" class="btn btn-info fa fa-eye" ></a></td>
                                                     <td>   
                                                         <a href="{{ path('admin_student_edit', {'id': s.id}) }}" class="btn btn-warning fa fa-pencil" ></a>

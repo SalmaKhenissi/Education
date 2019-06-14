@@ -128,89 +128,333 @@ class StudentRepository extends ServiceEntityRepository
     
 
     
-    public function findByPram($firstName , $lastName , $section)
+    public function findByPram($firstName , $lastName , $section , $schoolYear )
     {
         
-       if ($firstName &&  $lastName && $section )
+       if ($firstName &&  $lastName && $section && $schoolYear )
         {  
              $query=$this->createQueryBuilder('s')
-                         ->Join('s.section', 'sec')
-                         ->where('sec.name like :section')
                          ->andWhere('s.firstName like :firstName')
                          ->andWhere('s.lastName like :lastName')
-                         ->setParameter('section', $section)
                          ->setParameter('firstName', $firstName)
                          ->setParameter('lastName', $lastName)
-                         ->getQuery();
+                         ->getQuery()
+                         ->getResult();
+            $tabST=[];
+            foreach($query as $s)
+            {
+                $sections=$s->getSections();
+                foreach($sections as $sec)
+                {
+                    if($sec->getLibelle()==$section && $sec->getSchoolYear()->getLibelle()==$schoolYear)
+                    {
+                        $tabST[]=$s;
+                        break;
+                    }
+                }
+            }
+            
+        }
+       else if ($firstName &&  $lastName && $schoolYear )
+        {  
+             $query=$this->createQueryBuilder('s')
+                         ->andWhere('s.firstName like :firstName')
+                         ->andWhere('s.lastName like :lastName')
+                         ->setParameter('firstName', $firstName)
+                         ->setParameter('lastName', $lastName)
+                         ->getQuery()
+                         ->getResult();
+            $tabST=[];
+            foreach($query as $s)
+            {
+                $sections=$s->getSections();
+                foreach($sections as $sec)
+                {
+                    if( $sec->getSchoolYear()->getLibelle()==$schoolYear)
+                    {
+                        $tabST[]=$s;
+                        break;
+                    }
+                }
+            }
+            
+        }
+        else if ( $lastName && $section && $schoolYear )
+        {  
+             $query=$this->createQueryBuilder('s')
+                         ->andWhere('s.lastName like :lastName')
+                         ->setParameter('lastName', $lastName)
+                         ->getQuery()
+                         ->getResult();
+            $tabST=[];
+            foreach($query as $s)
+            {
+                $sections=$s->getSections();
+                foreach($sections as $sec)
+                {
+                    if($sec->getLibelle()==$section && $sec->getSchoolYear()->getLibelle()==$schoolYear)
+                    {
+                        $tabST[]=$s;
+                        break;
+                    }
+                }
+            }
+            
+        }
+
+        else if ($firstName  && $section && $schoolYear )
+        {  
+             $query=$this->createQueryBuilder('s')
+                         ->andWhere('s.firstName like :firstName')
+                         ->setParameter('firstName', $firstName)
+                         ->getQuery()
+                         ->getResult();
+            $tabST=[];
+            foreach($query as $s)
+            {
+                $sections=$s->getSections();
+                foreach($sections as $sec)
+                {
+                    if($sec->getLibelle()==$section && $sec->getSchoolYear()->getLibelle()==$schoolYear)
+                    {
+                        $tabST[]=$s;
+                        break;
+                    }
+                }
+            }
+            
+        }
+
+        else if ($firstName &&  $lastName && $section )
+        {  
+             $query=$this->createQueryBuilder('s')
+                         ->andWhere('s.firstName like :firstName')
+                         ->andWhere('s.lastName like :lastName')
+                         ->setParameter('firstName', $firstName)
+                         ->setParameter('lastName', $lastName)
+                         ->getQuery()
+                         ->getResult();
+            $tabST=[];
+            foreach($query as $s)
+            {
+                $sections=$s->getSections();
+                foreach($sections as $sec)
+                {
+                    if($sec->getLibelle()==$section)
+                    {
+                        $tabST[]=$s;
+                        break;
+                    }
+                }
+            }
+            
+        }
+        else if ($firstName  && $schoolYear )
+        {  
+             $query=$this->createQueryBuilder('s')
+                         ->andWhere('s.firstName like :firstName')
+                         ->setParameter('firstName', $firstName)
+                         ->getQuery()
+                         ->getResult();
+            $tabST=[];
+            foreach($query as $s)
+            {
+                $sections=$s->getSections();
+                foreach($sections as $sec)
+                {
+                    if( $sec->getSchoolYear()->getLibelle()==$schoolYear)
+                    {
+                        $tabST[]=$s;
+                        break;
+                    }
+                }
+            }
+            
+        }
+        else if (  $lastName  && $schoolYear )
+        {  
+             $query=$this->createQueryBuilder('s')
+                         ->andWhere('s.lastName like :lastName')
+                         ->setParameter('lastName', $lastName)
+                         ->getQuery()
+                         ->getResult();
+            $tabST=[];
+            foreach($query as $s)
+            {
+                $sections=$s->getSections();
+                foreach($sections as $sec)
+                {
+                    if( $sec->getSchoolYear()->getLibelle()==$schoolYear)
+                    {
+                        $tabST[]=$s;
+                        break;
+                    }
+                }
+            }
             
         }
        
         else if ($firstName &&  $section )
         {
             $query=$this->createQueryBuilder('s')
-                        ->Join('s.section', 'sec')
-                        ->where('sec.name like :section')
                         ->andWhere('s.firstName like :firstName')
-                        ->setParameter('section', $section)
                         ->setParameter('firstName', $firstName)
-                        ->getQuery();
+                        ->getQuery()
+                        ->getResult();
+            $tabST=[];
+            foreach($query as $s)
+            {
+                $sections=$s->getSections();
+                foreach($sections as $sec)
+                {
+                    if($sec->getLibelle()==$section)
+                    {
+                        $tabST[]=$s;
+                        break;
+                    }
+                }
+            }
             
         }
        
         else if ($section &&  $lastName )
         {
             $query=$this->createQueryBuilder('s')
-                        ->Join('s.section', 'sec')
-                        ->where('sec.name like :section')
                         ->andWhere('s.lastName like :lastName')
-                        ->setParameter('section', $section)
                         ->setParameter('lastName', $lastName)
-                        ->getQuery();
+                        ->getQuery()
+                        ->getResult();
+            $tabST=[];
+            foreach($query as $s)
+            {
+                $sections=$s->getSections();
+                foreach($sections as $sec)
+                {
+                    if($sec->getLibelle()==$section)
+                    {
+                        $tabST[]=$s;
+                        break;
+                    }
+                }
+            }
+                         
              
         }
         else if ($firstName &&  $lastName )
         {
-            $query=$this->createQueryBuilder('s')
+            $tabST=$this->createQueryBuilder('s')
                         ->where('s.firstName like :firstName')
                         ->andWhere('s.lastName like :lastName')
                         ->setParameter('firstName', $firstName)
                         ->setParameter('lastName', $lastName)
-                        ->getQuery();
+                        ->getQuery()
+                        ->getResult();
             
         }
         
         else if ($firstName  )
         {
-            $query=$this->createQueryBuilder('s')
+            $tabST=$this->createQueryBuilder('s')
                         ->where('s.firstName like :firstName')
                         ->setParameter('firstName', $firstName)
-                        ->getQuery();
+                        ->getQuery()
+                        ->getResult();
         }
         else if ( $lastName )
         {
-            $query=$this->createQueryBuilder('s')
+            $tabST=$this->createQueryBuilder('s')
                         ->Where('s.lastName like :lastName')
                         ->setParameter('lastName', $lastName)
-                        ->getQuery();
+                        ->getQuery()
+                        ->getResult();
         }
         else if ($section  )
         {
+
             $query=$this->createQueryBuilder('s')
-                        ->Join('s.section', 'sec')
-                        ->where('sec.name like :section')
-                        ->setParameter('section', $section)
-                        ->getQuery();
+                        ->getQuery()
+                        ->getResult();
+            $tabST=[];
+            foreach($query as $s)
+            {
+                $sections=$s->getSections();
+                foreach($sections as $sec)
+                {
+                    if($sec->getLibelle()==$section)
+                    {
+                        $tabST[]=$s;
+                        break;
+                    }
+                } 
+            }
+            
+        }
+
+        else if ($section && $schoolYear )
+        {
+
+            $query=$this->createQueryBuilder('s')
+                        ->getQuery()
+                        ->getResult();
+            $tabST=[];
+            foreach($query as $s)
+            {
+                $sections=$s->getSections();
+                foreach($sections as $sec)
+                {
+                    if($sec->getLibelle()==$section && $sec->getSchoolYear->getLibelle()==$schoolYear)
+                    {
+                        $tabST[]=$s;
+                        break;
+                    }
+                } 
+            }
+            
+        }
+
+        else if ( $schoolYear )
+        {
+
+            $query=$this->createQueryBuilder('s')
+                        ->getQuery()
+                        ->getResult();
+            $tabST=[];
+            foreach($query as $s)
+            {
+                $sections=$s->getSections();
+                foreach($sections as $sec)
+                {
+                    if( $sec->getSchoolYear()->getLibelle()==$schoolYear)
+                    {
+                        $tabST[]=$s;
+                        break;
+                    }
+                } 
+            }
             
         }
         
         else 
         {
-            $query=$this->createQueryBuilder('s')
-                        ->getQuery();
-            /*$dql = "SELECT s FROM App\Entity\Student s  ";
-            $query = $em->createQuery($dql);*/
+            $tabST=$this->createQueryBuilder('s')
+                        ->getQuery()
+                        ->getResult();
         }
-         return $query->getResult() ;
+
+
+        $tab=[];
+        foreach($tabST as $s)
+        {
+            $tab[$s->getId()]=$s->getLastName();
+        }
+        asort($tab);
+        $sorted=[];
+        foreach($tab as $k => $v )
+        {
+            $sorted[]=$this->findById($k)[0];
+        }
+        
+         return $sorted ;
     }
 
     

@@ -29,8 +29,17 @@ class SeanceType2 extends AbstractType
         $seanceRepository = $options['seanceRepository'];
 
         $rooms=$roomRepository->findAll();
-        $teachers=$teacherRepository->findBySpecialty($seance->getCourse()->getLibelle());
+        $course=$seance->getCourse()->getLibelle();
+        if($course=="Histoire" ||$course=="Geographie")
+        {
+            $teachers=$teacherRepository->findBySpecialty("Histoire et Geographie");
+        }
+        else
+        {
+            $teachers=$teacherRepository->findBySpecialty($course);
+        }
         $seancesPerDay=$seanceRepository->findAllByDay($seance->getDay() ,$seance->getSection());
+        
         
 
         $builder

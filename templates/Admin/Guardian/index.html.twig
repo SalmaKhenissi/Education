@@ -28,12 +28,15 @@
                                 </div>
                                 <div class="tab-inn">
                                     <div class="table-responsive table-desi">
+                                        {% for message in app.flashes('success') %}
+                                            <div class="alert alert-success" >{{ message }}</div>
+                                        {% endfor %}
                                         <form class=" form-row">
-                                                <div class="col" >
-                                                    <input type="text" class="form-control" placeholder=" Prénom" name="first" style="border-style: ridge;"  >
-                                                </div>
                                                 <div class="col">
                                                      <input type="text" class="form-control" placeholder=" Nom" name="last" style="border-style: ridge;"  >
+                                                </div>
+                                                <div class="col" >
+                                                    <input type="text" class="form-control" placeholder=" Prénom" name="first" style="border-style: ridge;"  >
                                                 </div>
                                                 <div class="col">
                                                      <input type="submit"  value="Rechercher" class="btn btn-primary btn-xs">
@@ -42,8 +45,8 @@
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>Prénom</th>
                                                     <th>Nom</th>
+                                                    <th>Prénom</th>
                                                     <th>Détails</th>
 													<th>Actions</th>
                                                 </tr>
@@ -52,8 +55,8 @@
                                             
                                             {% for g in guardians %}
                                                 <tr>
-                                                    <td>{{ g.firstName}}</td>
                                                     <td>{{ g.LastName}}</td>
+                                                    <td>{{ g.firstName}}</td>
                                                     <td><a href="{{ path('admin_guardian_show', {'id': g.id}) }}" class="btn btn-info fa fa-eye"></a></td>
                                                     <td>
                                                         <a href="{{ path('admin_guardian_edit', {'id': g.id}) }}" class="btn btn-warning fa fa-pencil"></a> 

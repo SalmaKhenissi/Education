@@ -25,12 +25,12 @@
                                 <div class="tab-inn">
                                     <div class="udb-sec udb-prof">
                                         <h4>
-                                            {% if teacher.imageName == 'inconnu' and teacher.sexe == 'Homme' %}
-                                                <img  class="list-img" src="{{asset('images/inconnu.png')}}" alt="admin_photo">
-                                            {% elseif teacher.imageName == 'inconnu' and teacher.sexe == 'Femme'  %}
-                                                <img class="list-img" src="{{asset('images/inconnue.png')}}" alt="admin_photo">
+                                            {% if teacher.imageName == 'inconnu' and teacher.sexe == 0 %}
+                                                <img  class="list-img" src="{{asset('images/inconnu.png')}}" alt="photo">
+                                            {% elseif teacher.imageName == 'inconnu' and teacher.sexe == 1  %}
+                                                <img class="list-img" src="{{asset('images/inconnue.png')}}" alt="photo">
                                             {% else %}
-                                                <img class="list-img" src="" alt="admin_photo">
+                                                <img class="list-img" src="{{ '/Pro-Education/public' ~ vich_uploader_asset( teacher ,'imageFile') }} " alt="photo">
                                             {% endif %}
                                             {{ teacher.firstName}} {{ teacher.lastName}}
                                         </h4>
@@ -56,7 +56,11 @@
                                                     <tr>
                                                         <td><strong>Sexe</strong></td>
                                                         <td>:</td>
-                                                        <td>{{ teacher.sexe}}</td>
+                                                        <td>
+                                                            {% if teacher.sexe == 0 %} Homme
+                                                            {% elseif teacher.sexe == 1 %} Femme
+                                                            {% endif %}
+                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td><strong>E-mail</strong></td>
@@ -82,7 +86,11 @@
                                                     <tr>
                                                         <td><strong>Type</strong></td>
                                                         <td>:</td>
-                                                        <td>{{ teacher.type}}</td>
+                                                        <td>
+                                                            {% if teacher.type == 0 %} Recruté
+                                                            {% elseif teacher.type == 1 %} Vacataire
+                                                            {% endif %}
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>

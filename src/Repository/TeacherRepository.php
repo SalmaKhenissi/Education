@@ -18,20 +18,28 @@ class TeacherRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Teacher::class);
     }
-    public function findBySection($seances,$repoT)
+    public function findBySection($seances)
     {
-            $tabId=[];
-            for($i=0;$i<count($seances);$i++)
-            {
-                $tabId[$i]=$seances[$i]->getTeacher()->getId();
-            }
-            $tabId=array_unique($tabId); 
             $teachers=[];
-            for($i=0;$i<count($tabId);$i++)
-            {
-                $teachers[$i]=$repoT->find($tabId[$i]);
+            foreach($seances as $s)
+            {  
+                $id=$s->getTeacher()->getId();
+                $teachers[$id]=$s->getTeacher();
             }
-            return $teachers;
+           
+            $tab=[];
+            foreach($teachers as $t)
+            {
+                $tab[$t->getId()]=$t->getLastName();
+            }
+            asort($tab);
+            $sorted=[];
+            foreach($tab as $k => $v )
+            {
+                $sorted[]=$this->findById($k)[0];
+            }
+            
+            return $sorted ;
     }
 
     
@@ -114,7 +122,20 @@ class TeacherRepository extends ServiceEntityRepository
             /*$dql = "SELECT s FROM App\Entity\Student s  ";
             $query = $em->createQuery($dql);*/
         }
-         return $query->getResult() ;
+
+        $tab=[];
+        foreach($query->getResult() as $t)
+        {
+            $tab[$t->getId()]=$t->getLastName();
+        }
+        asort($tab);
+        $sorted=[];
+        foreach($tab as $k => $v )
+        {
+            $sorted[]=$this->findById($k)[0];
+        }
+        
+         return $sorted ;
     }
 
     public function findBySpecialty($specialty)

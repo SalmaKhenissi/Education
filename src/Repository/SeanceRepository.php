@@ -34,8 +34,17 @@ class SeanceRepository extends ServiceEntityRepository
     }
 
 
-    public function findByDay($day, $id)
+    public function findByDay($d, $id)
     { 
+        if($d=='Lundi'){$day=0;}
+        else if($d=='Mardi'){$day=1;}
+        else if($d=='Mercredi'){$day=2;}
+        else if($d=='Jeudi'){$day=3;}
+        else if($d=='Vendredi'){$day=4;}
+        else if($d=='Samedi'){$day=5;}
+        
+         
+
 
         return $this->createQueryBuilder('s')
                     ->Join('s.section', 'section')
@@ -52,10 +61,18 @@ class SeanceRepository extends ServiceEntityRepository
     public function findByDate($date, $seances)
     { 
         $week=['Dimanche','Lundi','Mardi' ,'Mercredi' , 'Jeudi' ,'Vendredi','Samedi'];
-        $day=date('N' ,strtotime($date->format('Y-m-d')));
+        $Day=date('N' ,strtotime($date->format('Y-m-d')));
         foreach($seances as $s)
-        {
-            if($s->getDay()==$week[$day])
+        {   
+            $d=$s->getDay();
+            if($d==0){$day='Lundi';}
+            else if($d==1){$day='Mardi';}
+            else if($d==2){$day='Mercredi';}
+            else if($d==3){$day='Jeudi';}
+            else if($d==4){$day='Vendredi';}
+            else if($d==5){$day='Samedi';}
+            
+            if($day==$week[$Day])
             {
                 $seance=$s;
             }
@@ -63,8 +80,15 @@ class SeanceRepository extends ServiceEntityRepository
         return $seance;
     }
 
-    public function findAllByDay($day, $section)
+    public function findAllByDay($d, $section)
     { 
+        if($d==0){$day='Lundi';}
+        else if($d==1){$day='Mardi';}
+        else if($d==2){$day='Mercredi';}
+        else if($d==3){$day='Jeudi';}
+        else if($d==4){$day='Vendredi';}
+        else if($d==5){$day='Samedi';}
+
         $sections=$section->getSchoolYear()->getSections();
         $tab=[];
         foreach($sections as $s)
@@ -72,7 +96,14 @@ class SeanceRepository extends ServiceEntityRepository
             $seances=$s->getSeances();
             foreach($seances as $sea)
             {
-                if($sea->getDay()==$day)
+                $D=$sea->getDay();
+                if($D==0){$Day='Lundi';}
+                else if($D==1){$Day='Mardi';}
+                else if($D==2){$Day='Mercredi';}
+                else if($D==3){$Day='Jeudi';}
+                else if($D==4){$Day='Vendredi';}
+                else if($D==5){$Day='Samedi';}
+                if($Day==$day)
                 {
                     $tab[]=$sea;
                 }
@@ -91,8 +122,16 @@ class SeanceRepository extends ServiceEntityRepository
         {   $day=[];
             $k=0;
             foreach ($seances as $s)
-            {
-                if( $s->getDay() == $week[$i] )
+            {   
+                $D=$s->getDay();
+                if($D==0){$Day='Lundi';}
+                else if($D==1){$Day='Mardi';}
+                else if($D==2){$Day='Mercredi';}
+                else if($D==3){$Day='Jeudi';}
+                else if($D==4){$Day='Vendredi';}
+                else if($D==5){$Day='Samedi';}
+
+                if( $Day == $week[$i] )
                 {
                    
                     $day[$k]=$s;
@@ -144,6 +183,8 @@ class SeanceRepository extends ServiceEntityRepository
         
         return $tab;
     }
+
+    
     
     
    

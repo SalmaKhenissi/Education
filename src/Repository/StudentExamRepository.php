@@ -19,7 +19,7 @@ class StudentExamRepository extends ServiceEntityRepository
         parent::__construct($registry, StudentExam::class);
     }
 
-    public function findNoteTable($exams,$student , $quarter)
+    public function findNoteTable($exams,$student , $quarter , $repoE)
     { 
         $tabC=[]; 
         foreach ($exams as $e)
@@ -40,7 +40,28 @@ class StudentExamRepository extends ServiceEntityRepository
                     $eq[]=$e;
                 }
             }
+            ///
+            $tabeq=[];
             foreach($eq as $e)
+            {
+                $typeq=$e->getType();
+                if($typeq==0){$T='Orale';}
+                else if($typeq==1){$T='TP';}
+                else if($typeq==2){$T='Controle1';}
+                else if($typeq==3){$T='Controle2';}
+                else if($typeq==4){$T='Synthése1';}
+                else if($typeq==5){$T='Synthése2';}
+
+                $tabeq[$e->getId()]=$T;
+            }
+            asort($tabeq);
+            $sorted=[];
+            foreach($tabeq as $k => $v )
+            {
+                $sorted[]=$repoE->findById($k)[0];
+            }
+            ///
+            foreach($sorted as $e)
             {   
                 if($e->getQuarter()->getNumber()== $quarter)
                 {   $t=[];
@@ -112,50 +133,65 @@ class StudentExamRepository extends ServiceEntityRepository
             }
             
             if( $l == $ne)
-            {
+            { 
                 $m=$s/$sub;
                 $SM=$m*$coeff+$SM; 
                 $SCourseCoeff=$coeff+$SCourseCoeff;
             }
         }
-        if( $SCourseCoeff == 8 /* $SommeCoef*/)
+        if( $SCourseCoeff ==  $SommeCoef )
         {
             $M= $SM / $SCourseCoeff ;
         }
-        else{$M=" ";}
+        else{$M=null;}
     
         return $M;
     }
 
-    public function findRank($student,$section ,$exams,$courses ,$q)
+    public function findRank($student,$section ,$exams,$courses ,$q,$repoE)
     {
         $tabA=[];
         foreach($section->getStudents() as $s)
         {   
-            $nt=$this->findNoteTable($exams,$s, $q);
+            $nt=$this->findNoteTable($exams,$s, $q , $repoE);
             $tabA[$s->getId()]=$this->countAverage($nt ,$courses);  
         }
-        asort($tabA);
-        $r=1;
-        foreach($tabA as $k => $a)
+        arsort($tabA);
+        
+        $nt=$this->findNoteTable($exams,$student, $q, $repoE);
+        $av=$this->countAverage($nt ,$courses);  
+
+        if($av==null)
         {
-            if($k=$student->getId())
-            {
-                $rank=$r;
-            }
-            else{ $r = $r +1 ;}
+            $rank=null;
         }
+        else{
+            $rank=0;
+            foreach($tabA as $k => $a)
+            {
+                
+                if($k==$student->getId() )
+                {
+                    break;
+                }
+                else
+                {
+                    $rank= 1 +$rank ;
+                }
+            }
+        }
+        
         return $rank;
     }
 
-    public function findRankG($student,$section ,$exams,$courses)
+    public function findRankG($student,$section ,$exams,$courses, $repoE)
     {
         $tabAG=[];
         foreach($section->getStudents() as $s)
         {   $ag=0;
             for( $i=1; $i<4; $i++ )
             {
-                $nt=$this->findNoteTable($exams,$s, $i);
+                $nt=$this->findNoteTable($exams,$s, $i, $repoE);
                 $a=$this->countAverage($nt ,$courses); 
                 if($i==2 || $i==3)
                 {$ag=$ag+$a*2;}
@@ -163,15 +199,41 @@ class StudentExamRepository extends ServiceEntityRepository
             } 
             $tabAG[$s->getId()]=$ag/5 ;
         }
-        asort($tabAG);
-        $r=1;
-        foreach($tabAG as $k => $a)
+        arsort($tabAG);
+
+
+        $ag=0;
+        for( $i=1; $i<4; $i++ )
         {
-            if($k=$student->getId())
+            $nt=$this->findNoteTable($exams,$student, $i, $repoE);
+            $a=$this->countAverage($nt ,$courses); 
+            if($i==2 || $i==3)
+            {$ag=$ag+$a*2;}
+            else{ $ag=$ag+$a;} 
+        } 
+         $avg=$ag/5 ;
+
+
+
+        
+        if($avg==null)
+        {
+            $rank=null;
+        }
+        else{
+            $rank=0;
+            foreach($tabAG as $k => $a)
             {
-                $rank=$r;
+                 
+                if($k==$student->getId() )
+                {
+                    break;
+                }
+                else
+                {
+                    $rank= 1 +$rank ;
+                }
             }
-            else{ $r = $r +1 ;}
         }
         return $rank;
     }

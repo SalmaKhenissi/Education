@@ -18,74 +18,32 @@ class ExamRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Exam::class);
     }
-    public function findByOptions($course , $type , $quarter , $section)
+    public function findByOptions($course , $typeO , $quarter , $section)
     {
         $em = $this->getEntityManager();
+
+        if($typeO=='Orale') {$type =0 ;}
+        else if($typeO=='TP'){ $type =1 ;}
+        else if($typeO=='Controle1') { $type =2 ;}
+        else if($typeO=='Controle2'){ $type =3 ;}
+        else if($typeO=='Synthése1'){ $type =4  ;}
+        else if($typeO=='Synthése2'){ $type =5 ;}
+        else {$type=$typeO;}
+    
         
-        if ($course && $type && $quarter )
+        if ($course && $type)
         {
             $query=$this->createQueryBuilder('e')
                         ->Join('e.section', 'S')
                         ->Join('e.course', 'C')
                         ->Join('e.quarter', 'Q')
                         ->where('S.id like :s')
-                        ->where('C.libelle like :c')
-                        ->where('Q.number like :q')
-                        ->andWhere('e.type like :t')
-                        ->setParameter('c', $course)
-                        ->setParameter('q', $quarter)
-                        ->setParameter('t', $type)
-                        ->setParameter('s', $section->getId())
-                        ->getQuery();
-        }
-        else if ( $type && $quarter )
-        {
-            $query=$this->createQueryBuilder('e')
-                        ->Join('e.section', 'S')
-                        ->Join('e.quarter', 'Q')
-                        ->where('S.id like :s')
-                        ->where('Q.number like :q')
+                        ->andWhere('C.libelle like :c')
+                        ->andWhere('Q.number like :q')
                         ->andWhere('e.type like :t')
                         ->setParameter('q', $quarter)
-                        ->setParameter('t', $type)
-                        ->setParameter('s', $section->getId())
-                        ->getQuery();
-        }
-        else if ($course  && $quarter )
-        {
-            $query=$this->createQueryBuilder('e')
-                        ->Join('e.section', 'S')
-                        ->Join('e.course', 'C')
-                        ->Join('e.quarter', 'Q')
-                        ->where('S.id like :s')
-                        ->where('C.libelle like :c')
-                        ->where('Q.number like :q')
-                        ->setParameter('c', $course)
-                        ->setParameter('q', $quarter)
-                        ->setParameter('s', $section->getId())
-                        ->getQuery();
-        }
-        else if ($course && $type)
-        {
-            $query=$this->createQueryBuilder('e')
-                        ->Join('e.section', 'S')
-                        ->Join('e.course', 'C')
-                        ->where('S.id like :s')
-                        ->where('C.libelle like :c')
-                        ->andWhere('e.type like :t')
                         ->setParameter('c', $course)
                         ->setParameter('t', $type)
-                        ->setParameter('s', $section->getId())
-                        ->getQuery();
-        }
-        else if ($quarter)
-        {
-            $query=$this->createQueryBuilder('e')
-                        ->Join('e.section', 'S')
-                        ->Join('e.quarter', 'Q')
-                        ->where('S.id like :s')
-                        ->where('Q.number like :q')
-                        ->setParameter('q', $quarter)
                         ->setParameter('s', $section->getId())
                         ->getQuery();
         }
@@ -93,9 +51,12 @@ class ExamRepository extends ServiceEntityRepository
         {
             $query=$this->createQueryBuilder('e')
                         ->Join('e.section', 'S')
+                        ->Join('e.quarter', 'Q')
                         ->Join('e.course', 'C')
-                        ->where('S.id like :s')
-                        ->where('C.libelle like :c')
+                        ->where('Q.number like :q')
+                        ->andWhere('S.id like :s')
+                        ->andWhere('C.libelle like :c')
+                        ->setParameter('q', $quarter)
                         ->setParameter('c', $course)
                         ->setParameter('s', $section->getId())
                         ->getQuery();
@@ -104,18 +65,24 @@ class ExamRepository extends ServiceEntityRepository
         {
             $query=$this->createQueryBuilder('e')
                         ->Join('e.section', 'S')
+                        ->Join('e.quarter', 'Q')
                         ->where('S.id like :s')
+                        ->andWhere('Q.number like :q')
                         ->andWhere('e.type like :t')
+                        ->setParameter('q', $quarter)
                         ->setParameter('t', $type)
                         ->setParameter('s', $section->getId())
                         ->getQuery();
         }
         else 
-        {
+        { 
             $query=$this->createQueryBuilder('e')
                         ->Join('e.section', 'S')
+                        ->Join('e.quarter', 'Q')
                         ->where('S.id like :s')
+                        ->andWhere('Q.number like :q')
                         ->setParameter('s', $section->getId())
+                        ->setParameter('q', $quarter)
                         ->getQuery();
         }
          return $query->getResult() ;
@@ -233,6 +200,26 @@ class ExamRepository extends ServiceEntityRepository
         krsort($tab);
 
         return $tab ;
+    }
+
+    public function findBySynthese( $quarter ,$section)
+    {
+        $q='Trimestre'.$quarter;
+        $query=$this->createQueryBuilder('e')
+                        ->Join('e.section', 'S')
+                        ->Join('e.quarter', 'Q')
+                        ->where('S.id like :s')
+                        ->andWhere('Q.libelle like :q')
+                        ->andWhere('e.type like :s1 Or e.type like :s2')
+                        ->setParameter('s', $section->getId())
+                        ->setParameter('q', $q)
+                        ->setParameter('s1', 4)
+                        ->setParameter('s2', 5)
+                        ->getQuery()
+                        ->getResult();
+        
+
+        return $query ;
     }
 
     // /**

@@ -56,8 +56,13 @@ class SpecialtyController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($specialty);
             $entityManager->flush();
+            $this->addFlash('success' , 'Ajouté  avec succés!');
 
             return $this->redirectToRoute('admin_specialty_index');
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Specialty/new.html.twig', [
@@ -77,10 +82,15 @@ class SpecialtyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
 
             return $this->redirectToRoute('admin_specialty_index', [
                 'id' => $specialty->getId(),
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Specialty/edit.html.twig', [
@@ -98,7 +108,7 @@ class SpecialtyController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($specialty);
             $entityManager->flush();
-        
+            $this->addFlash('success' , 'Supprimé  avec succés!');
 
         return $this->redirectToRoute('admin_specialty_index');
     }

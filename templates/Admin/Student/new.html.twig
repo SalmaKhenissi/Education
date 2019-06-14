@@ -25,6 +25,9 @@
                                     
                                 </div>
                                 <div class="tab-inn">
+                                {% for message in app.flashes('fail') %}
+                                            <div class="alert alert-danger" >{{ message }}</div>
+                                        {% endfor %}
                                    {{ include('Admin/Student/_form.html.twig' , {'button_label': 'Ajouter'}) }}
                                     
                                 </div>

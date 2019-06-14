@@ -10,18 +10,19 @@
             <ul>
                 <li>
                     <a href="#">
-                        <i aria-hidden="true" class="fa fa-home"></i>
-                        Acceuil</a>
+                        <i aria-hidden="true" class="fa fa-home"></i> Acceuil</a>
                 </li>
                 <li class="active-bre">
-                    <a href="#">
-                        Tableau de bord</a>
+                    <a href="#">Tableau de bord</a>
                 </li>
             </ul>
         </div>
         <!--== DASHBOARD INFO ==-->
         <div class="sb2-2-1">
             <h2>Tableau de bord</h2>
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success" >{{ message }}</div>
+            {% endfor %}
             <div class="db-2">
                 <ul>
                     <li>

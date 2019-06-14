@@ -26,6 +26,9 @@
                                 <div class="tab-inn">
 
                                          <div class="sdb-tabl-com sdb-pro-table">
+                                         {% for message in app.flashes('success') %}
+                                            <div class="alert alert-success" >{{ message }}</div>
+                                        {% endfor %}
                                             <table class="responsive-table bordered">
                                                 <tbody>
                                                     <tr>

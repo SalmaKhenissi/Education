@@ -36,9 +36,10 @@ class StudentController extends AbstractController
         $firstName = $request->get('first');
         $lastName = $request->get('last');
         $section = $request->get('section');
-        $students=$paginator->paginate($studentRepository->findByPram($firstName , $lastName , $section), 
+        $schoolYear = $request->get('schoolYear');
+        $students=$paginator->paginate($studentRepository->findByPram($firstName , $lastName , $section ,$schoolYear), 
                                        $request->query->getInt('page', 1),
-                                       12
+                                       6
         );
         return $this->render('Admin/Student/index.html.twig', [
             'students' => $students,
@@ -51,7 +52,6 @@ class StudentController extends AbstractController
     public function new(Request $request , Guardian $guardian , UserRepository $userRepository): Response
     {
         $student = new Student();
-        $choicesSexe = Student::SEXE ;
         $form = $this->createForm(StudentType::class, $student);
         $form->handleRequest($request);
 
@@ -59,9 +59,6 @@ class StudentController extends AbstractController
             $student->setRoles('ROLE_STUDENT');
             $student->setGuardian($guardian);
 
-            $sexe=$student->getSexe();
-            $student->setSexe($choicesSexe[$sexe]);
-            
             $student->setImageName('inconnu');
 
             $student->setUsername($userRepository->generateUsername($student) );
@@ -70,7 +67,12 @@ class StudentController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($student);
             $entityManager->flush();
+            $this->addFlash('success' , 'Ajouté  avec succés!');
             return $this->redirectToRoute('admin_guardian_show', ['id'=>$student->getGuardian()->getId()]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Student/new.html.twig', [
@@ -114,17 +116,19 @@ class StudentController extends AbstractController
      */
     public function edit(Request $request, Student $student): Response
     {   
-        $choicesSexe = Student::SEXE ;
         $form = $this->createForm(StudentType::class, $student);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $sexe=$student->getSexe();
-            $student->setSexe($choicesSexe[$sexe]);
             $student->setUpdatedAt(new \DateTime('now')); 
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
             return $this->redirectToRoute('admin_student_index');
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Student/edit.html.twig', [
@@ -138,21 +142,24 @@ class StudentController extends AbstractController
      * @Route("/{id}/edit2", name="admin_student_edit2", methods={"GET","POST"})
      */
     public function edit2(Request $request, Student $student): Response
-    {   $choicesSexe = Student::SEXE ;
+    {  
         $form = $this->createForm(StudentType::class, $student);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $sexe=$student->getSexe();
-            $student->setSexe($choicesSexe[$sexe]);
 
             $student->setUpdatedAt(new \DateTime('now')); 
 
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
             
             return $this->redirectToRoute('admin_guardian_show', [
                 'id' => $student->getGuardian()->getId(),
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Guardian/edit_child.html.twig', [
@@ -170,6 +177,7 @@ class StudentController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($student);
             $entityManager->flush();
+            $this->addFlash('success' , 'Supprimé  avec succés!');
         
         return $this->redirectToRoute('admin_guardian_show', ['id'=>$student->getGuardian()->getId()]);
     }

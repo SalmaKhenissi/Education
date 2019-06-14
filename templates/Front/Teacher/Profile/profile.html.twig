@@ -10,8 +10,11 @@
                 {{ include('Front/Teacher/Profile/_profile_photo.html.twig') }}
                 <div class="col-md-9">
                     <div class="udb">
-
+                        
                         <div class="udb-sec udb-prof">
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success" >{{ message }}</div>
+                        {% endfor %}
                             <h4><img src="{{asset('images/icon/db1.png')}}" alt="" />Profile </h4>
                             <div class="sdb-tabl-com sdb-pro-table">
                                 <table class="responsive-table bordered">
@@ -64,7 +67,10 @@
                                         <tr>
                                             <td>Type</td>
                                             <td>:</td>
-                                            <td>{{teacher.type}} </td>
+                                            <td>{% if teacher.type == 0 %} Recruté
+                                                {% elseif teacher.type == 1 %} Vacataire
+                                                {% endif %}
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

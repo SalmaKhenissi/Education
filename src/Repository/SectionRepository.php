@@ -72,7 +72,7 @@ class SectionRepository extends ServiceEntityRepository
                         ->where('L.number like :l')
                         ->andWhere('s.number like :n')
                         ->andWhere('Sch.libelle like :sch')
-                        ->andWhere('Sep.libelle like :sep')
+                        ->andWhere('Sep.shortcut like :sep')
                         ->setParameter('l', $level)
                         ->setParameter('n', $number)
                         ->setParameter('sep', $specialty)
@@ -86,7 +86,7 @@ class SectionRepository extends ServiceEntityRepository
                         ->Join('s.specialty', 'Sep')
                         ->where('L.number like :l')
                         ->andWhere('s.number like :n')
-                        ->andWhere('Sep.libelle like :sep')
+                        ->andWhere('Sep.shortcut like :sep')
                         ->setParameter('l', $level)
                         ->setParameter('n', $number)
                         ->setParameter('sep', $specialty)
@@ -100,7 +100,7 @@ class SectionRepository extends ServiceEntityRepository
                         ->Join('s.schoolYear', 'Sch')
                         ->where('L.number like :l')
                         ->andWhere('Sch.libelle like :sch')
-                        ->andWhere('Sep.libelle like :sep')
+                        ->andWhere('Sep.shortcut like :sep')
                         ->setParameter('l', $level)
                         ->setParameter('sch', $schoolYear)
                         ->setParameter('sep', $specialty)
@@ -126,7 +126,7 @@ class SectionRepository extends ServiceEntityRepository
                         ->Join('s.specialty', 'Sep')
                         ->where('Sch.libelle like :sch')
                         ->andWhere('s.number like :n')
-                        ->andWhere('Sep.libelle like :sep')
+                        ->andWhere('Sep.shortcut like :sep')
                         ->setParameter('sch', $schoolYear)
                         ->setParameter('n', $number)
                         ->setParameter('sep', $specialty)
@@ -169,7 +169,7 @@ class SectionRepository extends ServiceEntityRepository
                         ->Join('s.schoolYear', 'Sch')
                         ->Join('s.specialty', 'Sep')
                         ->where('Sch.libelle like :sch')
-                        ->andWhere('Sep.libelle like :sep')
+                        ->andWhere('Sep.shortcut like :sep')
                         ->setParameter('sch', $schoolYear)
                         ->setParameter('sep', $specialty)
                         ->getQuery();
@@ -180,7 +180,7 @@ class SectionRepository extends ServiceEntityRepository
                         ->Join('s.level', 'L')
                         ->Join('s.specialty', 'Sep')
                         ->where('L.number like :l')
-                        ->andWhere('Sep.libelle like :sep')
+                        ->andWhere('Sep.shortcut like :sep')
                         ->setParameter('l', $level)
                         ->setParameter('sep', $specialty)
                         ->getQuery();
@@ -189,7 +189,7 @@ class SectionRepository extends ServiceEntityRepository
         {
             $query=$this->createQueryBuilder('s')
                         ->Join('s.specialty', 'Sep')
-                        ->where('Sep.libelle like :l')
+                        ->where('Sep.shortcut like :l')
                         ->andWhere('s.number like :n')
                         ->setParameter('l', $specialty)
                         ->setParameter('n', $number)
@@ -207,7 +207,7 @@ class SectionRepository extends ServiceEntityRepository
         {
               $query=$this->createQueryBuilder('s')
                         ->Join('s.specialty', 'Sep')
-                        ->where('Sep.libelle like :sep')
+                        ->where('Sep.shortcut like :sep')
                         ->setParameter('sep', $specialty)
                         ->getQuery();
         }

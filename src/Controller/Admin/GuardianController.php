@@ -30,7 +30,7 @@ class GuardianController extends AbstractController
         $lastName = $request->get('last');
         $guardians=$paginator->paginate($guardianRepository->findByOption($firstName , $lastName), 
                                         $request->query->getInt('page', 1),
-                                        12
+                                        6
         );
         return $this->render('Admin/Guardian/index.html.twig', [
             'guardians' => $guardians,
@@ -43,15 +43,12 @@ class GuardianController extends AbstractController
     public function new(Request $request ,UserRepository $userRepository): Response
     {
         $guardian = new Guardian();
-        $choicesSexe = Guardian::SEXE ;
         $form = $this->createForm(GuardianType::class, $guardian);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $guardian->setRoles('ROLE_GUARDIAN');
 
-            $sexe=$guardian->getSexe();
-            $guardian->setSexe($choicesSexe[$sexe]);
 
             $guardian->setUsername($userRepository->generateUsername($guardian) );
             $guardian->setPassword($userRepository->generatePassword($guardian) );
@@ -63,7 +60,15 @@ class GuardianController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($guardian);
             $entityManager->flush();
-            return $this->redirectToRoute('admin_guardian_index');
+
+            $this->addFlash('success' , 'Ajouté  avec succés!');
+            return $this->redirectToRoute('admin_guardian_show' ,[
+                'id' => $guardian->getId()
+            ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Guardian/new.html.twig', [
@@ -87,23 +92,25 @@ class GuardianController extends AbstractController
      */
     public function edit(Request $request, Guardian $guardian): Response
     { 
-        $choicesSexe = Guardian::SEXE ;
-
         $form = $this->createForm(GuardianType::class, $guardian);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            $sexe=$guardian->getSexe();
-            $guardian->setSexe($choicesSexe[$sexe]);
 
             $guardian->setUpdatedAt(new \DateTime('now'));
 
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
             
             return $this->redirectToRoute('admin_guardian_index');
         }
 
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
+        }
+        
         return $this->render('Admin/Guardian/edit.html.twig', [
             'guardian' => $guardian,
             'form' => $form->createView(),
@@ -120,7 +127,7 @@ class GuardianController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($guardian);
             $entityManager->flush();
-        
+            $this->addFlash('success' , 'Supprimé  avec succés!');
         return $this->redirectToRoute('admin_guardian_index');
     }
 

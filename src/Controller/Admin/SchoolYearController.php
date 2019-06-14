@@ -77,7 +77,13 @@ class SchoolYearController extends AbstractController
             $entityManager->persist($schoolYear);
             $entityManager->flush();
 
+            $this->addFlash('success' , 'Ajouté  avec succés!');
+
             return $this->redirectToRoute('admin_school_year_index');
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/School_year/new.html.twig', [
@@ -92,7 +98,7 @@ class SchoolYearController extends AbstractController
     public function show(SchoolYear $schoolYear): Response
     {
         return $this->render('Admin/School_year/show.html.twig', [
-            'school_year' => $schoolYear,
+            'schoolYear' => $schoolYear,
         ]);
     }
 
@@ -130,10 +136,15 @@ class SchoolYearController extends AbstractController
              }
 
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
 
             return $this->redirectToRoute('admin_school_year_index', [
                 'id' => $schoolYear->getId(),
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/School_year/edit.html.twig', [
@@ -151,7 +162,7 @@ class SchoolYearController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($schoolYear);
             $entityManager->flush();
-        
+            $this->addFlash('success' , 'Supprimé  avec succés!');
 
         return $this->redirectToRoute('admin_school_year_index');
     }

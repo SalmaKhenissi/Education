@@ -49,7 +49,20 @@ class GuardianRepository extends ServiceEntityRepository
             $dql = "SELECT g FROM App\Entity\Guardian g  ";
             $query = $em->createQuery($dql);
         }
-         return $query->getResult() ;
+
+        $tab=[];
+        foreach($query->getResult() as $g)
+        {
+            $tab[$g->getId()]=$g->getLastName();
+        }
+        asort($tab);
+        $sorted=[];
+        foreach($tab as $k => $v )
+        {
+            $sorted[]=$this->findById($k)[0];
+        }
+        
+         return $sorted ;
     }
 
 

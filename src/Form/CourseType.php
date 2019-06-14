@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class CourseType extends AbstractType
 {
@@ -21,6 +22,9 @@ class CourseType extends AbstractType
             ->add('coefficient',TextType::class ,[
                 'label' => ' coefficient '
             ])
+            ->add('nbrExams',IntegerType::class ,[
+                'label' => ' Nombre d\'examens '
+            ])
             ->add('level' , EntityType::class , [
                 'class' => 'App\Entity\Level' ,
                 'multiple' => false ,
@@ -31,6 +35,7 @@ class CourseType extends AbstractType
                 'multiple' => false ,
                  'label' => 'Spécialité',
             ])
+
         ;
     }
 

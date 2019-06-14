@@ -56,8 +56,13 @@ class LevelController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($level);
             $entityManager->flush();
+            $this->addFlash('success' , 'Ajouté  avec succés!');
 
             return $this->redirectToRoute('admin_level_index');
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Level/new.html.twig', [
@@ -78,10 +83,15 @@ class LevelController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
 
             return $this->redirectToRoute('admin_level_index', [
                 'id' => $level->getId(),
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Level/edit.html.twig', [
@@ -99,7 +109,7 @@ class LevelController extends AbstractController
             $entityManager->remove($level);
             $entityManager->flush();
         
-
+            $this->addFlash('success' , 'Supprimé  avec succés!');
         return $this->redirectToRoute('admin_level_index');
     }
 }

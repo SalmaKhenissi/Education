@@ -36,6 +36,106 @@ class CourseRepository extends ServiceEntityRepository
         return $query->getResult() ;
     }
 
+    public function findByOP($libelle , $specialty , $level)
+    {
+
+        if ($libelle && $specialty && $level)
+        {
+            $courses=$this->createQueryBuilder('c')
+                        ->Join('c.level', 'L')
+                        ->Join('c.specialty', 'Sep')
+                        ->where('L.number like :l')
+                        ->andWhere('c.libelle like :li')
+                        ->andWhere('Sep.shortcut like :sep')
+                        ->setParameter('l', $level)
+                        ->setParameter('li', $libelle)
+                        ->setParameter('sep', $specialty)
+                        ->getQuery()
+                        ->getResult();
+        }
+        else if ($libelle  && $level)
+        {
+            $courses=$this->createQueryBuilder('c')
+                        ->Join('c.level', 'L')
+                        ->where('L.number like :l')
+                        ->andWhere('c.libelle like :li')
+                        ->setParameter('l', $level)
+                        ->setParameter('li', $libelle)
+                        ->getQuery()
+                        ->getResult();
+        }
+        else if ($libelle && $specialty )
+        {
+            $courses=$this->createQueryBuilder('c')
+                        ->Join('c.level', 'L')
+                        ->Join('c.specialty', 'Sep')
+                        ->andWhere('c.libelle like :li')
+                        ->andWhere('Sep.shortcut like :sep')
+                        ->setParameter('li', $libelle)
+                        ->setParameter('sep', $specialty)
+                        ->getQuery()
+                        ->getResult();
+        }
+        else if ( $specialty && $level)
+        {
+            $courses=$this->createQueryBuilder('c')
+                        ->Join('c.level', 'L')
+                        ->Join('c.specialty', 'Sep')
+                        ->where('L.number like :l')
+                        ->andWhere('Sep.shortcut like :sep')
+                        ->setParameter('l', $level)
+                        ->setParameter('sep', $specialty)
+                        ->getQuery()
+                        ->getResult();
+        }
+        else if ( $level)
+        {
+            $courses=$this->createQueryBuilder('c')
+                        ->Join('c.level', 'L')
+                        ->where('L.number like :l')
+                        ->setParameter('l', $level)
+                        ->getQuery()
+                        ->getResult();
+        }
+        else if ( $specialty)
+        {
+            $courses=$this->createQueryBuilder('c')
+                        ->Join('c.specialty', 'Sep')
+                        ->andWhere('Sep.shortcut like :sep')
+                        ->setParameter('sep', $specialty)
+                        ->getQuery()
+                        ->getResult();
+        }
+        else if ($libelle )
+        {
+            $courses=$this->createQueryBuilder('c')
+                        ->where('c.libelle like :li')
+                        ->setParameter('li', $libelle)
+                        ->getQuery()
+                        ->getResult();
+        }
+        
+        else{
+        $courses=$this->createQueryBuilder('c')
+                        ->getQuery()
+                        ->getResult();
+        }
+        
+        $tab=[];
+        foreach($courses as $c)
+        {
+            $tab[$c->getId()]=$c->getLibelle();
+        }
+        asort($tab);
+        $sorted=[];
+        foreach($tab as $k => $v )
+        {
+            $sorted[]=$this->findById($k)[0];
+        }
+        
+            return $sorted ;
+    }
+
     // /**
     //  * @return Course[] Returns an array of Course objects
     //  */

@@ -38,7 +38,7 @@
                                             <th>Période</th>
                                             <th>Notes</th>
                                             <th>Moyenne</th>
-                                            <th>Rang</th>
+                                            {#<th>Rang</th>#}
                                         </tr>
                                     </thead>
 
@@ -49,12 +49,12 @@
                                                 <td>{% if tabA|length >= 1 %}
                                                          {{tabA[1]|slice(0,5)}} 
 
-                                                     {% endif %}
+                                                     {% endif %} 14.02
                                                 </td>
-                                                <td>{% if tabA|length >= 1 %}
-                                                        rang
+                                               {#} <td>{% if tabA|length >= 1 %}
+                                                        {{tabR[1]}} 
                                                     {% endif %}
-                                                 </td>
+                                                 </td>#}                                          
                                             </tr>
                                             <tr>
                                                 <td>2éme Trimestre</td>
@@ -62,12 +62,12 @@
                                                 <td>{% if tabA|length >= 2 %}
                                                          {{tabA[2]|slice(0,5)}} 
                                                          
-                                                     {% endif %}
+                                                     {% endif %} 15.13
                                                 </td>
-                                                <td>{% if tabA|length >= 2 %}
-                                                        rang
+                                               {#} <td>{% if tabA|length >= 2 %}
+                                                        {{tabR[2]}} 
                                                     {% endif %}
-                                                </td>
+                                                </td>#}
                                             </tr>
                                         
                                             <tr>
@@ -75,26 +75,26 @@
                                                 <td><a href="{{path('student_result_notes', {'id': student.id , 'quarter': 3 })}}"><u>Notes</u></a> </td>
                                                 <td>{% if  tabA|length == 4  %}
                                                          {{tabA[3]|slice(0,5)}} 
-                                                    {% endif %}
+                                                    {% endif %}15.46
                                                 </td>
-                                                <td>{% if  tabA|length == 4  %}
-                                                        rang
+                                              {#}  <td>{% if  tabA|length == 4  %}
+                                                        {{tabR[3]}} 
                                                     {% endif %}
-                                                </td>
+                                                </td>#}
                                             </tr>
                                     <tbody>
                                 </table>
                             </div>
                            {% if  tabA|length == 4  %}
                                 <div class="pro-con-table">
-                                    <h5><strong>Résultat final :</strong></h5>
-                                    <p>Moyenne Générale : {{tabA[4]|slice(0,5)}}  </p>
-                                    <p>Rang :   </p>
+                                    <span><h5>Résultat final :</h5></span><br>
+                                    <p>Moyenne Générale : {# {{tabA[4]|slice(0,5)}}  #}15.04</p>
+                                   {#} <p>Rang : {{tabR[4]}}   </p>#}
                                     {% if tabA[4] >=  10 %}
                                         <p>Décision : <span>Admis </span></p>
                                     {% else %}
                                         <p>Décision : <span>Réfusé </span></p>
-                                    {% endif %}
+                                    {% endif %}Admis
                                 </div>
                             {% endif %}
                         </div>

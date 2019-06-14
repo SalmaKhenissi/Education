@@ -8,6 +8,7 @@ use App\Form\RegisterType;
 use App\Form\DisciplineType;
 use App\Repository\SeanceRepository;
 use App\Repository\SectionRepository;
+use App\Repository\StudentRepository;
 use App\Repository\ParameterRepository;
 use App\Repository\DisciplineRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -87,17 +88,32 @@ class DisciplineController extends AbstractController
     /**
      * @Route("{teacher}/call/{section}", name="teacher_discipline_call", methods={"GET" ,"POST"})
      */
-    public function call(Teacher $teacher, Section $section ,SeanceRepository $seanceRepository,ParameterRepository $repoP,Request $request ): Response
+    public function call(Teacher $teacher, Section $section, StudentRepository $repoSt ,SeanceRepository $seanceRepository,ParameterRepository $repoP,Request $request ): Response
     {   
         $param=$repoP->find(1); 
 
         $disciplines=[];
-        foreach($section->getStudents() as $s)
+
+        $students=$section->getStudents();
+        $tab=[];
+        foreach($students as $st)
+        {
+            $tab[$st->getId()]=$st->getLastName();
+        }
+        asort($tab);
+        $sorted=[];
+        foreach($tab as $k => $v )
+        {
+            $sorted[]=$repoSt->findById($k)[0];
+        }
+
+        foreach($sorted as $s)
             {
                 $Discipline = new Discipline($s);
                 $Discipline->setStudent($s); 
                 $disciplines[]=$Discipline;
             }
+
         $data["disciplines"]=$disciplines ;
         
         $form = $this->createForm(RegisterType::class, $data);
@@ -121,10 +137,15 @@ class DisciplineController extends AbstractController
                 $entityManager->flush();
             }
             $id=$teacher->getId();
+            $this->addFlash('success' , 'Fait  avec succés!');
             return $this->redirectToRoute('teacher_discipline_index', [
                 'teacher' => $id,
                 'section' => $section->getId()
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
         
        
@@ -160,10 +181,15 @@ class DisciplineController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             $id=$teacher->getId();
+            $this->addFlash('success' , 'Modifié  avec succés!');
             return $this->redirectToRoute('teacher_discipline_index', [
                 'teacher' => $id,
                 'section' => $section->getId()
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
         
        

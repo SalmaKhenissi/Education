@@ -23,9 +23,13 @@ class CourseController extends AbstractController
      */
     public function index(CourseRepository $courseRepository , Request $request ,PaginatorInterface $paginator): Response
     {
-        $courses=$paginator->paginate( $courseRepository->findAll(),
+
+        $libelle = $request->get('libelle');
+        $specialty = $request->get('specialty');
+        $level = $request->get('level');
+        $courses=$paginator->paginate( $courseRepository->findByOP($libelle , $specialty , $level),
                                        $request->query->getInt('page', 1),
-                                        10
+                                        6
                                       );
         return $this->render('Admin/Course/index.html.twig', [
             
@@ -47,8 +51,13 @@ class CourseController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($course);
             $entityManager->flush();
+            $this->addFlash('success' , 'Ajouté  avec succés!');
 
             return $this->redirectToRoute('admin_course_index');
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Course/new.html.twig', [
@@ -77,10 +86,15 @@ class CourseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
 
             return $this->redirectToRoute('admin_course_index', [
                 'id' => $course->getId(),
             ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
         return $this->render('Admin/Course/edit.html.twig', [
@@ -98,7 +112,7 @@ class CourseController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($course);
             $entityManager->flush();
-        
+            $this->addFlash('success' , 'Supprimé  avec succés!');
 
         return $this->redirectToRoute('course_index');
     }

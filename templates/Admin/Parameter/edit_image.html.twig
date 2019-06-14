@@ -26,6 +26,9 @@
                                     
                                 </div>
                                 <div class="tab-inn">
+                                {% for message in app.flashes('fail') %}
+                                            <div class="alert alert-danger" >{{ message }}</div>
+                                        {% endfor %}
                                    {{ form_start(form) }}
                                     
                                     <div class="row">

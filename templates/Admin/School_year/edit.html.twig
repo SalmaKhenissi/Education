@@ -11,7 +11,7 @@
                         </li>
                         <li class="active-bre"><a href="#">Années scolaires</a>
                         </li>
-                        <li class="active-bre"><a href="{{path('admin_room_index')}}"> Liste des années scolaires</a>
+                        <li class="active-bre"><a href="{{path('admin_school_year_index')}}"> Liste des années scolaires</a>
                         </li>
                         <li class="active-bre"><a href="#"> Modifier une années scolaire</a>
                         </li>
@@ -26,6 +26,9 @@
                                     
                                 </div>
                                 <div class="tab-inn">
+                                {% for message in app.flashes('fail') %}
+                                            <div class="alert alert-danger" >{{ message }}</div>
+                                        {% endfor %}
                                    {{ include('Admin/School_year/_form.html.twig' , {'button_label': 'Modifier'}) }}
                                     
                                 </div>

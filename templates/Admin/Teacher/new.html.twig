@@ -20,10 +20,13 @@
                         <div class="col-md-12">
 						<div class="box-inn-sp admin-form">
                                 <div class="inn-title">
-                                    <h4>Ajouter un enseigant</h4>
+                                    <h4>Ajouter un enseignant</h4>
                                     
                                 </div>
                                 <div class="tab-inn">
+                                {% for message in app.flashes('fail') %}
+                                            <div class="alert alert-danger" >{{ message }}</div>
+                                        {% endfor %}
                                    {{ include('Admin/Teacher/_form.html.twig' , {'button_label': 'Ajouter'}) }}
                                     
                                 </div>

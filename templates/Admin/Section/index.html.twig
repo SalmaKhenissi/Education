@@ -29,6 +29,9 @@
                                 </div>
                                 <div class="tab-inn">
                                     <div class="table-responsive table-desi">
+                                    {% for message in app.flashes('success') %}
+                                            <div class="alert alert-success" >{{ message }}</div>
+                                        {% endfor %}
                                         <form class=" form-row">
                                                 <div class="col" >
                                                     <input type="text" class="form-control" placeholder="  Niveau" name="level" style="border-style: ridge;" >
@@ -61,7 +64,7 @@
                                                 <tr>
                                                     <td>{{ s.libelle}}</td>
                                                     <td>{{ s.schoolYear.libelle}}</td>
-                                                    <td><a href="{{ path('admin_section_show', {'id': s.id}) }}" class="btn btn-info fa fa-eye"></a></td>
+                                                    <td><a href="{{ path('admin_section_show2', {'id': s.id}) }}" class="btn btn-info fa fa-eye"></a></td>
                                                     <td>
                                                        <a href="{{ path('admin_section_edit', {'id': s.id}) }}" class="btn btn-warning fa fa-pencil"></a>
                                                        {{ include('Admin/Section/_delete_form.html.twig') }}
