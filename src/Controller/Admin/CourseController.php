@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @IsGranted("ROLE_ADMIN" , statusCode=404)
- * @Route("/course")
+ * @Route("/admin/course")
  */
 class CourseController extends AbstractController
 {

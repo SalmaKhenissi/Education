@@ -14,6 +14,7 @@
             <li><strong>Métier : </strong>{{guardian.job}} </li>
             <li><strong>Nom d'utilisateur : </strong>{{guardian.username}}</li>
             <li><a href="{{path('guardian_password_edit' ,{'id' : guardian.id})}}" style="color:gray; "><i class="fa fa-key"></i> Changer le mot de passe</a></li>
+            <li><a href="{{path('guardian_photo_edit' ,{'id' : guardian.id})}}" style="color:gray; "><i class="fa fa fa-user" ></i> Changer la photo du profil</a></li>
         </ul>
     </div>
 </div>

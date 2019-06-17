@@ -6,12 +6,14 @@ use App\Entity\Teacher;
 use App\Entity\Guardian;
 
 use App\Repository\ClubRepository;
+use App\Repository\EventRepository;
 use App\Repository\ImageRepository;
 use App\Repository\PictureRepository;
 use App\Repository\SectionRepository;
 use App\Repository\StudentRepository;
 use App\Repository\TeacherRepository;
 use App\Repository\ParameterRepository;
+use App\Repository\DescriptionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,18 +41,50 @@ class RedirectionController extends AbstractController
     /**
      * @Route("/front/home", name="home_page")
      */
-    public function redirectHome(ParameterRepository $repoP, PictureRepository $repoPi ,ImageRepository $repoI)
+    public function redirectHome(ParameterRepository $repoP,EventRepository $repoE, PictureRepository $repoPi ,DescriptionRepository $repoD)
     {
+
+        $list= $repoPi->findAll(); $pictures=[];
+        foreach($list as $l)
+        {
+            $k=strtotime($l->getUpdatedAt()->format('Y-m-d H:i:s'));
+            $pictures[$k]=$l;
+        }
+
+        krsort($pictures);$tabP=[];$i=0;
+        foreach($pictures as $p)
+        {
+            $tabP[]=$p; $i = $i + 1 ;
+            if(count($tabP)==7)
+            {
+                break;
+            }
+        }
+
+        $listE= $repoE->findAll(); $events=[];
+        foreach($listE as $l)
+        {
+            $k=strtotime($l->getTime()->format('Y-m-d H:i:s'));
+            $events[$k]=$l;
+        }
+
+        krsort($events);$tabE=[];$i=0;
+        foreach($events as $e)
+        {
+            $tabE[]=$e; $i = $i + 1 ;
+            if(count($tabE)==4)
+            {
+                break;
+            }
+        }
         return $this->render('Front/Guest/home.html.twig', [
             'parameters' => $repoP->find(1),
-            'slider1' => $repoI->find(1),
-            'slider2' => $repoI->find(2),
-            'slider3' => $repoI->find(3),
-            'service1' => $repoI->find(4),
-            'service2' => $repoI->find(5),
-            'service3' => $repoI->find(6),
-            'service4' => $repoI->find(7),
-            'pictures' => $repoPi->findAll()
+            'service1' => $repoD->find(1),
+            'service2' => $repoD->find(2),
+            'service3' => $repoD->find(3),
+            'service4' => $repoD->find(4),
+            'pictures' => $tabP ,
+            'events' => $tabE
         ]);
     }
 

@@ -1,6 +1,24 @@
 {% extends 'front-base.html.twig  ' %}
 {% set i = 0 %}
 {% set nbM = 0 %}
+{% block stylesheets %}
+    <style>
+    table, th, td {
+        border: 2px solid gray;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+        color : gray;
+    }
+    .color {
+        background-color: #84add6;
+        color: white;
+    }
+
+
+    </style>    
+{% endblock %}
 {% block body %}
 <!--SECTION START-->
     <section>
@@ -29,15 +47,15 @@
                     <div class="udb">
                         
                         <div class="udb-sec udb-cour-stat">
-                            <h4><img src="{{asset('images/icon/cor1.png')}}" alt="" />Résultats :   </h4>
+                            <h4><img src="{{asset('images/icon/cor1.png')}}" alt="" />Résultats Trimesterielles:   </h4>
                             
                             <div class="pro-con-table">
                                 <table>
                                    <thead>
                                         <tr>
-                                            <th>Période</th>
-                                            <th>Notes</th>
-                                            <th>Moyenne</th>
+                                            <th class="color">Période</th>
+                                            <th class="color">Notes</th>
+                                            <th class="color">Moyenne</th>
                                             {#<th>Rang</th>#}
                                         </tr>
                                     </thead>
@@ -49,7 +67,7 @@
                                                 <td>{% if tabA|length >= 1 %}
                                                          {{tabA[1]|slice(0,5)}} 
 
-                                                     {% endif %} 14.02
+                                                     {% endif %} 
                                                 </td>
                                                {#} <td>{% if tabA|length >= 1 %}
                                                         {{tabR[1]}} 
@@ -62,7 +80,7 @@
                                                 <td>{% if tabA|length >= 2 %}
                                                          {{tabA[2]|slice(0,5)}} 
                                                          
-                                                     {% endif %} 15.13
+                                                     {% endif %} 
                                                 </td>
                                                {#} <td>{% if tabA|length >= 2 %}
                                                         {{tabR[2]}} 
@@ -75,7 +93,7 @@
                                                 <td><a href="{{path('student_result_notes', {'id': student.id , 'quarter': 3 })}}"><u>Notes</u></a> </td>
                                                 <td>{% if  tabA|length == 4  %}
                                                          {{tabA[3]|slice(0,5)}} 
-                                                    {% endif %}15.46
+                                                    {% endif %}
                                                 </td>
                                               {#}  <td>{% if  tabA|length == 4  %}
                                                         {{tabR[3]}} 
@@ -85,19 +103,30 @@
                                     <tbody>
                                 </table>
                             </div>
-                           {% if  tabA|length == 4  %}
-                                <div class="pro-con-table">
-                                    <span><h5>Résultat final :</h5></span><br>
-                                    <p>Moyenne Générale : {# {{tabA[4]|slice(0,5)}}  #}15.04</p>
-                                   {#} <p>Rang : {{tabR[4]}}   </p>#}
-                                    {% if tabA[4] >=  10 %}
-                                        <p>Décision : <span>Admis </span></p>
-                                    {% else %}
-                                        <p>Décision : <span>Réfusé </span></p>
-                                    {% endif %}Admis
-                                </div>
-                            {% endif %}
                         </div>
+                        {% if  tabA|length == 4  %}
+                        <div class="udb-sec udb-cour-stat">
+                                <h4><img src="{{asset('images/icon/cor1.png')}}" alt="" />Résultat Final :   </h4>
+                                <div class="pro-con-table">
+                                    <h5>Moyenne Générale : 
+                                        {% if not tabA[3] == null %}
+                                            <span>{{tabA[4]|slice(0,5)}}  </span>
+                                        {% endif %}
+                                    </h5><br><br>
+                                    {#} <p>Rang : {{tabR[4]}}   </p>#}
+                                    <h5>Décision : 
+                                        {% if  decision != null %}
+                                            {% if not tabA[3] == null %}
+                                            
+                                                <span> {{decision}} </span>
+                                            {% endif %}
+                                        {% endif %}
+                                    </h5>
+                                </div>
+                                
+                        </div>
+                        {% endif %}
+                        
                         
                         
                     </div>

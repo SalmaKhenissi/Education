@@ -1,4 +1,22 @@
 {% extends 'front-base.html.twig  ' %}
+{% block stylesheets %}
+    <style>
+    table, th, td {
+        border: 2px solid gray;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+        color : gray;
+    }
+    .color {
+        background-color: #84add6;
+        color: white;
+    }
+
+
+    </style>    
+{% endblock %}
 {% block body %}
 <!--SECTION START-->
     <section>
@@ -16,38 +34,58 @@
                             <div class="alert alert-success" >{{ message }}</div>
                         {% endfor %}
                             <h4><img src="{{asset('images/icon/db3.png')}}" alt="" />Registre d'appel</h4>
-                            
+                            {% if call == true %}
+                             
+                                <div class="text-right">
+                                            
+                                            <a href="{{path('teacher_discipline_call', {'teacher': teacher.id ,'section' : section.id})}}" ><i class="fa fa-check-circle-o"></i> Faire l'appel</a>
+                                    </div>
+                                    
+                            {% endif %}
                             <div class="pro-con-table">
                                  
                                 <table class="bordered responsive-table">
                                     <thead>
                                         <tr>
-                                            <th>Séance</th>
-                                            <th>Date</th>
-                                            <th>Détails</th>
-                                            <th>Actions</th>
+                                            <th class="color">Séance</th>
+                                            <th class="color">Date</th>
+                                            <th class="color">Absences </th>
+                                            <th class="color">Retards</th>
+                                            <th class="color">Détails</th>
+                                            <th class="color" >Action</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                     {% for s in register %}
                                         {% set date = s.0.date|date("md")  %}
+                                        {% set a = 0  %}
+                                        {% set r = 0  %}
+                                        {% for d in s %}
+                                                    {% if d.type == 1 %}
+                                                        {% set a = a + 1  %}
+                                                    {% elseif d.type == 2 %}
+                                                        {% set r = r + 1  %}
+                                                    {% endif %}
+                                        {% endfor %}
                                         <tr>
                                             <td>{{s.0.seance.day}}</td>
                                             <td>{{s.0.date|date("d/m/Y ")}}</td>
+                                            <td>{{a}}</td>
+                                            <td>{{r}}</td>
                                             <td><a href="{{path('teacher_discipline_show', {'teacher': teacher.id ,'section' : section.id ,'date':date})}}" class="btn btn-info fa fa-eye"></a></td>
                                             <td><a href="{{path('teacher_discipline_edit', {'teacher': teacher.id ,'section' : section.id ,'date':date})}}" class="btn btn-warning fa fa-pencil"></a></td>
                                         </tr>
+                                    {% else %}
+                                    
+                                     <tr><td colspan="6"> Aucun appel n'est trouvé  </td> <tr>
                                         
                                     {% endfor %}  
                                     </tbody>
                                 </table>
                                 
                             </div>
-                            <div class="sdb-bot-edit">
-                                    
-                                    <a href="{{path('teacher_discipline_call', {'teacher': teacher.id ,'section' : section.id})}}" ><i class="fa fa-check-circle-o"></i> Faire l'appel</a>
-                            </div>
+                           
                         </div>
                         
                     </div>

@@ -1,0 +1,52 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+
+    
+
+    <section>
+        <div class="head-2">
+            <div class="container">
+                <div class="head-2-inn head-2-inn-padd-top">
+                    <h1>Evénement {{event.title}}</h1>
+                    
+                </div>
+            </div>
+        </div>
+    </section>		
+	
+  
+    <section>
+        <div class="container com-sp">
+            <div class="row">
+                <div class="cor about-sp">
+                    <div class="ed-about-tit">
+                        <div>
+                            <div class="ho-event pg-eve-main pg-blog">
+                                <ul>
+									 <li>
+                                        
+                                        <div class="pg-eve-desc pg-blog-desc">
+                                            
+											
+											<img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( club ,'imageFile') }}" alt="club_image">
+                                            {% autoescape false %}
+                                            <p>{{event.longDescription}}</p>
+                                            {% endautoescape %}
+                                            
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+
+    
+
+   {% endblock %} 

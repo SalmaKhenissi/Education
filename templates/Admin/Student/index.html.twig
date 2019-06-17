@@ -70,6 +70,8 @@
                                                          {{ include('Admin/Student/_delete_form.html.twig') }}
                                                      </td>
 											     </tr>
+                                                 {% else %}
+                                                <tr><td colspan="4"> Aucun élève n'est trouvé  </td> <tr>
                                             {% endfor %}
                                             </tbody>
                                         </table>

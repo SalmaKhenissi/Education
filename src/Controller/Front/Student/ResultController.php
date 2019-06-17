@@ -43,23 +43,26 @@ class ResultController extends AbstractController
         
         $today= new \DateTime('now'); 
         $tabA=[]; $tabR=[];
-        
+        $decision = null ;
         
         if($today >= $quarter3->getCouncilDate()  ) 
         {   $noteTable1=$repoSE->findNoteTable($exams,$student, 1,$repoE);
-            $average1=$repoSE->countAverage($noteTable1,$courses);$tabA[1]=$average1; 
-            $rank1=$repoSE->findRank($student,$section ,$exams,$courses ,1, $repoE);$tabR[1]=$rank1;
+            $average1=$repoSE->countAverage($noteTable1,$courses);$tabA[1]=$average1;
+            //$rank1=$repoSE->findRank($student,$section ,$exams,$courses ,1, $repoE);$tabR[1]=$rank1;
             
             $noteTable2=$repoSE->findNoteTable($exams,$student, 2,$repoE);
-            $average2=$repoSE->countAverage($noteTable2,$courses);$tabA[2]=$average2;
-            $rank2=$repoSE->findRank($student,$section ,$exams,$courses ,2, $repoE);$tabR[2]=$rank2; 
+            $average2=$repoSE->countAverage($noteTable2,$courses);$tabA[2]=$average2; 
+           // $rank2=$repoSE->findRank($student,$section ,$exams,$courses ,2, $repoE);$tabR[2]=$rank2; 
 
             $noteTable3=$repoSE->findNoteTable($exams,$student, 3,$repoE);
             $average3=$repoSE->countAverage($noteTable3,$courses);$tabA[3]=$average3;
-            $rank3=$repoSE->findRank($student,$section ,$exams,$courses ,3, $repoE);$tabR[3]=$rank3;  
+            //$rank3=$repoSE->findRank($student,$section ,$exams,$courses ,3, $repoE);$tabR[3]=$rank3;  
 
             $averageG=($average1+$average2*2+$average3*2 )/5;$tabA[4]=$averageG;
-            $rankG=$repoSE->findRankG($student,$section ,$exams,$courses, $repoE);$tabR[4]=$rankG; 
+           // $rankG=$repoSE->findRankG($student,$section ,$exams,$courses, $repoE);$tabR[4]=$rankG;
+           if($averageG > 10) 
+           { $decision = "Admis";}
+           else { $decision = "Réfusé"; }
         }
         else if($today >= $quarter2->getCouncilDate()  ) 
         { 
@@ -67,23 +70,26 @@ class ResultController extends AbstractController
             $average1=$repoSE->countAverage($noteTable1,$courses);$tabA[1]=$average1;
             $rank1=$repoSE->findRank($student,$section ,$exams,$courses ,1, $repoE);$tabR[1]=$rank1; 
 
-            $noteTable2=$repoSE->findNoteTable($exams,$student, 2,$repoE);
+            $noteTable2=$repoSE->findNoteTable($exams,$student, 2,$repoE); 
             $average2=$repoSE->countAverage($noteTable2,$courses);$tabA[2]=$average2;
-            $rank2=$repoSE->findRank($student,$section ,$exams,$courses ,2, $repoE);$tabR[2]=$rank2; 
+            //$rank2=$repoSE->findRank($student,$section ,$exams,$courses ,2, $repoE);$tabR[2]=$rank2; 
         }
         else if($today >= $quarter1->getCouncilDate()  ) 
         { 
             $noteTable1=$repoSE->findNoteTable($exams,$student, 1,$repoE);
-            $average1=$repoSE->countAverage($noteTable1,$courses);$tabA[1]=$average1; 
-            $rank1=$repoSE->findRank($student,$section ,$exams,$courses ,1, $repoE);$tabR[1]=$rank1;
+            $average1=$repoSE->countAverage($noteTable1,$courses);$tabA[1]=$average1;
+           // $rank1=$repoSE->findRank($student,$section ,$exams,$courses ,1, $repoE);$tabR[1]=$rank1;
         }
+
+        
             
         return$this->render('Front/Student/results.html.twig', [
             'student' => $student ,
             'parameters' => $repoP->find(1),
             'section' => $section,
              'tabA' => $tabA ,
-             'tabR' => $tabR ,
+             'decision' => $decision
+            // 'tabR' => $tabR ,
             ]);
       
     }
@@ -94,11 +100,13 @@ class ResultController extends AbstractController
     {   
         $schoolYear=$repoP->find(1)->getSchoolYear();
 
+
+
         $sections=$student->getSections();
         $section =$repoS->findByYear($sections,$schoolYear);
 
         $exams=$repoE->findBySection($section);
-
+        
         $noteTable=$repoSE->findNoteTable($exams,$student, $quarter,$repoE);
 
         return$this->render('Front/Student/notes.html.twig', [

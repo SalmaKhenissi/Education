@@ -68,6 +68,51 @@ class Parameter
      */
     private $quarter;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slider1;
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="images", fileNameProperty="slider1")
+     * 
+     * @var File
+     */
+    private $slider1File;
+
+   
+
+   
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+
+    private $slider3;
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="images", fileNameProperty="slider3")
+     * 
+     * @var File
+     */
+    private $slider3File;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+
+    private $slider2;
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="images", fileNameProperty="slider2")
+     * 
+     * @var File
+     */
+    private $slider2File;
+
     public function __construct(){
         $this->updatedAt = new \DateTime('now');
     }
@@ -167,6 +212,106 @@ class Parameter
         $this->quarter = $quarter;
 
         return $this;
+    }
+
+    public function getSlider1(): ?string
+    {
+        return $this->slider1;
+    }
+
+    public function setSlider1(string $slider1): self
+    {
+        $this->slider1 = $slider1;
+
+        return $this;
+    }
+
+     /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $slider1File
+     */
+    public function setSlider1File(?File $slider1File = null): void
+    {
+        $this->slider1File = $slider1File;
+
+    }
+
+    public function getSlider1File(): ?File
+    {
+        return $this->slider1File;
+    }
+
+
+     
+
+    public function getSlider3(): ?string
+    {
+        return $this->slider3;
+    }
+
+    public function setSlider3(string $slider3): self
+    {
+        $this->slider3 = $slider3;
+
+        return $this;
+    }
+
+     /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $slider3File
+     */
+    public function setSlider3File(?File $slider3File = null): void
+    {
+        $this->slider3File = $slider3File;
+
+    }
+
+    public function getSlider3File(): ?File
+    {
+        return $this->slider3File;
+    }
+
+
+    public function getSlider2(): ?string
+    {
+        return $this->slider2;
+    }
+
+    public function setSlider2(string $slider2): self
+    {
+        $this->slider2 = $slider2;
+
+        return $this;
+    }
+
+     /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $slider2File
+     */
+    public function setSlider2File(?File $slider2File = null): void
+    {
+        $this->slider2File = $slider2File;
+
+    }
+
+    public function getSlider2File(): ?File
+    {
+        return $this->slider2File;
     }
 
    

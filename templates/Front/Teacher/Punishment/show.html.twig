@@ -37,9 +37,12 @@
                                 <table class="responsive-table bordered">
                                     <tbody>
                                         <tr>
-                                            <td>Elève</td>
+                                            <td>Elèves</td>
                                             <td>:</td>
-                                            <td>{{punishment.student}} </td>
+                                            <td> {% for s in punishment.students %}
+                                                 {{s}} &nbsp;
+                                                 {% endfor %}
+                                            </td>
                                         </tr>
                                         
                                         <tr>

@@ -21,17 +21,16 @@
                                     <div class="col-md-4">{{ form_row(form.firstName)}}</div>
                                     <div class="col-md-4">{{ form_row(form.lastName)}}</div>
                                 </div>
+                                <br><br>
                                 <div class="row">
                                     <div class="col-md-4">{{ form_row(form.birthDate)}}</div>
                                     <div class="col-md-4">{{ form_row(form.birthplace)}}</div>
                                 </div>
+                                <br><br>
                                 <div class="row">
                                     <div class="col-md-4">{{ form_row(form.username)}}</div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-4">{{ form_row(form.imageFile)}}</div>
-                                </div>
-                                <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+                                <button class="btn">{{ button_label|default('Modifier') }}</button>
                             {{ form_end(form)}}
                         </div>
                     </div>

@@ -1,0 +1,148 @@
+{% extends 'front-base.html.twig  ' %}
+{% block stylesheets %}
+    <style>
+    table, th, td {
+        border: 2px solid gray;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+        color : gray;
+    }
+    .color {
+        background-color: #84add6;
+        color: white;
+    }
+
+
+    </style>    
+{% endblock %}
+{% block body %}
+    <section>
+        <div class="pro-cover">
+        </div>
+        {{ include('Front/Guardian/Discipline/_menu.html.twig') }}
+        <div class="stu-db">
+            <div class="container pg-inn">
+                {{ include('Front/Guardian/Profile/_profile_photo.html.twig') }}
+                <div class="col-md-9">
+                    <div class="udb">
+                        <div class="udb-sec udb-cour-stat">
+                            <h4><img src="{{asset('images/icon/db3.png')}}" alt="" />Assiduité ({{disciplines|length}}) : Trimestre {{parameters.quarter}}</h4>
+                            
+                            <div class="pro-con-table">
+                                <table class="bordered responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="color">Type</th>
+                                            <th class="color">Date</th>
+                                            <th class="color">Enfant</th>
+                                            <th class="color">Séance</th>
+                                            <th class="color">Matiére</th>
+                                            <th class="color">Enseignant</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for d in disciplines %}
+                                        <tr>
+                                            <td>
+                                            {% if d.type == 0 %}
+                                                    Présent
+                                            {% elseif d.type == 1  %}
+                                                        Absent
+                                            {% else %}
+                                                    En retard
+                                            {% endif %}
+                                            </td>
+                                            <td>{{d.date|date("d/m/Y ")}}</td>
+                                            <td>{{d.student.firstName}}</td>
+                                            <td>
+                                            {% if d.seance.day == 0 %}
+                                                    Lundi
+                                            {% elseif d.seance.day == 1  %}
+                                                    Mardi
+                                            {% elseif d.seance.day == 2  %}
+                                                    Mercredi
+                                            {% elseif d.seance.day == 3  %}
+                                                    Jeudi
+                                            {% elseif d.seance.day == 4  %}
+                                                    Vendredi
+                                            {% else %}
+                                                    Samedi
+                                            {% endif %}
+                                            </td>
+                                            
+                                            <td>{{d.seance.course}}</td>
+                                            <td>{{d.seance.teacher}}</td>
+                                         </tr>
+                                    {% else %}
+                                    
+                                     <tr><td colspan="6"> Aucun retard ou absence n'est trouvé  </td> <tr>
+                                        
+                                    {% endfor %}  
+                                        
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="udb-sec udb-cour-stat">
+                            <h4><img src="{{asset('images/icon/db.png')}}" alt="" />Punitions ({{punishments|length}}) : Trimestre {{parameters.quarter}}</h4>
+                            
+                            <div class="pro-con-table">
+                                <table class="bordered responsive-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="color">Type</th>
+                                            <th class="color">Date</th>
+                                            <th class="color">Enfant</th>
+                                            <th class="color">Détails</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for p in punishments %}
+                                        <tr>
+                                            <td>
+                                            {% if p.type == 0 %}
+                                                    Avertissement
+                                            {% elseif p.type == 1  %}
+                                                        Exclusion
+                                            {% else %}
+                                                    Expulsion
+                                            {% endif %}
+                                            </td>
+                                            <td>{{p.date|date("d/m/Y ")}}</td>
+                                            <td>
+                                            {% for s in p.students %}
+                                              {% for c in guardian.children %}
+                                                {% if c.id == s.id %}
+                                                    {{s.firstName}}
+                                                {% endif %}
+                                              {% endfor %}
+                                            {% endfor %}
+                                            </td>
+                                            <td><a href="{{path('guardian_punishment_show', {'id': p.id })}}" class="btn btn-info fa fa-eye"></a></td>
+                                         </tr>
+                                    {% else %}
+                                    
+                                     <tr><td colspan="4"> Aucune punition n'est trouvée  </td> <tr>
+                                        
+                                    {% endfor %}  
+                                        
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  
+
+
+{% endblock %} 

@@ -34,7 +34,8 @@ class DocumentController extends AbstractController
         $tab=[];
         foreach($section->getDocuments() as $d)
         {
-            if($d->getType()!='Examen')
+            if($d->getType() != 2 && $d->getType() != 3 )
+            
             {  $k=strtotime($d->getPostedAt()->format('Y-m-d H:i:s'));
                  $tab[$k]=$d;
                 

@@ -1,0 +1,47 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="{{path('admin_doc_index')}}"> Documents</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Télécharger documents</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <div class="container">
+                                        <h4>Télécharger documents</h4>
+                                        
+                                    </div>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="table-responsive table-desi">
+                                        <embed src="{{'/Pro-Education/public' ~ vich_uploader_asset( doc ,'docFile') }}"  width=1100 height=1000 type='application/pdf'/>
+                                            
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}
+
+        
+
+
+   
+

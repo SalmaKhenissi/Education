@@ -49,6 +49,8 @@
                                                         {{ include('Admin/Picture/_delete_form.html.twig') }}
                                                     </td>
                                                 </tr>
+                                                {% else %}
+                                                <tr><td colspan="4"> Aucune photo n'est trouvée  </td> <tr>
                                                 {% endfor %}
                                                 
                                             </tbody>

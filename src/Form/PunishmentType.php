@@ -25,11 +25,11 @@ class PunishmentType extends AbstractType
             ->add('description',TextareaType::class ,[
                 'label' => ' Description '
             ])
-            ->add('student',EntityType::class , [
+            ->add('students',EntityType::class , [
                 'class' => Student::class,
                 'choices' => $section->getStudents() ,
-                'multiple' => false  ,
-                'label' => 'Student'
+                'multiple' => true  ,
+                'label' => 'Eléves'
          ])
         ;
     }

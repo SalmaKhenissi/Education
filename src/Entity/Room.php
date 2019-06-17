@@ -2,15 +2,23 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Room;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RoomRepository")
  */
 class Room
 {
+
+    const TYPE = [
+        0 => 'Salle',
+        1 => 'Laboratoire' 
+        
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -29,19 +37,21 @@ class Room
     private $seances;
 
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $bloc;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Exam", mappedBy="room")
      */
     private $exams;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
+
     public function __toString(){
-        
-        $room='Bloc '.$this->bloc.' Salle '.$this->number;
+        if($this->getType()== 0)
+        {$room='S'.$this->number;}
+        else{ $room='L'.$this->number;}
         return $room;
      }
 
@@ -101,17 +111,6 @@ class Room
 
     
 
-    public function getBloc(): ?string
-    {
-        return $this->bloc;
-    }
-
-    public function setBloc(string $bloc): self
-    {
-        $this->bloc = $bloc;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Exam[]
@@ -140,6 +139,22 @@ class Room
                 $exam->setRoom(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+    public function getTypeType(): string
+    {
+        return self::TYPE[$this->type];
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

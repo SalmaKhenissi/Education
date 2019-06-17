@@ -1,4 +1,22 @@
 {% extends 'front-base.html.twig  ' %}
+{% block stylesheets %}
+    <style>
+    table, th, td {
+        border: 2px solid gray;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+        color : gray;
+    }
+    .color {
+        background-color: #84add6;
+        color: white;
+    }
+
+
+    </style>    
+{% endblock %}
 {% block body %}
 <!--SECTION START-->
     <section>
@@ -26,23 +44,28 @@
                                         </div>
                                     </div>
                                 {{ form_end(form)}}
-                                </div>
+                            </div>
+                            <div class="text-right">
+                                            
+                                <a href="{{path('teacher_exam_new', {'id': teacher.id ,'section' : section.id})}}" ><i class="fa fa-plus-square-o"></i> Ajouter un examen</a>
+                            </div>
                             <div class="pro-con-table">
                                  
                                 <table class="bordered responsive-table">
                                     <thead>
                                         <tr>
-                                            <th>Trimestre</th>
-                                            <th>Type</th>
-                                            <th>Date</th>
-                                            <th>Détails</th>
-                                            <th>Notes</th>
-                                            <th>Actions</th>
+                                            <th class="color">Trimestre</th>
+                                            <th class="color">Type</th>
+                                            <th class="color">Date</th>
+                                            <th class="color">Détails</th>
+                                            <th class="color">Notes</th>
+                                            <th class="color" colspan="2">Actions</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                     {% for e in exams %}
+                                        
                                         <tr>
                                             <td>{{e.quarter.number}}</td>
                                             <td>
@@ -58,21 +81,20 @@
                                             <td><a href="{{path('teacher_exam_show', {'teacher':teacher.id ,'id': e.id})}}" class="btn btn-info fa fa-eye"></a></td>
                                             <td><a href="{{path('teacher_exam_note', {'teacher':teacher.id ,'id': e.id})}}" class="btn btn-success fa fa-star"></a></td>
                                             
-                                            {% if  e.type != 'Synthése1' and e.type != 'Synthése2'  %}
+                                            
                                             <td><a href="{{path('teacher_exam_edit', {'teacher':teacher.id ,'id': e.id})}}" class="btn btn-warning fa fa-pencil"></a></td>
                                             <td>   {{ include('Front/Teacher/Exam/_delete_form.html.twig') }}</td>
-                                            {% endif %}
+                                            
                                         </tr>
-                                        
+                                    {% else %}
+                                    
+                                     <tr><td colspan="6"> Aucun examen n'est trouvé  </td> <tr>
                                     {% endfor %}  
                                     </tbody>
                                 </table>
                                 
                             </div>
-                            <div class="sdb-bot-edit">
-                                    
-                                    <a href="{{path('teacher_exam_new', {'id': teacher.id ,'section' : section.id})}}" ><i class="fa fa-plus-square-o"></i> Ajouter un examen</a>
-                            </div>
+                            
                         </div>
                         <div class="pagination">
                              {{ knp_pagination_render(exams) }}

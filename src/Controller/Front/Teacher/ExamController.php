@@ -80,7 +80,7 @@ class ExamController extends AbstractController
     /**
      * @Route("{id}/new/{section}", name="teacher_exam_new", methods={"GET","POST"})
      */
-    public function new(Teacher $teacher ,Section $section ,Request $request ,ParameterRepository $repoP ,CourseRepository $courseRepository ,SectionRepository $sectionRepository , RoomRepository $roomRepository, QuarterRepository $quarterRepository , SeanceRepository $seanceRepository ): Response
+    public function new(Teacher $teacher ,Section $section  ,Request $request ,ParameterRepository $repoP ,CourseRepository $courseRepository ,SectionRepository $sectionRepository , RoomRepository $roomRepository, QuarterRepository $quarterRepository , SeanceRepository $seanceRepository ): Response
     {   
         $param=$repoP->find(1);
         $exam = new Exam();
@@ -93,50 +93,70 @@ class ExamController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $type=$exam->getType();
-            if($type == 4 || $type == 5 )
-            {$exam->setCoefficient(2); }
-            else{$exam->setCoefficient(1);}
-
-            $exam->addTeacher($teacher);
-            $exam->setSection($section);
-
-            $courses=$courseRepository->findBySection($section);
-            foreach($courses as $c)
-            {
-                if($c->getLibelle()==$teacher->getSpecialty())
-                {
-                    $exam->setCourse($c);
+            
+                $seances=$seanceRepository->findByTeaching($teacher,$section);
+                $create = false ;
+                $day = date('D',strtotime($exam->getPassAt()->format('Y-m-d'))); 
+                if($day == "Mon") {$day = 0 ;}
+                else if($day == "Tue") {$day = 1 ;}
+                else if($day == "Wed") {$day = 2 ;}
+                else if($day == "Thu") {$day = 3 ;}
+                else if($day == "Fri") {$day = 4 ;}
+                else if($day == "Sat" ){$day = 5 ;}
+                foreach($seances as $s)
+                { 
+                    if($s->getDay() == $day)
+                    {
+                        $create = true ;
+                    }
                 }
-            }
+                if($create == false )
+                {
+                    $this->addFlash('fail' , 'Date d\'examen n\'est pas validé !');
+                }
+                else{
+                    $exam->setCoefficient(1);
+                    $exam->addTeacher($teacher);
+                    $exam->setSection($section);
 
-            $seances=$seanceRepository->findByTeaching($teacher,$section);
-            $room=$roomRepository->findByDay($seances ,$exam);
-            $exam->setRoom($room);
+                    $courses=$courseRepository->findBySection($section);
+                    foreach($courses as $c)
+                    {
+                        if($c->getLibelle()==$teacher->getSpecialty())
+                        {
+                            $exam->setCourse($c);
+                        }
+                    }
 
-            
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($exam);
-            $entityManager->flush();
-            
-            foreach($exam->getSection()->getStudents() as $s)
-            {
-                $StudentExam = new StudentExam($exam,$s);
-               
-                $StudentExam->setExam($exam);
-                $entityManager->persist($StudentExam);
-                $entityManager->flush();
-            }
-            
-            
+                    $seances=$seanceRepository->findByTeaching($teacher,$section);
+                    $room=$roomRepository->findByDay($seances ,$exam);
+                    $exam->setRoom($room);
 
-            $id=$teacher->getId();
-            $this->addFlash('success' , 'Ajoute  avec succés!');
-            return $this->redirectToRoute('teacher_exam_index', [
-                'teacher' => $id,
-                'section' => $section->getId()
-            ]);
+                    
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($exam);
+                    $entityManager->flush();
+                    
+                    foreach($exam->getSection()->getStudents() as $s)
+                    {
+                        $StudentExam = new StudentExam($exam,$s);
+                    
+                        $StudentExam->setExam($exam);
+                        $entityManager->persist($StudentExam);
+                        $entityManager->flush();
+                    }
+                    
+                    
+
+                    $id=$teacher->getId();
+                    $this->addFlash('success' , 'Ajoute  avec succés!');
+                    return $this->redirectToRoute('teacher_exam_index', [
+                        'teacher' => $id,
+                        'section' => $section->getId()
+                    ]);
+                }
+            
         }
         else if ($form->isSubmitted() && !$form->isValid())
         {
@@ -177,24 +197,46 @@ class ExamController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $type=$exam->getType();
-            if($type== 4 || $type== 5 )
-            {$exam->setCoefficient(2); }
-            else{$exam->setCoefficient(1);}
-
-            $seances=$seanceRepository->findByTeaching($teacher,$exam->getSection());
-            $room=$roomRepository->findByDay($seances ,$exam);
-            $exam->setRoom($room);
             
-            $this->getDoctrine()->getManager()->flush();
+                $seances=$seanceRepository->findByTeaching($teacher,$exam->getSection());
+                $create = false ;
+                $day = date('D',strtotime($exam->getPassAt()->format('Y-m-d'))); 
+                if($day == "Mon") {$day = 0 ;}
+                else if($day == "Tue") {$day = 1 ;}
+                else if($day == "Wed") {$day = 2 ;}
+                else if($day == "Thu") {$day = 3 ;}
+                else if($day == "Fri") {$day = 4 ;}
+                else if($day == "Sat" ){$day = 5 ;}
+                foreach($seances as $s)
+                { 
+                    if($s->getDay() == $day)
+                    {
+                        $create = true ;
+                    }
+                }
+                if($create == false )
+                {
+                    $this->addFlash('fail' , 'Date d\'examen n\'est pas validé !');
+                }
+                else{
+                    if($type== 4 || $type== 5 )
+                    {$exam->setCoefficient(2); }
+                    else{$exam->setCoefficient(1);}
 
-            $id=$teacher->getId();
-            $this->addFlash('success' , 'Modifié  avec succés!');
-            return $this->redirectToRoute('teacher_exam_index', [
-                'teacher' => $id,
-                'section' => $exam->getSection()->getId()
-            ]);
+                    $seances=$seanceRepository->findByTeaching($teacher,$exam->getSection());
+                    
+                    
+                    $this->getDoctrine()->getManager()->flush();
+
+                    $id=$teacher->getId();
+                    $this->addFlash('success' , 'Modifié  avec succés!');
+                    return $this->redirectToRoute('teacher_exam_index', [
+                        'teacher' => $id,
+                        'section' => $exam->getSection()->getId()
+                    ]);
+                }
+            
         }
         else if ($form->isSubmitted() && !$form->isValid())
         {

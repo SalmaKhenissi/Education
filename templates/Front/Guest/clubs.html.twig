@@ -24,7 +24,9 @@
                             <div class="pg-eve-desc pg-blog-desc">
                                 <a href="#"><h4>{{c.name}}</h4></a>
 								<img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( c ,'imageFile') }}" alt="club_image">
-								<p>{{c.shortDescription}}</p>
+                                {% autoescape false %}
+								    <p>{{c.shortDescription}}</p>
+                                {% endautoescape %}
                             </div>
                             <div class="pg-eve-reg pg-blog-reg">
                                 <a href="{{ path('club' , {'id':c.id})}}">Lire encore</a>
@@ -32,8 +34,12 @@
                         </li>
                      {% endfor %} 
                     </ul>
+                    <div class="pagination">
+                            {{ knp_pagination_render(clubs) }}
                 </div>
             </div>
+                </div>
+                
         </div>
     </section>
 

@@ -1,4 +1,22 @@
 {% extends 'front-base.html.twig  ' %}
+{% block stylesheets %}
+    <style>
+    table, th, td {
+        border: 2px solid gray;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+        color : gray;
+    }
+    .color {
+        background-color: #84add6;
+        color: white;
+    }
+
+
+    </style>    
+{% endblock %}
 {% block body %}
 <!--SECTION START-->
     <section>
@@ -28,7 +46,7 @@
                                 <table class="bordered responsive-table">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
+                                            <th class="color">No</th>
                                             <th>Course Name</th>
                                             <th>Start Date</th>
                                             <th>End Date</th>

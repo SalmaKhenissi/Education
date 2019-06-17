@@ -1,11 +1,14 @@
 <?php
 namespace App\Controller\Front\Student;
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\Student;
+use App\Entity\Punishment;
+
 use App\Repository\ExamRepository;
 use App\Repository\CourseRepository;
 use App\Repository\SeanceRepository;
-
 use App\Repository\QuarterRepository;
 use App\Repository\SectionRepository;
 use App\Repository\DocumentRepository;
@@ -47,6 +50,54 @@ class RedirectionController extends AbstractController
             'section' => $section,
             'timetable' => $timetable,
             ]);
+    }
+
+    /**
+     * @Route("/{id}/timetable2", name="student_timetable2" , methods={"GET"} )
+     */
+    public function timetable(Student $student,ParameterRepository $repoP  , SeanceRepository $seanceRepository ,SectionRepository $repoS )
+    {
+
+        //configure Dompdf
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont' , 'Arial');
+
+        //instantiate Dompdf
+        $dompdf = new Dompdf($pdfOptions);
+        
+        $schoolYear=$repoP->find(1)->getSchoolYear();
+        $sections=$student->getSections();
+        $section =$repoS->findByYear($sections,$schoolYear);
+
+
+        $seances=$seanceRepository->findBySection($section);
+         $timetable=$seanceRepository->findTimeTable($seances);
+
+        //Retrieve the HTML generated in our twig
+        $html= $this->renderView('Front/Student/timetable2.html.twig', [
+            'section' => $section,
+            'timetable' => $timetable ,
+            ]);
+
+        //load HTML to DOMPpdf
+        $dompdf->loadHtml($html);
+
+        //options:Setup the paper size
+        $dompdf->setPaper('A3' , 'portrait');
+
+        //Render the html as PDF
+        $dompdf->render();
+
+        //ouput the generated PDF to browser
+        $dompdf->stream("timetable.pdf",[
+            "Attachment" => true
+        ]);
+
+
+
+
+        
+       return $this->render();
     }
 
     /**
@@ -105,19 +156,25 @@ class RedirectionController extends AbstractController
         $sections=$student->getSections();
         $section =$repoS->findByYear($sections,$schoolYear);
 
+
         foreach($section->getSchoolYear()->getQuarters() as $q )
         {
             if($q->getnumber()==$quarter){$currentQuarter=$q;}
         }
-        $start=$currentQuarter->getStartAt();
-        $finish=$currentQuarter->getFinishAt();
+        $start=$currentQuarter->getStartAt()->format('Y-m-d');
+        $finish=$currentQuarter->getFinishAt()->format('Y-m-d');
 
         $tabA=[];   
         foreach($student->getDisciplines() as $d)
         {
-            if( $d->getType()!='Présent' && $d->getDate()>=$start && $d->getDate()<=$finish )
-            {   $k=strtotime($d->getDate()->format('Y-m-d H:i:s'));
-                $tabA[$k]=$d;
+            $date=$d->getDate()->format('Y-m-d');
+            if( $d->getType()!= 0 )
+            { 
+                 if( $date>=$start && $date<=$finish )
+                {
+                    $k=strtotime($d->getDate()->format('Y-m-d H:i'));
+                    $tabA[$k]=$d; 
+                }
             }
         }
         krsort($tabA);
@@ -125,14 +182,15 @@ class RedirectionController extends AbstractController
         $tabP=[];   
         foreach($student->getPunishments() as $p)
         {
-            if( $p->getDate()>=$start && $p->getDate()<=$finish )
-            { $k=strtotime($p->getDate()->format('Y-m-d H:i:s'));
+            $date=$p->getDate()->format('Y-m-d');
+            if( $date>=$start && $date<=$finish )
+            { $k=strtotime($p->getDate()->format('Y-m-d H:i'));
                 $tabP[$k]=$p;
             }
         }
 
         krsort($tabP);
-
+        
         return$this->render('Front/Student/discipline.html.twig', [
             'student' => $student ,
             'parameters' => $repoP->find(1),
@@ -255,6 +313,19 @@ class RedirectionController extends AbstractController
             'student' => $student,
             'section' => $section ,
             'parameters' => $param ,
+        ]);
+    }
+
+    /**
+     * @Route("{s}/punish/{id}", name="student_punishment_show", methods={"GET"})
+     */
+    public function show(Student $student ,Punishment $p , ParameterRepository $repoP ): Response
+    {
+       
+        return $this->render('Front/Student/Punishment/show.html.twig', [
+            'punishment' => $p,
+            'student' => $student,
+            'parameters' => $repoP->find(1) 
         ]);
     }
 }

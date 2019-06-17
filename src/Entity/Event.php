@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -30,7 +31,7 @@ class Event
     private $longDescription;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $shortDescription;
 
@@ -66,6 +67,13 @@ class Event
      * @var \DateTime
      */
     private $updatedAt;
+
+    /**
+     * @ORM\Column(type="time")
+     * @Assert\Time
+     * @var string A "H:i:s" formatted value
+     */
+    private $startAt;
 
     public function __construct(){
         $this->updatedAt = new \DateTime('now');
@@ -186,5 +194,17 @@ class Event
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    public function getStartAt(): ?\DateTimeInterface
+    {
+        return $this->startAt;
+    }
+
+    public function setStartAt(\DateTimeInterface $startAt): self
+    {
+        $this->startAt = $startAt;
+
+        return $this;
     }
 }

@@ -24,10 +24,14 @@
                 <div class="cor about-sp h-gal ed-pho-gal">
 					<ul>
                     {% for p in pictures %}
-						<li><img class="materialboxed" data-caption="Education master image captions" src="{{ '/Pro-Education/public' ~ vich_uploader_asset( p ,'imageFile') }}" alt="picture">
+						<li>
+                            <img class="materialboxed" data-caption="Education master image captions" src="{{ '/Pro-Education/public' ~ vich_uploader_asset( p ,'imageFile') }}" alt="picture">
 						</li>
 					{% endfor %}	
 					</ul>
+                </div>
+                <div class="pagination">
+                    {{ knp_pagination_render(pictures) }}
                 </div>
             </div>
         </div>

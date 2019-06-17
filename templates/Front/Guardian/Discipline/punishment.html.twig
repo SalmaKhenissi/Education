@@ -1,4 +1,22 @@
 {% extends 'front-base.html.twig  ' %}
+{% block stylesheets %}
+    <style>
+    table, th, td {
+        border: 2px solid gray;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+        color : gray;
+    }
+    .color {
+        background-color: #84add6;
+        color: white;
+    }
+
+
+    </style>    
+{% endblock %}
 {% block body %}
     <section>
         <div class="pro-cover">
@@ -17,10 +35,9 @@
                                 <table class="bordered responsive-table">
                                     <thead>
                                         <tr>
-                                            <th>Type</th>
-                                            <th>Date</th>
-                                            <th>Matiére</th>
-                                            <th>Enseignant</th>
+                                            <th class="color">Type</th>
+                                            <th class="color">Date</th>
+                                            <th class="color">Détails</th>
                                         </tr>
                                     </thead>
 
@@ -38,8 +55,7 @@
                                             {% endif %}
                                             </td>
                                             <td>{{p.date|date("d/m/Y ")}}</td>
-                                            <td>{{p.teacher.specialty}}</td>
-                                            <td>{{p.teacher}}</td>
+                                            <td><a href="{{path('guardian_punishment_show', {'g': guardian.id, 'id':p.id})}}" class="btn btn-info fa fa-eye"></a></td>
                                          </tr>
                                         
                                     {% endfor %}  

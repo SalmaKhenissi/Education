@@ -32,13 +32,6 @@ class User2Type extends AbstractType
             ->add('birthplace',TextType::class, [
                 'label' => ' Lieu de naissance '
             ])
-            ->add('imageFile', VichImageType::class , [
-                    'required' => false ,
-                    'label' => 'Photo' ,
-                    'allow_delete' => false,
-                    'download_uri'=> false,
-                    'download_label'=> false,
-            ])
         ;
     }
 

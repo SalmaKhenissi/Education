@@ -237,6 +237,8 @@
                                                                 <td>{{ s.lastName }}</td>
                                                                 <td> <a href="{{ path('admin_section_student' , {'id': s.id})}}" class="btn btn-info fa fa-eye"></a></td>
                                                             </tr>
+                                                            {% else %}
+                                                            <tr><td colspan="3"> Aucun élève n'est trouvé  </td> <tr>
                                                         {% endfor %}
                                                         </tbody>
                                                     </table>
@@ -276,6 +278,8 @@
                                                                 <td>{{ t.specialty }}</td>
                                                                 <td> <a href="{{ path('admin_teacher_show' , {'id': t.id})}}" class="btn btn-info fa fa-eye"></a></td>
                                                             </tr>
+                                                        {% else %}
+                                                        <tr><td colspan="4"> Aucun enseignant n'est trouvé  </td> <tr>
                                                         {% endfor %}
                                                         </tbody>
                                                     </table>

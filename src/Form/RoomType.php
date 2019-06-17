@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class RoomType extends AbstractType
 {
@@ -16,8 +17,9 @@ class RoomType extends AbstractType
             ->add('number',TextType::class ,[
                 'label' => ' Numéro '
             ])
-            ->add('bloc',TextType::class ,[
-                'label' => ' Bloc '
+            ->add('type', ChoiceType::class , [
+                'choices' => $this->getTypeChoices() ,
+                'label' => 'Type'
             ])
         ;
     }
@@ -27,5 +29,16 @@ class RoomType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Room::class,
         ]);
+    }
+
+    private function getTypeChoices()
+    {
+        $choices = Room::TYPE ;
+        $output = [];
+        foreach ($choices as $k => $v)
+        {
+            $output[$v] = $k ;
+        }
+        return $output ;
     }
 }

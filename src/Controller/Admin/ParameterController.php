@@ -14,6 +14,7 @@ use App\Repository\DescriptionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Filesystem\Filesystem;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Knp\Component\Pager\PaginatorInterface;
@@ -47,12 +48,37 @@ class ParameterController extends AbstractController
     public function editGeneral(Request $request ,ParameterRepository $repo ): Response
     {
         $parameter=$repo->find(1);
+        $s1= $parameter->getSlider1(); $s2=$parameter->getSlider2(); $s3=$parameter->getSlider3();
         $form = $this->createForm(ParameterType::class, $parameter);
         
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             
+            if($s1 != "")
+            {
+                if($parameter->getSlider1File()!=null)
+                {
+                    unlink(getcwd().'\uploads\images\\'.$parameter->getSlider1());
+                    $parameter->setSlider1(null);
+                }
+            }
+            if($s2 != "")
+            {
+                if($parameter->getSlider2File()!=null)
+                {
+                    unlink(getcwd().'\uploads\images\\'.$parameter->getSlider2());
+                    $parameter->setSlider2(null);
+                }
+            }
+            if($s3 != "")
+            {
+                if($parameter->getSlider3File()!=null)
+                {
+                    unlink(getcwd().'\uploads\images\\'.$parameter->getSlider3());
+                    $parameter->setSlider3(null);
+                }
+            }
             $parameter->setUpdatedAt(new \DateTime('now'));
             
             $this->getDoctrine()->getManager()->flush();
@@ -114,9 +140,17 @@ class ParameterController extends AbstractController
         $form = $this->createForm(DescriptionType::class, $desc);
         
         $form->handleRequest($request);
-
+        $image=$desc->getImageName();
         if ($form->isSubmitted() && $form->isValid()) {
 
+            if($image != "")
+            {
+                if($desc->getImageFile()!=null)
+                {
+                    unlink(getcwd().'\uploads\images\\'.$desc->getImageName());
+                    $desc->setImageName(null);
+                }
+            }
             $desc->setUpdatedAt(new \DateTime('now'));
             
             $this->getDoctrine()->getManager()->flush();

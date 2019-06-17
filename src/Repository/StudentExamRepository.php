@@ -19,7 +19,7 @@ class StudentExamRepository extends ServiceEntityRepository
         parent::__construct($registry, StudentExam::class);
     }
 
-    public function findNoteTable($exams,$student , $quarter , $repoE)
+    public function findNoteTable($exams,$student , $quarter , $repoE )
     { 
         $tabC=[]; 
         foreach ($exams as $e)
@@ -29,7 +29,7 @@ class StudentExamRepository extends ServiceEntityRepository
                 $tabC[]=$c;
             }    
         }
-
+        
         $tab=[];
         foreach($tabC as $c)
         {   $tabN=[];$eq=[];
@@ -73,10 +73,24 @@ class StudentExamRepository extends ServiceEntityRepository
                     else if ($e->getType()== 4){$t[]='Synthése1';}
                     else {$t[]='Synthése2';}
                     if(count($e->getStudentExams())!=0)
-                    {
-                        foreach($e->getStudentExams() as $se)
-                        {   if($se->getStudent()==$student)
-                            {
+                    {  
+                        $se=$this->search($e->getId() , $student->getId() ); 
+                        if($se != null)
+                        {
+                            $t[]=$se[0]->getNote();
+                            $t[]=true;
+                        }
+                        else
+                        {
+                            $t[]=" ";
+                            $t[]=false;
+                        }
+                        
+                        
+                        /*foreach($e->getStudentExams() as $se)
+                        {   dump($se);
+                            if($se->getStudent() == $student)
+                            { 
                                 $t[]=$se->getNote();
                                 $t[]=true;
                             }
@@ -85,8 +99,12 @@ class StudentExamRepository extends ServiceEntityRepository
                                 $t[]=" ";
                                 $t[]=false;
                             }
+                            if(count($t) == 4)
+                            {
+                                break;
+                            }
                             
-                        }
+                        }*/
                     }
                     else {
                         $t[]=" ";
@@ -94,7 +112,9 @@ class StudentExamRepository extends ServiceEntityRepository
                     }
                     
                 }
+                dump($t);
                 $tabN[$t[1]]=$t;
+                
             }
             $tab[$c->getLibelle().','.$c->getCoefficient().','.$c->getNbrExams()]=$tabN;
             
@@ -115,7 +135,10 @@ class StudentExamRepository extends ServiceEntityRepository
             $SommeCoef=$SommeCoef+$c->getCoefficient();
         }
         foreach($noteTable as $k => $examsByCourses)
-        {   $coeff=substr($k , -3 ,1);
+        {   $param=explode(",",$k);
+            $coeff=$param[1];
+                /*$coeff=substr($k , -3 ,1);*/
+            
             $ne=substr($k , -1 );
             $s=0;
             $l=0;
@@ -138,7 +161,7 @@ class StudentExamRepository extends ServiceEntityRepository
                 $SM=$m*$coeff+$SM; 
                 $SCourseCoeff=$coeff+$SCourseCoeff;
             }
-        }
+        } 
         if( $SCourseCoeff ==  $SommeCoef )
         {
             $M= $SM / $SCourseCoeff ;
@@ -255,15 +278,24 @@ class StudentExamRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?StudentExam
+    
+    public function findOneByForeignKey($student , $exam): ?StudentExam
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
+            ->join('s.Exam', 'E')
+            ->Join('s.student', 'St')
+            ->where('E.id like :idE')
+            ->andWhere('St.id like :idSt')
+            ->setParameter('idE', $exam)
+            ->setParameter('idSt', $student)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+    public function search($exam , $student )
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT s FROM App\Entity\StudentExam s JOIN s.Exam e JOIN s.student st WHERE st.id = $student And e.id = $exam ");
+        return $query->getResult();
+    }
 }

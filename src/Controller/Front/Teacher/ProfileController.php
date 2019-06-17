@@ -3,6 +3,7 @@
 namespace App\Controller\Front\Teacher;
 
 use App\Entity\Teacher;
+use App\Form\User3Type;
 use App\Form\Teacher2Type;
 use App\Form\PWTeacherType;
 use App\Repository\ParameterRepository;
@@ -63,6 +64,38 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
+           
+
+            $teacher->setUpdatedAt(new \DateTime('now')); 
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
+            return $this->redirectToRoute('teacher_profile' , [
+                'id' => $teacher->getId()
+            ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
+        }
+
+        return $this->render('Front/Teacher/Profile/editData.html.twig', [
+            'teacher' => $teacher,
+            'form' => $form->createView(),
+            'parameters' => $param ,
+        ]);
+    }
+
+     /**
+     * @Route("/photo/{id}", name="teacher_photo_edit", methods={"GET" ,"POST"})
+     */
+    public function editPh(Teacher $teacher  ,ParameterRepository $repoP , Request $request ): Response
+    {   
+        $param=$repoP->find(1);
+        
+        $form = $this->createForm(User3Type::class, $teacher);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
             if($teacher->getImageFile()!=null )
             {   
                 if($teacher->getImageName()!="inconnu")
@@ -84,7 +117,7 @@ class ProfileController extends AbstractController
             $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
-        return $this->render('Front/Teacher/Profile/editData.html.twig', [
+        return $this->render('Front/Teacher/Profile/editPhoto.html.twig', [
             'teacher' => $teacher,
             'form' => $form->createView(),
             'parameters' => $param ,

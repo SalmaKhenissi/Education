@@ -98,13 +98,7 @@
                                 <ul>
                                     <li><a href="{{ path('admin_parameters')}}">Paramétres générales</a>
                                     </li>
-                                    <li><a href="{{ path('admin_parameters_desc')}}">Liste des services</a>
-                                    </li>
-                                    <li><a href="{{ path('admin_parameters_image')}}">Liste des images </a>
-                                    </li>
-                                    <li><a href="{{ path('admin_parameters_image')}}">Liste des clubs </a>
-                                    </li>
-                                    <li><a href="{{ path('admin_parameters_image')}}">Liste des événements </a>
+                                    <li><a href="{{ path('admin_parameters_desc')}}">Paramétres services</a>
                                     </li>
                                 </ul>
                             </div>
@@ -195,7 +189,7 @@
                             </div>
                         </li>
                         
-                       {#} <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-bookmark-o" aria-hidden="true"></i>Clubs</a>
+                        <li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-bookmark-o" aria-hidden="true"></i>Clubs</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
                                     <li><a href="{{ path('admin_club_index')}}">Liste des clubs</a>
@@ -220,7 +214,7 @@
 									<li><a href="{{ path('admin_picture_new')}}">Ajouter une photo</a></li>
                                 </ul>
                             </div>
-                        </li>#}
+                        </li>
                         {#<li><a href="javascript:void(0)" class="collapsible-header"><i class="fa fa-bullhorn" aria-hidden="true"></i>Alertes</a>
                             <div class="collapsible-body left-sub-menu">
                                 <ul>
@@ -246,7 +240,7 @@
                                 </ul>
                             </div>
                         </li>#}
-                        <li><a href="#" class="collapsible-header"><i class="fa fa-cloud-download" aria-hidden="true"></i> Import & Export</a>
+                        <li><a href="{{path('admin_doc_index')}}" class="collapsible-header"><i class="fa fa-cloud-download" aria-hidden="true"></i> Documents</a>
                             
                         </li>
                     </ul>

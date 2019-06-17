@@ -1,4 +1,22 @@
 {% extends 'front-base.html.twig  ' %}
+{% block stylesheets %}
+    <style>
+    table, th, td {
+        border: 2px solid gray;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+        color : gray;
+    }
+    .color {
+        background-color: #84add6;
+        color: white;
+    }
+
+
+    </style>    
+{% endblock %}
 {% block body %}
 <!--SECTION START-->
     <section>
@@ -15,18 +33,21 @@
                         {% for message in app.flashes('success') %}
                             <div class="alert alert-success" >{{ message }}</div>
                         {% endfor %}
-                            <h4><img src="{{asset('images/icon/db2.png')}}" alt="" />Documents</h4>
-                            
+                            <h4><img src="{{asset('images/icon/db2.png')}}" alt="" />Documents ({{docs|length}})</h4>
+                            <div class="text-right">
+                                            
+                                            <a href="{{path('teacher_doc_new', {'id': teacher.id})}}" ><i class="fa fa-plus-square-o"></i> Ajouter un document</a>
+                            </div>
                             <div class="pro-con-table">
                                 <table class="bordered responsive-table">
                                     <thead>
                                         <tr>
-                                            <th>Classe</th>
-                                            <th>Type</th>
-                                            <th>Description</th>
-                                            <th>Date</th>
-                                            <th>Details</th>
-                                            <th>Actions</th>
+                                            <th class="color">Classe</th>
+                                            <th class="color">Type</th>
+                                            <th class="color">Description</th>
+                                            <th class="color">Date</th>
+                                            <th class="color">Details</th>
+                                            <th class="color" colspan="2">Actions</th>
                                         </tr>
                                     </thead>
 
@@ -54,14 +75,14 @@
                                             <td><a href="{{path('teacher_doc_edit', {'id': d.id})}}" class="btn btn-warning fa fa-pencil"></a></td>
                                             <td>   {{ include('Front/Teacher/Document/_delete_form.html.twig') }}</td>
                                         </tr>
+                                    {% else %}
+                                    
+                                     <tr><td colspan="6"> Aucun document n'est trouvé  </td> <tr>
                                         
                                     {% endfor %}  
                                     </tbody>
                                 </table>
-                                <div class="sdb-bot-edit">
-                                    
-                                    <a href="{{path('teacher_doc_new', {'id': teacher.id})}}" ><i class="fa fa-plus-square-o"></i> Ajouter un document</a>
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="pagination">

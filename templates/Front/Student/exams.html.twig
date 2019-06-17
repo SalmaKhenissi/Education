@@ -1,6 +1,24 @@
 {% extends 'front-base.html.twig  ' %}
 {% set jours = ['Lundi', 'Mardi' , 'Mercredi' , 'Jeudi' , 'Vendredi' ,'Samedi'] %}
 {% set i = 0 %}
+{% block stylesheets %}
+    <style>
+    table, th, td {
+        border: 2px solid gray;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+        color : gray;
+    }
+    .color {
+        background-color: #84add6;
+        color: white;
+    }
+
+
+    </style>    
+{% endblock %}
 {% block body %}
 <!--SECTION START-->
     <section>
@@ -35,11 +53,13 @@
                                 <table class="bordered responsive-table">
                                     <thead>
                                         <tr>
-                                            <th>Matiére</th>
-                                            <th>Type</th>
-                                            <th>Date</th>
-                                            <th>Début</th>
-                                            <th>Fin</th>
+                                            <th class="color">Matiére</th>
+                                            <th class="color">Type</th>
+                                            <th class="color">Date</th>
+                                            <th class="color">Début</th>
+                                            <th class="color">Fin</th>
+                                            <th class="color">Salle</th>
+                                            
                                         </tr>
                                     </thead>
 
@@ -59,8 +79,15 @@
                                             <td>{{e.passAt|date('d-m-Y')}} </td>
                                             <td>{{e.startAt|date('h:m')}}</td>
                                             <td>{{e.finishAt|date('h:m')}}</td>
+                                            <td>{% if e.room != null %}
+                                                    {{e.room}}
+                                                {% endif %}
+                                            </td>
                                            
                                         </tr>
+                                    {% else %}
+                                    
+                                     <tr><td colspan="6"> Aucun examen n'est trouvé  </td> <tr>
                                         
                                     {% endfor %}  
                                     </tbody>

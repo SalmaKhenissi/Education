@@ -1,0 +1,72 @@
+{% extends 'front-base.html.twig  ' %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        <div class="pro-menu">
+            <div class="container">
+                <div class="col-md-9 col-md-offset-3">
+                    <ul>
+                         <li><a href="{{path('student_profile', {'id': student.id})}}">Profile</a></li>
+                        <li><a href="{{path('student_timetable', {'id': student.id})}}" >Emploi du temps</a></li>
+                        <li><a href="{{path('student_discipline', {'id': student.id})}}" class="pro-act" >Discipline</a></li>
+                        <li><a href="{{path('student_exams', {'id': student.id})}}">Examens</a></li>
+                        <li><a href="{{path('student_result_average', {'id': student.id})}}" >Résultats</a></li>
+                        <li><a href="{{path('student_obs', {'id': student.id})}}">Observations</a></li>
+                        <li><a href="{{path('student_doc_index', {'id': student.id})}}" >Documents</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="stu-db">
+            <div class="container pg-inn">
+                {{ include('Front/Student/Profile/_profile_photo.html.twig') }}
+                <div class="col-md-9">
+                    <div class="udb">
+
+                        <div class="udb-sec udb-prof">
+                            <h4><img src="{{asset('images/icon/db.png')}}" alt="" />Punition :
+                               {% if punishment.type == 0 %}
+                                    Avertissement
+                               {% elseif punishment.type == 1  %}
+                                        Exclusion
+                               {% else %}
+                                    Expulsion
+                               {% endif %}
+                            </h4>
+                            <div class="sdb-tabl-com sdb-pro-table">
+                                <table class="responsive-table bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td>Matiére</td>
+                                            <td>:</td>
+                                            <td> {{punishment.teacher.specialty}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Enseignant</td>
+                                            <td>:</td>
+                                            <td> {{punishment.teacher}} </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>Date </td>
+                                            <td>:</td>
+                                            <td>{{punishment.date|date('d-m-Y')}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Description</td>
+                                            <td>:</td>
+                                            <td>{{punishment.description}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+    {% endblock %} 

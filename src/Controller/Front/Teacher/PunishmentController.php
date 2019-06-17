@@ -6,6 +6,7 @@ use App\Entity\Section;
 use App\Entity\Teacher;
 use App\Entity\Punishment;
 use App\Form\PunishmentType;
+use App\Repository\SeanceRepository;
 use App\Repository\SectionRepository;
 use App\Repository\ParameterRepository;
 use App\Repository\PunishmentRepository;
@@ -38,10 +39,12 @@ class PunishmentController extends AbstractController
         } 
         $tabP=[];
         foreach($punishments as $p)
-        {   
-            if(in_array($p->getStudent()->getId(), $students) )
-            {   $k=strtotime($p->getDate()->format('Y-m-d H:i:s'));
-                $tabP[$k]=$p;dump($tabP);
+        {   foreach($p->getStudents() as $s)
+            {
+                if(in_array($s->getId(), $students) )
+                {   $k=strtotime($p->getDate()->format('Y-m-d H:i:s'));
+                    $tabP[$k]=$p;dump($tabP);
+                }
             }
         }
         krsort($tabP);
@@ -73,10 +76,27 @@ class PunishmentController extends AbstractController
      /**
      * @Route("{section}/new/{teacher}", name="teacher_punishment_new", methods={"GET","POST"})
      */
-    public function new(Section $section ,Teacher $teacher ,Request $request ,ParameterRepository $repoP, SectionRepository $sectionRepository): Response
+    public function new(Section $section ,Teacher $teacher, SeanceRepository $seanceRepository ,Request $request ,ParameterRepository $repoP, SectionRepository $sectionRepository): Response
     {   $param=$repoP->find(1);
         $p = new Punishment();
         $p->setTeacher($teacher);
+
+        $seances=$seanceRepository->findByTeaching($teacher,$section);
+        $punish = false ;
+        $day = date('D',strtotime(date('Y-m-d'))); 
+        if($day == "Mon") {$day = 0 ;}
+        else if($day == "Tue") {$day = 1 ;}
+        else if($day == "Wed") {$day = 2 ;}
+        else if($day == "Thu") {$day = 3 ;}
+        else if($day == "Fri") {$day = 4 ;}
+        else if($day == "Sat" ){$day = 5 ;}
+        foreach($seances as $s)
+        { 
+            if($s->getDay() == $day)
+            {
+                $punish = true ;
+            }
+        }
     
         $form = $this->createForm(PunishmentType::class, $p , [
             'section' => $section
@@ -85,17 +105,25 @@ class PunishmentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            
+            if($p->getType() == 1  && $punish == false )
+            {
+                $this->addFlash('fail' , 'Type de punition n\'est pas validé!');
 
-            $p->setDate(new \DateTime('now'));
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($p);
-            $entityManager->flush();
-            $this->addFlash('success' , 'Ajouté  avec succés!');
+            }
+            else{
 
-            return $this->redirectToRoute('teacher_punishment_index', [
-                'teacher' => $teacher->getId(),
-                'section' => $section->getId()
-            ]);
+                $p->setDate(new \DateTime('now'));
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($p);
+                $entityManager->flush();
+                $this->addFlash('success' , 'Ajouté  avec succés!');
+
+                return $this->redirectToRoute('teacher_punishment_index', [
+                    'teacher' => $teacher->getId(),
+                    'section' => $section->getId()
+                ]);
+            }
         }
         else if ($form->isSubmitted() && !$form->isValid())
         {
@@ -123,8 +151,6 @@ class PunishmentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
-            $p->setDate(new \DateTime('now'));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($p);
             $entityManager->flush();

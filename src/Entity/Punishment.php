@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,15 +39,22 @@ class Punishment
      */
     private $date;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Student", inversedBy="punishments")
-     */
-    private $student;
+    
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Teacher", inversedBy="punishments")
      */
     private $teacher;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Student", inversedBy="punishments")
+     */
+    private $students;
+
+    public function __construct()
+    {
+        $this->students = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -93,17 +102,7 @@ class Punishment
         return $this;
     }
 
-    public function getStudent(): ?Student
-    {
-        return $this->student;
-    }
-
-    public function setStudent(?Student $student): self
-    {
-        $this->student = $student;
-
-        return $this;
-    }
+    
 
     public function getTeacher(): ?Teacher
     {
@@ -113,6 +112,32 @@ class Punishment
     public function setTeacher(?Teacher $teacher): self
     {
         $this->teacher = $teacher;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Student[]
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function addStudent(Student $student): self
+    {
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Student $student): self
+    {
+        if ($this->students->contains($student)) {
+            $this->students->removeElement($student);
+        }
 
         return $this;
     }

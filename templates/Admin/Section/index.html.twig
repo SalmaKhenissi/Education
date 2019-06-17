@@ -64,13 +64,15 @@
                                                 <tr>
                                                     <td>{{ s.libelle}}</td>
                                                     <td>{{ s.schoolYear.libelle}}</td>
-                                                    <td><a href="{{ path('admin_section_show2', {'id': s.id}) }}" class="btn btn-info fa fa-eye"></a></td>
+                                                    <td><a href="{{ path('admin_section_show', {'id': s.id}) }}" class="btn btn-info fa fa-eye"></a></td>
                                                     <td>
                                                        <a href="{{ path('admin_section_edit', {'id': s.id}) }}" class="btn btn-warning fa fa-pencil"></a>
                                                        {{ include('Admin/Section/_delete_form.html.twig') }}
                                                         
                                                     </td>
 											     </tr>
+                                                 {% else %}
+                                                <tr><td colspan="5"> Aucune classe n'est trouvée  </td> <tr>
                                             {% endfor %}
                                             </tbody>
                                         </table>

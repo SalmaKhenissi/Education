@@ -42,7 +42,7 @@ class Contact
     /**
      * @var string|null
      * @Assert\NotBlank()
-     * @Assert\Length(min = 5, max = 70)
+     * @Assert\Length(min = 5, max = 50)
      */
     private $subject;
 
@@ -50,7 +50,7 @@ class Contact
     /**
      * @var string|null
      * @Assert\NotBlank()
-     * @Assert\Length(min = 100, max = 500)
+     * @Assert\Length(min = 20, max = 500)
      */
     private $message;
 

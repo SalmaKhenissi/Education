@@ -35,7 +35,8 @@
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>Bloc</th>
+                                                   <th>Libellé</th>
+                                                    <th>Type</th>
                                                     <th>Numéro</th>
                                                     <th>Actions</th>
                                                 </tr>
@@ -44,12 +45,21 @@
                                             
                                             {% for r in rooms %}
                                                 <tr>
-                                                    <td>{{ r.bloc }}</td>
+                                                <td>{{r}}</td>
+                                                    <td>
+                                                    {% if r.type == 0 %}
+                                                       Salle
+                                                    {% elseif r.type == 1 %}
+                                                    Lboratoire
+                                                    {% endif %}
+                                                    </td>
                                                     <td>{{ r.number }}</td>
                                                     <td><a href="{{ path('admin_room_edit', {'id': r.id}) }}" class="btn btn-warning fa fa-pencil"></a>
                                                       {{ include('Admin/Room/_delete_form.html.twig') }}</td>
                                                     
 											     </tr>
+                                                {% else %}
+                                                <tr><td colspan="4"> Aucune salle  n'est trouvée  </td> <tr>
                                             {% endfor %}
                                             </tbody>
                                         </table>

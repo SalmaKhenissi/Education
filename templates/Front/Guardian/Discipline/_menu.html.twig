@@ -4,9 +4,9 @@
                     <ul>
                         <li><a href="{{path('guardian_profile', {'id': guardian.id})}}" >Profile</a></li>
                         <li><a href="{{path('guardian_timetable', {'id': guardian.id})}}" >Emploi du temps</a></li>
-                        <li><a href="{{path('guardian_discipline_children', {'id': guardian.id})}}" class="pro-act" >Discipline</a></li>
+                        <li><a href="{{path('guardian_discipline', {'id': guardian.id})}}" class="pro-act" >Discipline</a></li>
                         <li><a href="{{path('guardian_exam_children', {'id': guardian.id})}}" >Examens</a></li>
-                        <li><a href="" >Résultats</a></li>
+                        <li><a href="{{path('guardian_result_average', {'id': guardian.id})}}" >Résultats</a></li>
                         <li><a href="{{path('guardian_teachers', {'id': guardian.id})}}" >Enseignants</a></li>
                         
                     </ul>

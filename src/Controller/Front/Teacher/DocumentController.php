@@ -30,12 +30,14 @@ class DocumentController extends AbstractController
 
         $tab=[];
         foreach($teacher->getDocuments() as $d){
-            foreach($d->getSections() as $s)
-            { if($s->getSchoolYear()->getLibelle()==$param->getSchoolYear())
-                { $k=strtotime($d->getPostedAt()->format('Y-m-d H:i:s'));
-                    $tab[$k]=$d;
+            
+                foreach($d->getSections() as $s)
+                { if($s->getSchoolYear()->getLibelle()==$param->getSchoolYear())
+                    { $k=strtotime($d->getPostedAt()->format('Y-m-d H:i:s'));
+                        $tab[$k]=$d;
+                    }
                 }
-            }
+            
         }
         krsort($tab);
 

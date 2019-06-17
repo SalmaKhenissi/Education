@@ -29,7 +29,9 @@
                                             
 											
 											<img src="{{ '/Pro-Education/public' ~ vich_uploader_asset( club ,'imageFile') }}" alt="club_image">
+                                            {% autoescape false %}
                                             <p>{{club.longDescription}}</p>
+                                            {% endautoescape %}
                                             
                                         </div>
                                     </li>

@@ -36,13 +36,19 @@
 										</div>
 										<div class="ed-rsear-dec ed-faci-full-bot">
 											<h4><a href="facilities-detail.html">{{e.title}}</a></h4>
-											<p>{{e.shortDescription}} </p>
+                                            <h5><span>{{e.time|date('d')}} </span><span>{{e.time|date('M')}} ,{{e.time|date('Y')}}</span></h5>
+											{% autoescape false %}
+                                            <p>{{e.shortDescription}} </p>
+                                            {% endautoescape %}
 											
 										</div>
 									</div>
                                 </li>
                              {% endfor %}   
                             </ul>
+                        </div>
+                        <div class="pagination">
+                            {{ knp_pagination_render(events) }}
                         </div>
                     </div>
                     <div class="ed-about-sec1">

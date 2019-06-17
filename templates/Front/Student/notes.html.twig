@@ -1,6 +1,24 @@
 {% extends 'front-base.html.twig  ' %}
 {% set i = 0 %}
 {% set nbM = 0 %}
+{% block stylesheets %}
+    <style>
+    table, th, td {
+        border: 2px solid gray;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+        color : gray;
+    }
+    .color {
+        background-color: #84add6;
+        color: white;
+    }
+
+
+    </style>    
+{% endblock %}
 {% block body %}
 <!--SECTION START-->
     <section>
@@ -14,7 +32,7 @@
                         <li><a href="{{path('student_timetable', {'id': student.id})}}" >Emploi du temps</a></li>
                         <li><a href="{{path('student_discipline', {'id': student.id})}}" >Discipline</a></li>
                         <li><a href="{{path('student_exams', {'id': student.id})}}">Examens</a></li>
-                        <li><a href="{{path('student_notes', {'id': student.id})}}" class="pro-act">Résultats</a></li>
+                        <li><a href="{{path('student_result_average', {'id': student.id})}}" class="pro-act">Résultats</a></li>
                         <li><a href="{{path('student_obs', {'id': student.id})}}">Observations</a></li>
                         <li><a href="{{path('student_doc_index', {'id': student.id})}}" >Documents</a></li>
                         
@@ -34,11 +52,11 @@
                                 <table class="bordered responsive-table">
                                     <thead>
                                         <tr>
-                                            <th>Matiére</th>
-                                            <th>Coefficient</th>
-                                            <th>Examens</th>
-                                            <th>Notes</th>
-                                            <th>Moyenne</th>
+                                            <th class="color">Matiére</th>
+                                            <th class="color">Coefficient</th>
+                                            <th class="color">Examens</th>
+                                            <th class="color">Notes</th>
+                                            <th class="color">Moyenne</th>
                                         </tr>
                                     </thead>
 

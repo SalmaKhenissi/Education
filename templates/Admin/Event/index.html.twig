@@ -53,6 +53,8 @@
                                                         {{ include('Admin/Event/_delete_form.html.twig') }}
                                                      </td>
                                                 </tr>
+                                                {% else %}
+                                                <tr><td colspan="6"> Aucun événement n'est trouvé  </td> <tr>
                                                 {% endfor %}
                                                 
                                             </tbody>

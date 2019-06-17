@@ -1,0 +1,84 @@
+{% extends 'admin-base.html.twig' %}
+
+
+{% block body %}
+<!--== BODY INNER CONTAINER ==-->
+            <div class="sb2-2">
+            <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li><a href="{{path('admin_dashbord')}}"><i class="fa fa-home" aria-hidden="true"></i> Acceuil</a>
+                        </li>
+                        <li class="active-bre"><a href="#"> Documents</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sb2-2-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box-inn-sp">
+                                <div class="inn-title">
+                                    <div class="container">
+                                        <h4>Documents</h4>
+                                        
+                                    </div>
+                                    
+                                </div>
+                                <div class="tab-inn">
+                                    <div class="table-responsive table-desi">
+                                         
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th class="color">Matiére</th>
+                                                    <th class="color">Enseignant</th>
+                                                    <th class="color">Type</th>
+                                                    <th class="color">Date</th>
+                                                    <th class="color">Action</th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for d in docs %}
+                                        <tr>
+                                            <td>{{d.teacher.specialty}}</td>
+                                            <td>{{d.teacher}}</td>
+                                            <td>
+                                             {% if d.type == 0 %}
+                                                   Cours
+                                                {% elseif d.type == 1 %}
+                                                    Exercies
+                                                {% elseif d.type == 2 %}
+                                                    TP
+                                                {% elseif d.type == 3 %}
+                                                    Examen
+                                                {% endif %}
+                                            </td>
+                                            <td>{{d.postedAt|date("d/m/Y ") }}</td>
+                                            <td><a href="{{path('admin_doc_show', {'doc': d.id })}}" class="btn btn-info fa fa-file-text-o"></a></td>
+                                        </tr>
+                                    {% else %}
+                                    
+                                     <tr><td colspan="5"> Aucun document n'est trouvé  </td> <tr>
+                                        
+                                    {% endfor %}  
+                                            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pagination">
+                    {{ knp_pagination_render(docs) }}
+                </div>
+            </div>
+{% endblock %}
+
+        
+
+
+   
+

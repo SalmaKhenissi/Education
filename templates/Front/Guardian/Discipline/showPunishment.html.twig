@@ -1,0 +1,72 @@
+{% extends 'front-base.html.twig  ' %}
+{% set guardian = app.user %}
+{% block body %}
+<!--SECTION START-->
+    <section>
+        <div class="pro-cover">
+        </div>
+        {{ include('Front/Guardian/Discipline/_menu.html.twig') }}
+        <div class="stu-db">
+            <div class="container pg-inn">
+                {{ include('Front/Guardian/Profile/_profile_photo.html.twig') }}
+                <div class="col-md-9">
+                    <div class="udb">
+
+                        <div class="udb-sec udb-prof">
+                            <h4><img src="{{asset('images/icon/db.png')}}" alt="" />Punition :
+                               {% if punishment.type == 0 %}
+                                    Avertissement
+                               {% elseif punishment.type == 1  %}
+                                        Exclusion
+                               {% else %}
+                                    Expulsion
+                               {% endif %}
+                            </h4>
+                            <div class="sdb-tabl-com sdb-pro-table">
+                                <table class="responsive-table bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td>Enfant</td>
+                                            <td>:</td>
+                                            <td> 
+                                            {% for s in punishment.students %}
+                                                {% for c in guardian.children %}
+                                                    {% if c.id == s.id %}
+                                                        {{s.firstName}}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Matiére</td>
+                                            <td>:</td>
+                                            <td> {{punishment.teacher.specialty}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Enseignant</td>
+                                            <td>:</td>
+                                            <td> {{punishment.teacher}} </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>Date </td>
+                                            <td>:</td>
+                                            <td>{{punishment.date|date('d-m-Y')}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Description</td>
+                                            <td>:</td>
+                                            <td>{{punishment.description}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--SECTION END-->
+    {% endblock %} 

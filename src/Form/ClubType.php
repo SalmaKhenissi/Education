@@ -19,7 +19,7 @@ class ClubType extends AbstractType
             ->add('name',TextType::class ,[
                 'label' => ' Nom '
             ])
-            ->add('shortDescription',CKEditorType::class ,[
+            ->add('shortDescription',TextType::class ,[
                 'label' => ' Courte Description '
             ])
             ->add('longDescription',CKEditorType::class ,[

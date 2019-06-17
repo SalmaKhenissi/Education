@@ -53,12 +53,29 @@ class DisciplineController extends AbstractController
         $param=$repoP->find(1);
         
         $seances=$seanceRepository->findByTeaching($teacher,$section);
+        $call = false ;
+        $day = date('D',strtotime(date('Y-m-d'))); 
+        if($day == "Mon") {$day = 0 ;}
+        else if($day == "Tue") {$day = 1 ;}
+        else if($day == "Wed") {$day = 2 ;}
+        else if($day == "Thu") {$day = 3 ;}
+        else if($day == "Fri") {$day = 4 ;}
+        else if($day == "Sat" ){$day = 5 ;}
+        foreach($seances as $s)
+        { 
+            if($s->getDay() == $day)
+            {
+                $call = true ;
+            }
+        }
+        
         
         $register=$disciplineRepository->findbySeances($seances );
 
         return $this->render('Front/Teacher/Discipline/index.html.twig', [
             'register' => $register,
             'teacher' => $teacher,
+            "call" => $call ,
             'section' => $section,
             'parameters' => $param ,
         ]);
@@ -77,8 +94,23 @@ class DisciplineController extends AbstractController
 
         $page=$disciplineRepository->findByDate($register,$date);
 
+        $nbA=0; $nbR=0;
+        foreach($page as $d)
+        {
+            if($d->getType()== "1")
+            {
+                $nbA = $nbA +1 ;
+            }
+            else if ($d->getType()== "2")
+            {
+                $nbR = $nbR +1 ;
+            }
+        }
+
         return $this->render('Front/Teacher/Discipline/show.html.twig', [
             'page' => $page,
+            'nbA' => $nbA ,
+            'nbR' => $nbR ,
             'teacher' => $teacher,
             'section' => $section,
             'parameters' => $param ,

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front\Guardian;
 
+use App\Form\User3Type;
 use App\Entity\Guardian;
 use App\Form\Guardian2Type;
 use App\Form\PWGuardianType;
@@ -65,6 +66,38 @@ class ProfileController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $guardian->setUpdatedAt(new \DateTime('now')); 
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success' , 'Modifié  avec succés!');
+            return $this->redirectToRoute('guardian_profile' , [
+                'id' => $guardian->getId()
+            ]);
+        }
+        else if ($form->isSubmitted() && !$form->isValid())
+        {
+            $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
+        }
+
+        return $this->render('Front/Guardian/Profile/editData.html.twig', [
+            'guardian' => $guardian,
+            'form' => $form->createView(),
+            'parameters' => $param ,
+        ]);
+    }
+
+      /**
+     * @Route("/photo/{id}", name="guardian_photo_edit", methods={"GET" ,"POST"})
+     */
+    public function editPh(Guardian $guardian  ,ParameterRepository $repoP , Request $request ): Response
+    {   
+        $param=$repoP->find(1);
+
+        
+        $form = $this->createForm(User3Type::class, $guardian);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
             if($guardian->getImageFile()!=null )
             {
                 if($guardian->getImageName()!="inconnu")
@@ -86,7 +119,7 @@ class ProfileController extends AbstractController
             $this->addFlash('fail' , 'Essayer de remplir votre formulaire correctement!');
         }
 
-        return $this->render('Front/Guardian/Profile/editData.html.twig', [
+        return $this->render('Front/Guardian/Profile/editPhoto.html.twig', [
             'guardian' => $guardian,
             'form' => $form->createView(),
             'parameters' => $param ,

@@ -1,0 +1,178 @@
+
+{% set jours = ['Lundi', 'Mardi' , 'Mercredi' , 'Jeudi' , 'Vendredi' ,'Samedi'] %}
+{% set course = ['Sc.Naturelles', 'Physique' , 'Technique' , 'Informatique' ] %}
+{% set i = 0 %}
+{% set exist = false %}
+{% set duration = 0 %}
+{% block stylesheets %}
+    <style>
+    table, th, td {
+        border: 2px solid black;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+        color : black;
+    }
+    .color {
+        background-color: #84add6;
+        color: white;
+    }
+    .stripe-2 {
+        color: LightGray;
+        background: LightGray;
+        
+    }
+
+    </style>    
+{% endblock %}
+{% block body %}
+    <h1 align="center" style="color:#00006B" >Emploi du temps : {{section}}</h1><br><br>
+                           
+                                         
+        <table align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="color">#</th>
+                                                        <th scope="col" class="color">08:00<br>09:00</th>
+                                                        <th scope="col" class="color">09:00<br>10:00</th>
+                                                        <th scope="col" class="color">10:00<br>11:00</th>
+                                                        <th scope="col" class="color">11:00<br>12:00</th>
+                                                        <th scope="col" class="color">14:00<br>15:00</th>
+                                                        <th scope="col" class="color">15:00<br>16:00</th>
+                                                        <th scope="col" class="color">16:00<br>17:00</th>
+                                                        <th scope="col" class="color">17:00<br>18:00</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for tab in timetable %}
+                                                    
+                                                    <tr>
+                                                        <th scope="row" class="color">{{ jours[ i ] }}</th>
+                                                        
+                                                        {% for k in range(8,11)  %}
+                                                                
+                                                                {% for s in tab %}
+                                                                    {% set start = s.startAt|date("h") %}
+                                                                    
+                                                                    {% if (start == k ) %}
+                                                                        
+                                                                            {% set finish = s.finishAt|date("h") %} 
+                                                                            {% set duration = finish - start %}
+                                                                            {% if duration == 2 %}
+                                                                                {% if s.course.libelle in course %}
+                                                                                    <td colspan="2"  > 
+                                                                                        {{s.course}} S{{s.room.number}}
+                                                                                        {% for s2 in tab %}
+                                                                                            {% set start = s2.startAt|date("h") %}
+                                                                                            {% if (start == k ) %}
+                                                                                                {% if not (s2.course == s.course ) %}
+                                                                                                    <br> {{s2.course}} S{{s2.room.number}}
+                                                                                                    {% set k = k + 1  %}
+                                                                                                {% endif %}
+                                                                                            {% endif %}
+                                                                                        {% endfor %}
+                                                                                    </td>
+                                                                                {% else %}
+                                                                                    <td colspan="2"  >
+                                                                                        {{s.course}}
+                                                                                        {% if not  s.room == null %}
+                                                                                         S{{s.room.number}}
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                {% endif %}
+                                                                            {% else %}
+                                                                                <td > {{s.course}} S{{s.room.number}} </td>
+                                                                            {% endif %}
+                                                                            {% set exist = true %}
+
+                                                                    {% endif %}
+
+                                                                {% endfor %}
+
+                                                                {% if exist == false %}
+                                                                    {% if k > 8 %}
+                                                                        {% if lastExist == false %}
+                                                                            <td class="stripe-2"></td>
+                                                                        {% elseif lastExist == true and lastDuration == 1 %}
+                                                                            <td class="stripe-2"></td>
+                                                                        {% endif %}
+
+                                                                    {% else %}
+                                                                        <td class="stripe-2"></td>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                                
+                                                                {% set lastExist = exist %}
+                                                                {% set lastDuration = duration %}
+                                                                {% set exist = false %}
+                                                        {% endfor %}
+                                                        
+                                                        {% for k in range(2,5)  %}
+                                                                
+                                                                {% for s in tab %}
+                                                                    {% set start = s.startAt|date("h") %}
+                                                                    
+                                                                    {% if (start == k ) %}
+                                                                        
+                                                                            {% set finish = s.finishAt|date("h") %} 
+                                                                            {% set duration = finish - start %}
+                                                                            {% if duration == 2 %}
+                                                                                {% if s.course.libelle in course %}
+                                                                                    <td colspan="2"  >
+                                                                                        {{s.course}} S{{s.room.number}}
+                                                                                        {% for s2 in tab %}
+                                                                                            {% set start = s2.startAt|date("h") %}
+                                                                                            {% if (start == k ) %}
+                                                                                                {% if not (s2.course == s.course ) %}
+                                                                                                    <br> {{s2.course}}  S{{s2.room.number}}
+                                                                                                    {% set k = k + 1  %}
+                                                                                                {% endif %}
+                                                                                            {% endif %}
+                                                                                        {% endfor %}
+                                                                                    </td>
+                                                                                {% else %}
+                                                                                    <td colspan="2" >{{s.course}}
+                                                                                        {% if not  s.room == null %}
+                                                                                         S{{s.room.number}}
+                                                                                        {% endif %}
+                                                                                    </td>
+                                                                                {% endif %}
+                                                                            {% else %}
+                                                                                <td  >{{s.course}} S{{s.room.number}}</td>
+                                                                            {% endif %}
+                                                                            {% set exist = true %}
+
+                                                                    {% endif %}
+
+                                                                {% endfor %}
+
+                                                                {% if exist == false %}
+                                                                    {% if k > 2 %}
+                                                                        {% if lastExist == false %}
+                                                                            <td class="stripe-2"></td>
+                                                                        {% elseif lastExist == true and lastDuration == 1 %}
+                                                                            <td class="stripe-2"></td>
+                                                                        {% endif %}
+
+                                                                    {% else %}
+                                                                        <td class="stripe-2"></td>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                                
+                                                                {% set lastExist = exist %}
+                                                                {% set lastDuration = duration %}
+                                                                {% set exist = false %}
+                                                        {% endfor %}
+ 
+                                                       
+                                                    </tr>
+                                                    {% set i = i + 1 %}
+                                                {% endfor %}  
+                                                {% set i = 0 %}   
+                                                    
+                                                </tbody>
+                                            </table>            
+        
+        
+{% endblock %}

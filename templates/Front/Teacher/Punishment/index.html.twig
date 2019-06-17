@@ -1,4 +1,22 @@
 {% extends 'front-base.html.twig  ' %}
+{% block stylesheets %}
+    <style>
+    table, th, td {
+        border: 2px solid gray;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+        color : gray;
+    }
+    .color {
+        background-color: #84add6;
+        color: white;
+    }
+
+
+    </style>    
+{% endblock %}
 {% block body %}
 <!--SECTION START-->
     <section>
@@ -15,17 +33,20 @@
                             <div class="alert alert-success" >{{ message }}</div>
                         {% endfor %}
                             <h4><img src="{{asset('images/icon/db.png')}}" alt="" />Punitions ({{punish|length}})</h4>
+                            <div class="text-right">
                             
+                                    <a href="{{path('teacher_punishment_new', {'teacher': teacher.id ,'section' : section.id})}}" ><i class="fa fa-plus-square-o"></i> Créer une punition</a>
+                            
+                            </div>
                             <div class="pro-con-table">
                                  
                                 <table class="bordered responsive-table">
                                     <thead>
                                         <tr>
-                                            <th>Type</th>
-                                            <th>Elève</th> 
-                                            <th>Date</th>
-                                            <th>Détails</th>
-                                            <th>Actions</th>
+                                            <th class="color">Type</th>
+                                            <th class="color">Date</th>
+                                            <th class="color">Détails</th>
+                                            <th class="color" colspan="2">Actions</th>
                                         </tr>
                                     </thead>
 
@@ -41,20 +62,19 @@
                                                     Expulsion
                                               {% endif %}
                                             </td>
-                                            <td>{{p.student}}</td>
                                             <td>{{p.date|date("d/m/Y ")}}</td>
                                             <td><a href="{{path('teacher_punishment_show', {'id':p.id})}}" class="btn btn-info fa fa-eye"></a></td>
                                             <td><a href="{{path('teacher_punishment_edit', {'id': p.id ,'section' : section.id })}}" class="btn btn-warning fa fa-pencil"></a></td>
                                             <td>   {{ include('Front/Teacher/Punishment/_delete_form.html.twig') }}</td>
                                         </tr>
+                                    {% else %}
+                                    
+                                     <tr><td colspan="4"> Aucune punition n'est trouvée  </td> <tr>
                                         
                                     {% endfor %}  
                                     </tbody>
                                 </table>
                                 
-                            </div>
-                           <div class="sdb-bot-edit">
-                                    <a href="{{path('teacher_punishment_new', {'teacher': teacher.id ,'section' : section.id})}}" ><i class="fa fa-plus-square-o"></i> Créer une punition</a>
                             </div>
                         </div>
                         

@@ -50,9 +50,11 @@ class Student extends User
     private $disciplines;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Punishment", mappedBy="student")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Punishment", mappedBy="students")
      */
     private $punishments;
+
+    
 
     public function __construct()
     {

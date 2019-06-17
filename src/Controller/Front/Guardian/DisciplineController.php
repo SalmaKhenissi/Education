@@ -4,9 +4,12 @@ namespace App\Controller\Front\Guardian;
 
 use App\Entity\Student;
 use App\Entity\Guardian;
+use App\Entity\Punishment;
 use App\Repository\SectionRepository;
 use App\Repository\StudentRepository;
+use App\Repository\GuardianRepository;
 use App\Repository\ParameterRepository;
+use App\Repository\SchoolYearRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -106,6 +109,73 @@ class DisciplineController extends AbstractController
             'guardian' => $student->getGuardian(),
             'punishments' => $tabP ,
             ]);
+    }
+
+     /**
+     * @Route("{id}/punish", name="guardian_punishment_show", methods={"GET"})
+     */
+    public function punish( Punishment $p , ParameterRepository $repoP ): Response
+    { 
+        return $this->render('Front/Guardian/Discipline/showPunishment.html.twig', [
+            'punishment' => $p,
+            'parameters' => $repoP->find(1) 
+        ]);
+    }
+
+     /**
+     * @Route("/{id}", name="guardian_discipline" , methods={"GET"})
+     */
+    public function redirectDiscipline(Guardian $guardian ,ParameterRepository $repoP ,SchoolYearRepository $repoY ,StudentRepository $repoSt)
+    { 
+        $schoolYear=$repoP->find(1)->getSchoolYear();
+        $quarter=$repoP->find(1)->getQuarter();
+        $children=$repoSt->findByGuardian($guardian,$schoolYear);
+
+        $year=$repoY->findOneByLibelle($schoolYear);
+        foreach($year->getQuarters() as $q)
+        {
+            if($q->getNumber() == $quarter){$currentQuarter=$q;}
+        }
+
+        $start=$currentQuarter->getStartAt()->format('Y-m-d');
+        $finish=$currentQuarter->getFinishAt()->format('Y-m-d');
+
+        $tabA=[]; $tabP=[];
+        foreach($children as $student)
+        {
+            foreach($student->getDisciplines() as $d)
+            {
+                $date=$d->getDate()->format('Y-m-d');
+                if( $d->getType()!= 0 )
+                { 
+                    if( $date>=$start && $date<=$finish )
+                    {
+                        $k=strtotime($d->getDate()->format('Y-m-d H:i'));
+                        $tabA[$k]=$d; 
+                    }
+                }
+            }
+            
+            foreach($student->getPunishments() as $p)
+            {
+                $date=$p->getDate()->format('Y-m-d');
+                if( $date>=$start && $date<=$finish )
+                { $k=strtotime($p->getDate()->format('Y-m-d H:i'));
+                    $tabP[$k]=$p;
+                }
+            }
+        }
+
+        krsort($tabP);krsort($tabA);
+
+        return $this->render('Front/Guardian/Discipline/discipline.html.twig',[
+            'guardian' => $guardian ,
+            'parameters' => $repoP->find(1) ,
+            'punishments' => $tabP ,
+            'disciplines' => $tabA
+
+
+        ]);
     }
 
 

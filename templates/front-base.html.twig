@@ -28,6 +28,7 @@
 	<script src="js/html5shiv.js"></script>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
+    {% block stylesheets %}{% endblock %}
 </head>
 
 <body>
@@ -170,7 +171,7 @@
                             <ul>
                                 <li><a href="{{ path('home_page')}}">Acceuil</a></li>
                                 <li><a href="{{ path('about')}}" class="mm-arr">A Propos</a></li>
-                                <li><a href="{{ path('teaching')}}" class="mm-arr">Enseignement</a></li>
+                                <li><a href="#" class="mm-arr">Enseignement</a></li>
                                 <li ><a href="{{ path('events')}}" class="mm-arr">Evénements</a></li>
                                 <li><a href="{{ path('gallery')}}">Galerie</a></li>
                                 <li><a href="{{ path('contact_new') }}">Contact</a></li>
@@ -239,6 +240,7 @@
     <script src="{{ asset('js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('js/materialize.min.js')}}"></script>
     <script src="{{ asset('js/custom.js')}}"></script>
+    {% block javascripts %}{% endblock %}
 </body>
 
 

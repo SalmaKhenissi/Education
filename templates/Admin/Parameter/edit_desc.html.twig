@@ -11,7 +11,7 @@
                         </li>
                         <li class="active-bre"><a href="#">Paramètres du site</a>
                         </li>
-                        <li class="active-bre"><a href="{{ path('admin_parameters_desc')}}">Liste des services</a>
+                        <li class="active-bre"><a href="{{ path('admin_parameters_desc')}}">Paramétres services</a>
                         </li>
                         <li class="active-bre"><a href="#">Modifier un service</a>
                         </li>
@@ -33,7 +33,10 @@
                                     
                                     <div class="row">
                                         <div class="col-md-4">{{ form_row(form.title)}}</div>
-                                    </div>
+                                    </div><br></br>
+                                    <div class="row">
+                                        <div class="col-md-4">{{ form_row(form.imageFile)}}</div>
+                                    </div><br></br>
                                     <div class="row">
                                         <div class="col-md-12">{{ form_row(form.content)}}</div>
                                     </div><br><br>&nbsp; &nbsp;&nbsp; &nbsp;

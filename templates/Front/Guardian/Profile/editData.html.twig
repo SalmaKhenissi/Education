@@ -23,21 +23,23 @@
                                     <div class="col-md-4">{{ form_row(form.lastName)}}</div>
                                     <div class="col-md-4">{{ form_row(form.username)}}</div>
                                 </div>
+                                <br><br>
                                 <div class="row">
                                     <div class="col-md-4">{{ form_row(form.cin)}}</div>
                                     <div class="col-md-4">{{ form_row(form.birthDate)}}</div>
                                     <div class="col-md-4">{{ form_row(form.birthplace)}}</div>
                                 </div>
+                                <br><br>
                                 <div class="row">
                                     <div class="col-md-4">{{ form_row(form.tel)}}</div>
                                     <div class="col-md-4">{{ form_row(form.email)}}</div>   
                                     <div class="col-md-4">{{ form_row(form.address)}}</div>
                                 </div>
+                                <br><br>
                                 <div class="row">
                                     <div class="col-md-4">{{ form_row(form.job)}}</div>
-                                    <div class="col-md-4">{{ form_row(form.imageFile)}}</div>
                                 </div>
-                                <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+                                <button class="btn">{{ button_label|default('Modifier') }}</button>
                             {{ form_end(form)}}
                         </div>
                     </div>
